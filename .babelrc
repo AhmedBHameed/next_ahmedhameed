@@ -1,0 +1,21 @@
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    ["styled-components", {"ssr": true}],
+    "inline-react-svg",
+    "@babel/syntax-dynamic-import",
+    [
+      "lodash",
+      {
+        "id": ["lodash"]
+      }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": true
+      }
+    ]
+  ]
+}
