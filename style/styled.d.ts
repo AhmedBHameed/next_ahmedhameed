@@ -1,6 +1,6 @@
-import "styled-components";
+import 'styled-components';
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme {
     darken: (color: string, percent: number) => string;
     colors: {
@@ -8,6 +8,7 @@ declare module "styled-components" {
       headingSections: string;
       mainBackground: string;
       textColor: string;
+      focusColor: string;
       black: string;
       white: string;
     };

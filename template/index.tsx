@@ -5,13 +5,20 @@ import Navbar from '../components/Navbar';
 import {ThemeProvider} from 'styled-components';
 import {LightTheme, DarkTheme} from '../style/Theme';
 import BurgerMenu from '../components/Navbar/BurgerMenu';
+import Head from 'next/head';
 
 const Template: React.FC = ({children}) => {
   const {isLightTheme, changeTheme} = useThemeChanger();
+
   const [openMenu, setOpenMenu] = useState(true);
 
   return (
     <>
+      <Head>
+        <link rel="icon" href="/favicon.svg" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" />
+      </Head>
       <ThemeProvider theme={isLightTheme ? LightTheme : DarkTheme}>
         <Container>
           <Wrapper className={openMenu ? 'openMenu' : ''}>

@@ -21,7 +21,7 @@ const Button = styled(IconButton)`
 
 const MenuIcon = styled(Menu)`
   font-size: 3.5rem;
-  color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.textColor};
 `;
 
 interface BurgerMenuProps {

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import {Typography} from '@material-ui/core';
 import Footer from './Footer';
 import {NextPage} from 'next';
 import {useTranslation} from '../../i18n';
+import Link from 'next/link';
+import {ReactComponent as KakieeLogoSvg} from '../../public/kakiee-logo.svg';
+import {useRouter} from 'next/router';
 
 const Content = styled.div(props => {
   const {asideMenu, white} = props.theme.colors;
@@ -14,9 +17,14 @@ const Content = styled.div(props => {
   color: ${white};
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 });
+
+const KakieeSvg = styled(KakieeLogoSvg)`
+  width: 10rem;
+  height: 10rem;
+`;
 
 const Box = styled.div``;
 
@@ -37,11 +45,48 @@ const List = styled.li`
   font-weight: 500;
   letter-spacing: 1px;
   text-decoration: none;
+  margin-top: 2.4rem;
 `;
 
 const BrandName = styled.div`
   text-align: center;
 `;
+
+const KakieeBrand = styled(Typography)`
+  font-size: 4rem;
+  font-weight: 500;
+  margin-bottom: 4rem;
+  color: ${props => props.theme.colors.textColor};
+`;
+
+const StyledLink = styled.a<{isActive: boolean}>(props => {
+  const {isActive} = props;
+  const {textColor, focusColor} = props.theme.colors;
+  return `
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+    letter-spacing: 0.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: ${textColor};
+    &:after {
+      content: '';
+      transform: ${isActive ? `scaleX(1)` : `scaleX(0)`};
+      transition: transform 0.5s;
+      position: absolute;
+      height: 0.2rem;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: ${focusColor};
+    }
+    &:hover::after {
+      transform: scaleX(1);
+    }
+  `;
+});
 
 interface NavbarProp {
   themeSwitcher: React.ReactNode;
@@ -49,19 +94,37 @@ interface NavbarProp {
 
 const Navbar: NextPage<NavbarProp> = ({themeSwitcher}) => {
   const {t} = useTranslation();
+  const {pathname} = useRouter();
+
+  const isActiveLink = useCallback((href: string) => pathname === href, [pathname]);
 
   return (
     <Content>
       <Box>
         <BrandName>
-          <Typography variant="h3" gutterBottom>
-            {/* {t('menu.kakiee')} */} Kakiee
-          </Typography>
+          <KakieeSvg />
+          <KakieeBrand variant="h3" gutterBottom>
+            {t('menu.kakiee')}
+          </KakieeBrand>
         </BrandName>
         <UnorderedList>
-          <List>KAKIEE</List>
-          <List>{t('menu.dashboard')}</List>
+          <List>
+            <Link href="/blog" passHref>
+              <StyledLink isActive={isActiveLink('/blog')}>{t('menu.blog')}</StyledLink>
+            </Link>
+          </List>
+          <List>
+            <Link href="/" passHref>
+              <StyledLink isActive={isActiveLink('/')}>{t('menu.dashboard')}</StyledLink>
+            </Link>
+          </List>
+          <List>
+            <Link href="/about" passHref>
+              <StyledLink isActive={isActiveLink('/about')}>{t('menu.about')}</StyledLink>
+            </Link>
+          </List>
 
+          <List>{themeSwitcher}</List>
           {/* {(user?.isAdmin || user?.isSuper) && (
           <li>
             <NavLink
@@ -148,8 +211,6 @@ const Navbar: NextPage<NavbarProp> = ({themeSwitcher}) => {
             </Link>
           </li>
         )} */}
-
-          <List>{themeSwitcher}</List>
         </UnorderedList>
       </Box>
 

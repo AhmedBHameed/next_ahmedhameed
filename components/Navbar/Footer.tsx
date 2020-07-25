@@ -1,25 +1,13 @@
-import {Typography, IconButton} from '@material-ui/core';
+import {Typography, Link} from '@material-ui/core';
 import styled from 'styled-components';
 import {ReactComponent as Heart} from '../../public/heart.svg';
-import nextI18next, {useTranslation} from '../../i18n';
+import nextI18next, {useTranslation, Trans} from '../../i18n';
 import {GitHub, Email, LinkedIn} from '@material-ui/icons';
 import {NextPage} from 'next';
 
-// iconLinks: {
-//     color: "inherit",
-//     textDecoration: "none",
-//     fontSize: 0
-//   },
-//   copyRights: {
-//     position: "absolute",
-//     bottom: "3rem"
-//   },
-//   nameColor: {
-//     color: theme.palette.secondary.main
-//   },
-
 const Container = styled.div`
   text-align: center;
+  color: ${props => props.theme.colors.textColor};
 `;
 
 const HeartSvg = styled(Heart)`
@@ -29,15 +17,32 @@ const HeartSvg = styled(Heart)`
   display: inline;
 `;
 
+const ParagraphText = styled(Typography)`
+  font-size: 1.4rem;
+`;
+
+const OwnerName = styled.span`
+  font-size: 1.4rem;
+  color: ${props => props.theme.colors.focusColor};
+`;
+
+const SocialButtonWithIcons = styled(Link)`
+  color: ${props => props.theme.colors.textColor};
+  margin: 0.5rem;
+  & svg {
+    font-size: 2.4rem;
+  }
+`;
+
 interface IconLinkProps {
   href: string;
 }
 
 const IconLinks: NextPage<IconLinkProps> = ({href, children}) => {
   return (
-    <IconButton target="blank" href={href} size="small">
+    <SocialButtonWithIcons target="_blank" href={href}>
       {children}
-    </IconButton>
+    </SocialButtonWithIcons>
   );
 };
 
@@ -45,25 +50,23 @@ const Footer = () => {
   const {t} = useTranslation();
   return (
     <Container>
-      <Typography variant="caption" display="block" gutterBottom>
-        {t('footer.line1')}
-      </Typography>
-      <Typography variant="caption" display="block" gutterBottom>
-        {t('footer.line2.made')}&nbsp;
-        <HeartSvg />
-        &nbsp;{t('footer.line2.by')}&nbsp;
-        {/* <span className={classes.nameColor}>{t('footer.line2.owner')}</span> */}
-      </Typography>
+      <ParagraphText variant="caption" display="block" gutterBottom>
+        <Trans i18nKey="footer.copyRight">
+          © 2020 kakiee.at, All rights reserved.
+          <br />
+          Made with <HeartSvg /> by <OwnerName>Ahmed HAMEED</OwnerName>
+        </Trans>
+      </ParagraphText>
       <div>
-        <IconLinks href={t('footer.socialLinks.linkedin')}>
+        <IconLinks href="https://www.linkedin.com/in/ahmed-hameed-185b3612b/">
           <LinkedIn />
         </IconLinks>
 
-        <IconLinks href={t('footer.socialLinks.github')}>
+        <IconLinks href="https://github.com/AhmedBHameed">
           <GitHub />
         </IconLinks>
 
-        <IconLinks href={t('footer.socialLinks.email')}>
+        <IconLinks href="mailto:contact.kakiee@gmail.com">
           <Email />
         </IconLinks>
       </div>
