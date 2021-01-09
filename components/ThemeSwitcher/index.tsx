@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import {IconButton} from '@material-ui/core';
 import {NightsStay, WbSunny} from '@material-ui/icons';
-export * from './ThemeChangerHook';
 
 const ButtonWithIcon = styled(IconButton)`
   color: ${props => props.theme.colors.textColor};

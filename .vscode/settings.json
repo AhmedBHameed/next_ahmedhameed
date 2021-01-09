@@ -10,5 +10,7 @@
   "search.exclude": {
     "**/node_modules": true,
     "**/build": true
-  }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "i18n-ally.localesPaths": "locales"
 }

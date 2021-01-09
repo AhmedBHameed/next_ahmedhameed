@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  @apply light;
+}
+
+.light {
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #bdbdbd;
+  --color-bg-aside: #e0e0e0;
+  --color-bg-turquoise: #228896;
+
+  --color-text-primary: black;
+  --color-text-secondary: #757575;
+  --color-text-accent: #228896;
+  --color-text-reverse: #fafafa;
+
+  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 0.25rem;
+}
+
+.dark {
+  --color-bg-primary: #263238;
+  --color-bg-secondary: #37474f;
+  --color-bg-aside: #455a64;
+  --color-bg-turquoise: #1de9b6;
+
+  --color-text-primary: white;
+  --color-text-secondary: #d6d6d6;
+  --color-text-accent: #1de9b6;
+  --color-text-reverse: #263238;
+
+  --font-display: Georgia, Times, 'Times New Roman', serif;
+  --font-body: Corbel, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'DejaVu Sans', 'Bitstream Vera Sans',
+    'Liberation Sans', Verdana, 'Verdana Ref', sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Roboto';
+}
+
+html,
+body,
+#__next {
+  height: 100%;
+  overflow-x: hidden;
+}
+/* custom styles */
+/* h1 {
+  @apply text-gray-50;
+}
+h2 {
+  @apply text-xl;
+}
+h3 {
+  @apply text-lg;
+}
+a {
+  @apply text-blue-600 underline;
+} */

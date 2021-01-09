@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {NextPage} from 'next';
-import {useTranslation} from '../i18n';
 
 interface Custom404Props {}
 
