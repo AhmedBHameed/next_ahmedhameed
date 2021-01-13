@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
   purge: [],
-  darkMode: false,
+  darkMode: 'class',
   // darkMode: false, // or 'media' or 'class'
   theme: {
     // screens: {
@@ -34,7 +34,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['disabled'],
+      textColor: ['disabled'],
+      opacity: ['disabled'],
+    },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 };

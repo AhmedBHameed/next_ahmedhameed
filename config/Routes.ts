@@ -2,6 +2,12 @@ const ROUTES = {
   blog: {
     path: '/blog',
   },
+  login: {
+    path: '/login',
+  },
+  signup: {
+    path: '/signup',
+  },
   ahmedhameed: {
     path: '/ahmedhameed',
   },

@@ -1,5 +1,7 @@
 import React, {useCallback, useState} from 'react';
+
 import styled from '@emotion/styled';
+
 import Navbar from '../Navbar/Navbar';
 
 const MainContainer = styled.div({

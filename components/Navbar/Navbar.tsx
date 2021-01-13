@@ -1,13 +1,13 @@
-import Brand from './Brand';
-import {ReactComponent as HeartIcon} from '../../statics/heart.svg';
-import {ReactComponent as GithubIcon} from '../../statics/github-sign.svg';
-import {ReactComponent as LinkedinIcon} from '../../statics/linkedin-sign.svg';
-import {ReactComponent as MailIcon} from '../../statics/envelope.svg';
-import ThemeSwitchButton from './ThemeSwitchButton';
-import useMousePosition from './hooks/mousePosition';
-import ListItem from './ListItem';
-import List from './List';
 import ROUTES from '../../config/Routes';
+import MailIcon from '../../statics/email.svg';
+import GithubIcon from '../../statics/github-sign.svg';
+import HeartIcon from '../../statics/heart.svg';
+import LinkedinIcon from '../../statics/linkedin-sign.svg';
+import Brand from './Brand';
+import useMousePosition from './hooks/mousePosition';
+import List from './List';
+import ListItem from './ListItem';
+import ThemeSwitchButton from './ThemeSwitchButton';
 
 interface NavbarProps {
   openMenu: boolean;
@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({openMenu, onMenuClick}) => {
               <ListItem>Log out</ListItem>
             </List>
 
-            <ThemeSwitchButton className="w-10 h-10 focus:border-none focus:outline-none text-primary mt-4" />
+            <ThemeSwitchButton className="focus:border-none focus:outline-none text-primary mt-4" />
           </nav>
         </div>
 

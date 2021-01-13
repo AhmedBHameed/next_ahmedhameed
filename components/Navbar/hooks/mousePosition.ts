@@ -1,5 +1,5 @@
-import {useEffect, useRef, useCallback} from 'react';
 import {TweenLite} from 'gsap';
+import {useCallback, useEffect, useRef} from 'react';
 
 const useMousePosition = () => {
   const elementRef = useRef<HTMLButtonElement | null>(null);

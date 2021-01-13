@@ -1,7 +1,8 @@
 import {useContext} from 'react';
+
+import MoonIcon from '../../statics/moon.svg';
+import SunIcon from '../../statics/sun.svg';
 import {ThemeContext} from '../ThemeSwitcher/ThemeContext';
-import {ReactComponent as SunIcon} from '../../statics/sun.svg';
-import {ReactComponent as MoonIcon} from '../../statics/moon.svg';
 
 interface ThemeSwitchButtonProps {
   className?: string;
@@ -12,7 +13,7 @@ const ThemeSwitchButton: React.FC<ThemeSwitchButtonProps> = ({className}) => {
 
   return (
     <button className={className} onClick={changeTheme}>
-      {darkTheme ? <SunIcon /> : <MoonIcon />}
+      {darkTheme ? <SunIcon className="w-14 h-14" /> : <MoonIcon className="w-14 h-14" />}
     </button>
   );
 };

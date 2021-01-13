@@ -1,4 +1,3 @@
-
 {
   "header": {
     "reportVersion": 2,
@@ -197,9 +196,7 @@
   },
   "javascriptStack": {
     "message": "No stack.",
-    "stack": [
-      "Unavailable."
-    ]
+    "stack": ["Unavailable."]
   },
   "nativeStack": [
     {
@@ -351,10 +348,8 @@
       "writes": 24
     }
   },
-  "libuv": [
-  ],
-  "workers": [
-  ],
+  "libuv": [],
+  "workers": [],
   "environmentVariables": {
     "LESSOPEN": "| /usr/bin/lesspipe %s",
     "npm_package_devDependencies__types_node": "^14.14.19",

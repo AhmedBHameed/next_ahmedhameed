@@ -1,8 +1,13 @@
+import {createContext, useCallback, useEffect, useState} from 'react';
+
 import {ThemeProvider} from '@emotion/react';
-import {createContext, useState, useCallback, useEffect} from 'react';
+
 import {theme} from '../../styles/Theme';
 
-export const ThemeContext = createContext(null);
+export const ThemeContext = createContext<{
+  darkTheme: boolean;
+  changeTheme: () => void;
+}>(null);
 
 export const ThemeContextProvider: React.FC = ({children}) => {
   const [darkTheme, setDarkTheme] = useState(false);
