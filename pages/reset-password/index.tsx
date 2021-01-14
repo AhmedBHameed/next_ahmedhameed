@@ -10,22 +10,19 @@ import ROUTES from '../../config/Routes';
 import {joiResolver} from '../../util/joiResolver';
 import {PASSWORD_REGULAR_EXPRESSION} from '../../util/passwordRegularExpression';
 
-interface LoginFormData {
-  email: string;
-  password: string;
+interface ResetPasswordFormData {
+  newPassword: string;
+  confirmPassword: string;
 }
-const Login: NextPage = () => {
+const ResetPassword: NextPage = () => {
   const loginSchema = useMemo(
     () =>
       Joi.object({
-        email: Joi.string()
-          .email({tlds: {allow: false}})
-          .required()
-          .messages({
-            'string.email': 'Invalid email',
-            'string.empty': 'Field is required.',
-          }),
-        password: Joi.string().pattern(PASSWORD_REGULAR_EXPRESSION).required().messages({
+        newPassword: Joi.string().pattern(PASSWORD_REGULAR_EXPRESSION).required().messages({
+          'string.empty': 'Field is required.',
+          'string.pattern.base': `Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space`,
+        }),
+        confirmPassword: Joi.string().pattern(PASSWORD_REGULAR_EXPRESSION).required().messages({
           'string.empty': 'Field is required.',
           'string.pattern.base': `Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space`,
         }),
@@ -33,58 +30,51 @@ const Login: NextPage = () => {
     []
   );
 
-  const {formState, errors, register, handleSubmit} = useForm<LoginFormData>({
+  const {formState, errors, register, handleSubmit} = useForm<ResetPasswordFormData>({
     resolver: joiResolver(loginSchema),
     mode: 'onChange',
     defaultValues: {
-      email: '',
-      password: '',
+      newPassword: '',
+      confirmPassword: '',
     },
   });
 
-  const login = useCallback((formData: LoginFormData) => {
+  const login = useCallback((formData: ResetPasswordFormData) => {
     console.log(formData);
   }, []);
 
-  const {password, email} = errors;
+  const {newPassword, confirmPassword} = errors;
 
   return (
-    <Onboarding title="Log in" backgroundUrl="/images/todo-list.jpg">
+    <Onboarding title="Reset password" backgroundUrl="/images/hijab.jpg">
       <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit(login)}>
-        <FormControl className="flex flex-col pt-4" error={email?.message}>
-          <FieldLabel className="text-lg" htmlFor="email">
-            Email
+        <FormControl className="flex flex-col pt-4" error={newPassword?.message}>
+          <FieldLabel className="text-lg" htmlFor="newPassword">
+            New password
           </FieldLabel>
           <TextField
-            error={!!email?.message}
-            type="email"
-            name="email"
-            placeholder="your@email.com"
-            ref={register}
-            className="text-primary bg-secondary"
-          />
-        </FormControl>
-
-        <FormControl className="flex flex-col pt-4" error={email?.message}>
-          <FieldLabel className="text-lg" htmlFor="password">
-            Password
-          </FieldLabel>
-          <TextField
-            error={!!password?.message}
+            error={!!newPassword?.message}
             type="password"
-            name="password"
-            placeholder="Password"
+            name="newPassword"
+            placeholder="New password"
             ref={register}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
-        <div className="text-right pt-12 pb-12">
-          Forgot password?{' '}
-          <Link href={ROUTES.forgotPassword.path}>
-            <a className="underline font-semibold">click here.</a>
-          </Link>
-        </div>
+        <FormControl className="flex flex-col pt-4" error={confirmPassword?.message}>
+          <FieldLabel className="text-lg" htmlFor="confirmPassword">
+            Confirm password
+          </FieldLabel>
+          <TextField
+            error={!!confirmPassword?.message}
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            ref={register}
+            className="text-primary bg-secondary"
+          />
+        </FormControl>
 
         <BaseButton
           type="submit"
@@ -96,9 +86,9 @@ const Login: NextPage = () => {
       </form>
       <div className="text-center pt-12 pb-12">
         <p>
-          Don't have an account?{' '}
-          <Link href={ROUTES.signup.path}>
-            <a className="underline font-semibold">Register here.</a>
+          Return to login?{' '}
+          <Link href={ROUTES.login.path}>
+            <a className="underline font-semibold">Log in.</a>
           </Link>
         </p>
       </div>
@@ -106,4 +96,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

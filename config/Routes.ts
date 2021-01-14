@@ -8,6 +8,9 @@ const ROUTES = {
   signup: {
     path: '/signup',
   },
+  forgotPassword: {
+    path: '/forgot-password',
+  },
   ahmedhameed: {
     path: '/ahmedhameed',
   },

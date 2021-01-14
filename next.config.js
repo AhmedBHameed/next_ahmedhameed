@@ -7,6 +7,9 @@ module.exports = {
     locales: ['en', 'ar'],
     defaultLocale: 'en',
   },
+  images: {
+    domains: ['assets.vercel.com'],
+  },
   webpack: config => {
     config.module.rules.push({
       test: /\.svg$/,

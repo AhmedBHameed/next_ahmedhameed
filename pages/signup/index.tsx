@@ -60,7 +60,7 @@ const SignUp: NextPage = () => {
   const {email, lastName, password, firstName} = errors;
 
   return (
-    <Onboarding>
+    <Onboarding title="Sign up" backgroundUrl="/images/girl-with-glasses.jpeg">
       <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit(signup)}>
         <FormControl className="flex flex-col pt-4" error={firstName?.message}>
           <FieldLabel className="text-lg" htmlFor="firstName">
