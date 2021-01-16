@@ -1,5 +1,6 @@
 import '../styles/styles.css';
 
+import {ApolloProvider} from '@apollo/client';
 import {NextComponentType} from 'next';
 import {AppContext, AppInitialProps, AppProps} from 'next/app';
 import Head from 'next/head';
@@ -7,8 +8,12 @@ import Head from 'next/head';
 import {StylesProvider} from '@material-ui/core/styles';
 
 import {ThemeContextProvider} from '../components/ThemeSwitcher/ThemeContext';
+import Notification from '../components/Notification/Notification';
+import {useApollo} from '../util/apolloClient';
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({Component, pageProps}) => {
+  const apolloClient = useApollo(pageProps.initialApolloState);
+
   return (
     <StylesProvider injectFirst>
       <Head>
@@ -17,7 +22,10 @@ const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({Componen
       </Head>
 
       <ThemeContextProvider>
-        <Component {...pageProps} />
+        <ApolloProvider client={apolloClient}>
+          <Component {...pageProps} />
+          <Notification />
+        </ApolloProvider>
       </ThemeContextProvider>
     </StylesProvider>
   );

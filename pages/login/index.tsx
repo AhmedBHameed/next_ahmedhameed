@@ -5,8 +5,12 @@ import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 import BaseButton from '../../components/Buttons/BaseButton';
 import {TextField, FieldLabel, FormControl} from '../../components/Forms';
+import {useNavigateToDashboard} from '../../components/Login/hooks/NavigateToDashboard';
+import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';
+import {useGenerateTokensLazyQuery} from '../../graphql/queries';
+import {isInvalidPassword} from '../../util/errorHandlers';
 import {joiResolver} from '../../util/joiResolver';
 import {PASSWORD_REGULAR_EXPRESSION} from '../../util/passwordRegularExpression';
 
@@ -14,7 +18,25 @@ interface LoginFormData {
   email: string;
   password: string;
 }
+
 const Login: NextPage = () => {
+  const {triggerNotification} = useNotification();
+  const {goToDashboard} = useNavigateToDashboard();
+
+  const [generateToken, {loading}] = useGenerateTokensLazyQuery({
+    onCompleted: () => {
+      goToDashboard();
+    },
+    onError: error => {
+      if (isInvalidPassword(error)) {
+        triggerNotification({
+          type: 'error',
+          message: 'Oops! Invalid password',
+        });
+      }
+    },
+  });
+
   const loginSchema = useMemo(
     () =>
       Joi.object({
@@ -42,8 +64,15 @@ const Login: NextPage = () => {
     },
   });
 
-  const login = useCallback((formData: LoginFormData) => {
-    console.log(formData);
+  const login = useCallback(({email, password}: LoginFormData) => {
+    generateToken({
+      variables: {
+        userData: {
+          email,
+          password,
+        },
+      },
+    });
   }, []);
 
   const {password, email} = errors;
@@ -65,7 +94,7 @@ const Login: NextPage = () => {
           />
         </FormControl>
 
-        <FormControl className="flex flex-col pt-4" error={email?.message}>
+        <FormControl className="flex flex-col pt-4" error={password?.message}>
           <FieldLabel className="text-lg" htmlFor="password">
             Password
           </FieldLabel>
@@ -88,7 +117,7 @@ const Login: NextPage = () => {
 
         <BaseButton
           type="submit"
-          disabled={!formState.isValid}
+          disabled={!formState.isValid || loading}
           className="bg-blue-500 justify-center duration-300 bg-black text-white font-bold text-lg hover:bg-blue-600 p-2 mt-8"
         >
           Log In

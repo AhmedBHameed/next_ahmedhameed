@@ -11,6 +11,12 @@ const ROUTES = {
   forgotPassword: {
     path: '/forgot-password',
   },
+  resetPassword: {
+    path: 'reset-password',
+  },
+  dashboard: {
+    path: '/dashboard',
+  },
   ahmedhameed: {
     path: '/ahmedhameed',
   },

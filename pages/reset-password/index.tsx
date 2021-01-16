@@ -81,7 +81,7 @@ const ResetPassword: NextPage = () => {
           disabled={!formState.isValid}
           className="bg-blue-500 justify-center duration-300 bg-black text-white font-bold text-lg hover:bg-blue-600 p-2 mt-8"
         >
-          Log In
+          Reset password
         </BaseButton>
       </form>
       <div className="text-center pt-12 pb-12">

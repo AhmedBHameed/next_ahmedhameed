@@ -4,6 +4,7 @@ import GithubIcon from '../../statics/github-sign.svg';
 import HeartIcon from '../../statics/heart.svg';
 import LinkedinIcon from '../../statics/linkedin-sign.svg';
 import Brand from './Brand';
+import {useLogout} from './hooks/LogoutHook';
 import useMousePosition from './hooks/mousePosition';
 import List from './List';
 import ListItem from './ListItem';
@@ -16,6 +17,9 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({openMenu, onMenuClick}) => {
   const {elementRef, toggleMenu} = useMousePosition();
+
+  const {logout} = useLogout();
+
   return (
     <div
       className={`fixed top-0 left-0 z-50 flex bg-primary transition-transform transform duration-700 ${
@@ -31,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({openMenu, onMenuClick}) => {
               <ListItem href={ROUTES.aboutMe.path}>About</ListItem>
               <ListItem href={ROUTES.hireMe.path}>Hire me</ListItem>
               <ListItem href={ROUTES.contactMe.path}>Contact me</ListItem>
-              <ListItem>Log out</ListItem>
+              <ListItem onClick={logout}>Log out</ListItem>
             </List>
 
             <ThemeSwitchButton className="focus:border-none focus:outline-none text-primary mt-4" />
