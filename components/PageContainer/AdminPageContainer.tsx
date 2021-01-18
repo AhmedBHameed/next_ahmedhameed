@@ -1,8 +1,7 @@
 import React, {useCallback, useState} from 'react';
 
 import styled from '@emotion/styled';
-
-import Navbar from '../Navbar/Navbar';
+import AdminNavbar from '../Navbar/AdminNavbar';
 
 const MainContainer = styled.div({
   // width: 'calc(100% - 18rem);',
@@ -18,7 +17,7 @@ const AdminPageContainer: React.FC = ({children}) => {
 
   return (
     <>
-      <Navbar openMenu={open} onMenuClick={toggleMenu} />
+      <AdminNavbar openMenu={open} onMenuClick={toggleMenu} />
       <MainContainer
         className={`transition-transform transform duration-700 bg-primary min-h-full ${
           open ? 'translate-x-72' : 'translate-x-0'

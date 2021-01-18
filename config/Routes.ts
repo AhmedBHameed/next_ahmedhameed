@@ -17,6 +17,12 @@ const ROUTES = {
   dashboard: {
     path: '/dashboard',
   },
+  dashboardCategory: {
+    path: '/dashboard/category',
+  },
+  dashboardArticles: {
+    path: '/dashboard/articles',
+  },
   ahmedhameed: {
     path: '/ahmedhameed',
   },
