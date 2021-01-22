@@ -17,7 +17,7 @@ const Span = styled.span({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'var(--color-text-accent)',
+    backgroundColor: 'var(--color-text-subject)',
   },
 
   '&:hover:after': {
@@ -44,9 +44,9 @@ const ListItem: React.FC<ListItemProps> = ({children, className, href, onClick})
       <Span
         onClick={onClick}
         className={clsx([
-          className,
           'text-primary py-0.5 text-md tracking-widest uppercase relative cursor-pointer font-medium',
           activeClass,
+          className,
         ])}
       >
         {children}

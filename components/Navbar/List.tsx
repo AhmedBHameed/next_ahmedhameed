@@ -1,7 +1,12 @@
 import React from 'react';
+import {clsx} from '../../util/clsx';
 
-const List: React.FC = ({children}) => {
-  return <ul className="p-0 mt-5 justify-center text-center">{children}</ul>;
+interface ListProps {
+  className?: string;
+}
+
+const List: React.FC<ListProps> = ({children, className}) => {
+  return <ul className={clsx(['p-0 mt-5 justify-center', className])}>{children}</ul>;
 };
 
 export default List;

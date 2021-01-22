@@ -1,18 +1,21 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Root as light theme */
 :root {
-  @apply light;
-}
-
-.light {
   --color-bg-primary: #fafafa;
   --color-bg-secondary: #bdbdbd;
   --color-bg-aside: #e0e0e0;
-  --color-bg-turquoise: #228896;
+  --color-bg-subject: #228896;
+  --color-bg-dark-subject: #19626c;
+
+  --color-border-subject: #228896;
 
   --color-text-primary: black;
   --color-text-secondary: #757575;
-  --color-text-accent: #228896;
+  --color-text-subject: #228896;
+  --color-text-dark-subject: #19626c;
   --color-text-reverse: #fafafa;
 
   --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -26,15 +29,19 @@
 }
 
 .dark {
-  --color-bg-primary: #263238;
-  --color-bg-secondary: #37474f;
-  --color-bg-aside: #455a64;
-  --color-bg-turquoise: #1de9b6;
+  --color-bg-primary: #101116;
+  --color-bg-secondary: #262833;
+  --color-bg-aside: #3c4051;
+  --color-bg-subject: #fbae5f;
+  --color-bg-dark-subject: #fa952d;
+
+  --color-border-subject: #fbae5f;
 
   --color-text-primary: white;
   --color-text-secondary: #d6d6d6;
-  --color-text-accent: #1de9b6;
-  --color-text-reverse: #263238;
+  --color-text-subject: #fbae5f;
+  --color-text-dark-subject: #fa952d;
+  --color-text-reverse: #101116;
 
   --font-display: Georgia, Times, 'Times New Roman', serif;
   --font-body: Corbel, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'DejaVu Sans', 'Bitstream Vera Sans',
@@ -46,9 +53,6 @@
 
   --rounded-btn: 0;
 }
-
-@tailwind components;
-@tailwind utilities;
 
 * {
   box-sizing: border-box;

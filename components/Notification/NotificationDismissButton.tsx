@@ -1,5 +1,5 @@
 import CrossCircleIcon from '../../statics/cross.svg';
-import BaseButton from '../Buttons/BaseButton';
+import {BaseButton} from '../Buttons/BaseButton';
 
 const NotificationDismissButton: React.FC = () => {
   return (

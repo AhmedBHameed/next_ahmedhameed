@@ -29,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({openMenu, onMenuClick}) => {
       <div className="w-72 bg-aside flex flex-col flex-shrink-0 pr-3 h-screen">
         <div className="flex-1 flex flex-col pt-5 pb-4">
           <Brand />
-          <nav className="flex flex-col items-center mt-5 flex-1 px-2" aria-label="Sidebar">
+          <nav className="flex flex-col items-center text-center mt-5 flex-1 px-2" aria-label="Sidebar">
             <List>
               <ListItem href={ROUTES.blog.path}>Blog</ListItem>
               <ListItem href={ROUTES.aboutMe.path}>About</ListItem>
@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({openMenu, onMenuClick}) => {
               </span>
               <HeartIcon className="inline h-5 text-red-500" />
               <span className="text-secondary">by </span>
-              <span className="text-accent font-bold">Ahmed HAMEED</span>
+              <span className="text-subject font-bold">Ahmed HAMEED</span>
             </p>
             <div className="flex justify-center text-secondary">
               <a

@@ -17,11 +17,14 @@ const ROUTES = {
   dashboard: {
     path: '/dashboard',
   },
-  dashboardCategory: {
-    path: '/dashboard/category',
+  dashboardCategories: {
+    path: '/dashboard/categories',
   },
   dashboardArticles: {
     path: '/dashboard/articles',
+  },
+  dashboardMedia: {
+    path: '/dashboard/media',
   },
   ahmedhameed: {
     path: '/ahmedhameed',

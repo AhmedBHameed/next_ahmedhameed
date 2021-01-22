@@ -4,7 +4,7 @@ import {useCallback, useContext, useEffect, useMemo, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import MapGL, {Marker} from 'react-map-gl';
 
-import BaseButton from '../../../components/Buttons/BaseButton';
+import {BaseButton} from '../../../components/Buttons';
 import {FormControl, Textarea, TextField} from '../../../components/Forms';
 import InfoCard from '../../../components/InfoCard/InfoCard';
 import PageContainer from '../../../components/PageContainer/PageContainer';
@@ -70,6 +70,8 @@ const ContactMe: NextPage = () => {
     }
   }, [emailInputRef.current]);
 
+  const inputClassName = 'p-2 text-subject bg-aside border-2 border-gray-400 border-opacity-60 w-full';
+
   return (
     <PageContainer>
       <div className="p-8 lg:px-52 h-96 bg-secondary relative flex flex-col justify-center items-center">
@@ -79,17 +81,17 @@ const ContactMe: NextPage = () => {
         <InfoCard
           className="w-64 md:w-96 lg:self-start"
           info="Wiedner Hauptstraße, Austria, Vienna."
-          IconComponent={<LocationSvg className="w-3/5 text-accent" />}
+          IconComponent={<LocationSvg className="w-3/5 text-subject" />}
         />
         <InfoCard
           className="w-64 md:w-96 lg:self-center"
           info="+43 677-6276-8620"
-          IconComponent={<PhoneSvg className="w-3/5 text-accent" />}
+          IconComponent={<PhoneSvg className="w-3/5 text-subject" />}
         />
         <InfoCard
           className="w-64 md:w-96 lg:self-end"
           info="contact.kakiee@gmail.com"
-          IconComponent={<EmailSvg className="w-3/5 text-accent" />}
+          IconComponent={<EmailSvg className="w-3/5 text-subject" />}
         />
       </div>
 
@@ -99,7 +101,7 @@ const ContactMe: NextPage = () => {
             <div className="sm:grid md:grid-cols-1 sm:gap-2 sm:items-start">
               <FormControl>
                 <TextField
-                  className="p-2 text-accent bg-aside border-2 border-gray-400 border-opacity-60 w-full"
+                  className={inputClassName}
                   placeholder="Email address"
                   error={!!errors.email}
                   name="email"
@@ -110,23 +112,11 @@ const ContactMe: NextPage = () => {
               </FormControl>
 
               <FormControl>
-                <TextField
-                  type="text"
-                  className="p-2 text-accent bg-aside border-2 border-gray-400 border-opacity-60 w-full"
-                  placeholder="Your name"
-                  name="name"
-                  ref={register}
-                />
+                <TextField type="text" className={inputClassName} placeholder="Your name" name="name" ref={register} />
               </FormControl>
 
               <FormControl>
-                <TextField
-                  type="text"
-                  className="p-2 text-accent bg-aside border-2 border-gray-400 border-opacity-60 w-full"
-                  placeholder="Subject"
-                  name="subject"
-                  ref={register}
-                />
+                <TextField type="text" className={inputClassName} placeholder="Subject" name="subject" ref={register} />
               </FormControl>
             </div>
 
@@ -135,7 +125,7 @@ const ContactMe: NextPage = () => {
                 <Textarea
                   placeholder="Message"
                   name="message"
-                  className="p-2 text-accent bg-aside border-2 border-gray-400 border-opacity-60 h-full"
+                  className="p-2 text-subject bg-aside border-2 border-gray-400 border-opacity-60 h-full"
                   ref={register}
                 />
               </FormControl>
@@ -145,8 +135,8 @@ const ContactMe: NextPage = () => {
               <BaseButton
                 type="submit"
                 disabled={!formState.isValid}
-                className="w-full justify-center uppercase bg-turquoise text-reverse"
-                IconComponent={<EmailSvg className="-ml-1 mr-2 h-5 w-5" />}
+                className="w-full justify-center uppercase bg-subject text-reverse"
+                Icon={EmailSvg}
               >
                 Contact Me
               </BaseButton>

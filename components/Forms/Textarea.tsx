@@ -1,6 +1,7 @@
 import {forwardRef, LegacyRef} from 'react';
 
 import {clsx} from '../../util/clsx';
+import {FIELD_BORDER_CLASSES} from './shared';
 
 interface TextareaProps {
   value?: string;
@@ -20,7 +21,8 @@ const Textarea = ({value, name, rows, className, placeholder}: TextareaProps, re
       value={value}
       placeholder={placeholder}
       className={clsx([
-        'w-full shadow-sm block focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md',
+        FIELD_BORDER_CLASSES,
+        'w-full shadow-sm block focus:ring-indigo-500 sm:text-sm rounded-md',
         className,
       ])}
       ref={ref}

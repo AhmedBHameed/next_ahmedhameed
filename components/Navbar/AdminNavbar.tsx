@@ -29,10 +29,12 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({openMenu, onMenuClick}) => {
       <div className="w-72 bg-aside flex flex-col flex-shrink-0 pr-3 h-screen">
         <div className="flex-1 flex flex-col pt-5 pb-4">
           <Brand />
-          <nav className="flex flex-col items-center mt-5 flex-1 px-2" aria-label="Sidebar">
+          <nav className="flex flex-col items-center text-center mt-5 flex-1 px-2" aria-label="Sidebar">
             <List>
-              <ListItem href={ROUTES.blog.path}>Articles</ListItem>
-              <ListItem href={ROUTES.dashboardCategory.path}>Category</ListItem>
+              <ListItem href={ROUTES.dashboard.path}>Dashboard</ListItem>
+              <ListItem href={ROUTES.dashboardArticles.path}>Articles</ListItem>
+              <ListItem href={ROUTES.dashboardCategories.path}>Category</ListItem>
+              <ListItem href={ROUTES.dashboardMedia.path}>Media</ListItem>
               <ListItem onClick={logout}>Log out</ListItem>
             </List>
 
@@ -50,7 +52,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({openMenu, onMenuClick}) => {
               </span>
               <HeartIcon className="inline h-5 text-red-500" />
               <span className="text-secondary">by </span>
-              <span className="text-accent font-bold">Ahmed HAMEED</span>
+              <span className="text-subject font-bold">Ahmed HAMEED</span>
             </p>
             <div className="flex justify-center text-secondary">
               <a

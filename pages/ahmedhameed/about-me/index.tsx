@@ -6,7 +6,7 @@ import {useEffect, useRef} from 'react';
 import styled from '@emotion/styled';
 
 import {useNavigateToContactMe} from '../../../components/AboutMe/hooks/NavigateToContactMe';
-import BaseButton from '../../../components/Buttons/BaseButton';
+import {BaseButton} from '../../../components/Buttons';
 import PageContainer from '../../../components/PageContainer/PageContainer';
 import ServiceCard from '../../../components/ServiceCard/ServiceCard';
 import Typography from '../../../components/Typography/Typography';
@@ -94,28 +94,28 @@ const AboutMe: NextPage = () => {
           <ServiceCard
             title="IMPLEMENTATION ⚒️"
             paragraph="Converting your design into a web page. Coding is our duty by using the most modern technologies."
-            IconComponent={<CodeSvg className="w-14 text-accent" />}
+            Icon={CodeSvg}
             className="w-full md:w-1/2"
           />
 
           <ServiceCard
             title="PLANNING 🔭"
             paragraph="All projects require in-depth preparation before coding can begin. By utilizing my skill set, we can make your project idea become a reality."
-            IconComponent={<PlanningSvg className="w-14 text-accent" />}
+            Icon={PlanningSvg}
             className="w-full md:w-1/2"
           />
 
           <ServiceCard
             title="OPTIMIZATION ⚖️"
             paragraph="Optimization requires a deep understanding of use. With my experience, I can confidently lead you into a faster and more reliable performance."
-            IconComponent={<OptimizationSvg className="w-14 text-accent" />}
+            Icon={OptimizationSvg}
             className="w-full md:w-1/2"
           />
 
           <ServiceCard
             title="CONSULTING AND TRAINING 👩‍💻"
             paragraph="With more than 5 years of experience, consulting and training are some of my services which focus on web technologies."
-            IconComponent={<ConsultingSvg className="w-14 text-accent" />}
+            Icon={ConsultingSvg}
             className="w-full md:w-1/2"
           />
         </div>
@@ -126,8 +126,9 @@ const AboutMe: NextPage = () => {
           </Typography>
 
           <BaseButton
-            IconComponent={<EmailSvg className="-ml-1 mr-2 h-5 w-5 text-reverse" />}
-            className="uppercase bg-turquoise text-reverse justify-center"
+            Icon={EmailSvg}
+            iconClasses="text-reverse"
+            className="uppercase w-full bg-subject text-reverse justify-center"
             onClick={goToContactMe}
           >
             Contact Me

@@ -4,7 +4,7 @@ import React, {useEffect, useRef} from 'react';
 import styled from '@emotion/styled';
 
 import {useNavigateToContactMe} from '../../../components/AboutMe/hooks/NavigateToContactMe';
-import BaseButton from '../../../components/Buttons/BaseButton';
+import {BaseButton} from '../../../components/Buttons';
 import {useTranslation} from '../../../components/shared/hooks/useTranslate';
 import PageContainer from '../../../components/PageContainer/PageContainer';
 import ServiceCard from '../../../components/ServiceCard/ServiceCard';
@@ -12,6 +12,7 @@ import Typography from '../../../components/Typography/Typography';
 import ApiSvg from '../../../statics/api.svg';
 import DockerSvg from '../../../statics/docker.svg';
 import StructureSvg from '../../../statics/project_structure.svg';
+import QuoteSvg from '../../../statics/quote.svg';
 import mq from '../../../styles/breakpoints';
 import {NextPage} from 'next';
 
@@ -81,21 +82,21 @@ const HireMe: NextPage = () => {
           <ServiceCard
             title="BACK-END 🕸️"
             paragraph="I build scalable back-end applications to service multiple clients by using modern technologies such as back-end framework like Node.js and databases such as SQL / NoSQL with the best concepts from JWT / RESTfull API / GraphQL / Microservices."
-            IconComponent={<ApiSvg className="w-14 text-accent" />}
+            Icon={ApiSvg}
             className="w-full md:w-1/2"
           />
 
           <ServiceCard
             title="FRONT-END 🖼️"
             paragraph="Coding UX/UI is my responsibility. Client experience comes first when developing interfaces and services. Clean, reusable, and optimized code is my focus. I use the most modern framework such as React.js / Angular.js / Vue.js."
-            IconComponent={<ApiSvg className="w-14 text-accent" />}
+            Icon={ApiSvg}
             className="w-full md:w-1/2"
           />
 
           <ServiceCard
             title="DEV-OPS ⚙️"
             paragraph="I’ll help you host your website/web application and set up projects into containers to serve as a service by using Linux / Nginx / Docker / Docker-compose. This will give you more flexibility for feature modification and scalability."
-            IconComponent={<DockerSvg className="w-14 text-accent" />}
+            Icon={DockerSvg}
             className="w-full md:w-1/2"
           />
         </div>
@@ -107,11 +108,11 @@ const HireMe: NextPage = () => {
 
           <ServiceCard
             title="From the wise words of Steve Jobs, “IT DOESN'T MAKE SENSE TO HIRE SMART PEOPLE AND TELL THEM WHAT TO DO; WE HIRE SMART PEOPLE SO THEY CAN TELL US WHAT TO DO.”"
-            IconComponent={<DockerSvg className="w-14 text-accent" />}
+            Icon={QuoteSvg}
             className="w-full"
           />
 
-          <BaseButton className="uppercase bg-turquoise text-reverse w-full justify-center" onClick={goToContactMe}>
+          <BaseButton className="uppercase bg-subject text-reverse w-full justify-center" onClick={goToContactMe}>
             Hire me
           </BaseButton>
         </div>

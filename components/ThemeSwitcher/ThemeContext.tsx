@@ -13,7 +13,7 @@ export const ThemeContextProvider: React.FC = ({children}) => {
   const [darkTheme, setDarkTheme] = useState(false);
 
   const changeTheme = useCallback(() => {
-    const root = window.document.documentElement;
+    const htmlElement = window.document.documentElement;
 
     const themeType = window.localStorage.getItem('themeType');
     let nextThemeType = 'light';
@@ -23,22 +23,19 @@ export const ThemeContextProvider: React.FC = ({children}) => {
       setDarkTheme(isDark);
     }
 
-    root.classList.remove('light', 'dark');
-    root.classList.add(nextThemeType);
+    htmlElement.classList.remove('light', 'dark');
+    htmlElement.classList.add(nextThemeType);
 
     window.localStorage.setItem('themeType', nextThemeType);
     setDarkTheme(state => !state);
   }, [setDarkTheme]);
 
   useEffect(() => {
-    const root = window.document.documentElement;
+    const htmlElement = window.document.documentElement;
     const themeType = window.localStorage.getItem('themeType');
     setDarkTheme(themeType === 'dark');
-    if (!themeType) {
-      root.classList.add('light');
-      window.localStorage.setItem('themeType', 'light');
-    } else {
-      root.classList.add(themeType);
+    if (themeType) {
+      htmlElement.classList.add(themeType);
     }
   }, []);
 

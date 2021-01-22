@@ -5,13 +5,14 @@ import {clsx} from '../../util/clsx';
 interface FormControlProps {
   className?: string;
   error?: string;
+  dir?: 'ltr' | 'rtl';
 }
 
-const FormControl: React.FC<FormControlProps> = ({children, className, error}) => {
+const FormControl: React.FC<FormControlProps> = ({children, className, error, dir}) => {
   return (
-    <div className={clsx(['mt-1 sm:mt-0 sm:col-span-2', className])}>
+    <div className={clsx(['mt-1 sm:mt-0', className])} dir={dir}>
       {children}
-      {error && <span className="text-xs text-red-400">{error || ' '}</span>}
+      {error && <span className="mt-0.5 text-xs text-red-400">{error || ' '}</span>}
     </div>
   );
 };
