@@ -25,7 +25,7 @@ const TextField = ({autocomplete, type, className, name, value, placeholder, err
         placeholder={placeholder}
         className={clsx([
           FIELD_BORDER_CLASSES,
-          'block w-full sm:text-sm  rounded-md',
+          'block w-full sm:text-sm rounded-md',
           error ? 'focus:outline-none border-red-600' : '',
           className,
         ])}

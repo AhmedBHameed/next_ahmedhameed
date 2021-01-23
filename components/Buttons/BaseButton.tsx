@@ -15,7 +15,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({disabled, Icon, iconClasses, chi
       onClick={onClick}
       type={type ?? 'button'}
       className={`${clsx([
-        'flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md hover:bg-darkSubject transition-colors duration-300 disabled:bg-gray-400 disabled:text-gray-600',
+        'flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md transition-colors duration-300 disabled:bg-gray-400 disabled:text-gray-600',
         className,
       ])}`}
       disabled={!!disabled}

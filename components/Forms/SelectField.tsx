@@ -16,16 +16,26 @@ interface SelectFieldProps {
   buttonClasses?: string;
   selectClasses?: string;
   items: SelectOption[];
+  value: SelectOption;
   placeholder?: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (selectedOption: SelectOption) => void;
 }
 
-const SelectField: React.FC<SelectFieldProps> = ({items, rootClasses, buttonClasses, placeholder}) => {
+const SelectField: React.FC<SelectFieldProps> = ({items, value, rootClasses, buttonClasses, placeholder, onChange}) => {
+  console.log('🚀 ~ file: SelectField.tsx ~ line 26 ~ value', value);
   const selectButtonRef = useRef<HTMLDivElement | null>(null);
-  const {isOpen, selectedItem, getToggleButtonProps, getMenuProps, highlightedIndex, getItemProps} = useSelect({items});
+  const {isOpen, selectedItem, getToggleButtonProps, getMenuProps, highlightedIndex, getItemProps} = useSelect({
+    items,
+    onSelectedItemChange: changes => {
+      onChange(changes.selectedItem);
+    },
+    initialSelectedItem: value,
+  });
 
   return (
     <>
-      <div className={clsx(['w-full mt-1 relative', rootClasses])} ref={selectButtonRef}>
+      <div className={rootClasses} ref={selectButtonRef}>
         <button
           type="button"
           {...getToggleButtonProps()}
@@ -70,7 +80,7 @@ const SelectField: React.FC<SelectFieldProps> = ({items, rootClasses, buttonClas
                 {...getItemProps({item, index})}
                 className={clsx([
                   highlightedIndex === index ? 'bg-aside' : '',
-                  selectedItem.value === item.value ? 'text-subject' : '',
+                  selectedItem?.value === item.value ? 'text-subject' : '',
                   'bg-secondary text-primary cursor-pointer select-none py-2 pl-3 pr-9',
                 ])}
               >

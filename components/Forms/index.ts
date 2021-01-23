@@ -6,4 +6,5 @@ const SelectField = dynamic(() => import('./SelectField'), {ssr: false});
 
 export * from './FormControl';
 export * from './FieldLabel';
+export * from './Upload/UploadImage';
 export {Textarea, TextField, SelectField};

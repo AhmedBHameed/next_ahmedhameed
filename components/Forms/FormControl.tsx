@@ -10,7 +10,7 @@ interface FormControlProps {
 
 const FormControl: React.FC<FormControlProps> = ({children, className, error, dir}) => {
   return (
-    <div className={clsx(['mt-1 sm:mt-0', className])} dir={dir}>
+    <div className={clsx(['mt-1 sm:mt-0 w-full', className])} dir={dir}>
       {children}
       {error && <span className="mt-0.5 text-xs text-red-400">{error || ' '}</span>}
     </div>
