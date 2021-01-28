@@ -21,4 +21,4 @@ const ModalCloseButton: React.FC<ModalCloseButtonProps> = ({onClose, className})
   );
 };
 
-export default ModalCloseButton;
+export {ModalCloseButton};

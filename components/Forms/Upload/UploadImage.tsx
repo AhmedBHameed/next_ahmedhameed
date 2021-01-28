@@ -19,12 +19,12 @@ interface UploadImageProps {
   onChange?: (url: string[], files: File[]) => void;
 }
 
-const UploadImage: React.FC<UploadImageProps> = ({src, rootClasses, imgClasses, onChange}) => {
+const UploadImage: React.FC<UploadImageProps> = ({src, rootClasses, width, height, imgClasses, onChange}) => {
   const {uploadFile, loading} = useUploadFile();
   const {triggerNotification} = useNotification();
 
-  const onDrop = useCallback(
-    async (acceptedFiles: File[], rejectedFiles, event) => {
+  const onDropAccepted = useCallback(
+    async (acceptedFiles: File[], event) => {
       event.stopPropagation();
       try {
         const response = await uploadFile(acceptedFiles[0]);
@@ -35,21 +35,29 @@ const UploadImage: React.FC<UploadImageProps> = ({src, rootClasses, imgClasses, 
         triggerNotification({type: 'error', message: 'Uploading failed!'});
       }
     },
-    [uploadFile]
+    [uploadFile, onChange, triggerNotification]
+  );
+
+  const onDropRejected = useCallback(
+    async (rejectedFiles, event) => {
+      event.stopPropagation();
+      triggerNotification({type: 'error', message: rejectedFiles.errors[0].message});
+    },
+    [triggerNotification]
   );
 
   return (
     <>
-      <Dropzone onDrop={onDrop} accept={environment.uploadFileTypes}>
+      <Dropzone onDropAccepted={onDropAccepted} onDropRejected={onDropRejected} accept={environment.uploadFileTypes}>
         {({getRootProps, getInputProps}) => (
           <label
             className={clsx([
-              'flex p-1 mr-3 rounded-full border-2 border-dashed cursor-pointer focus:outline-none',
+              'flex justify-center p-1 border-2 border-dashed cursor-pointer focus:outline-none',
               rootClasses,
             ])}
             {...getRootProps()}
           >
-            <Image src={src} className={clsx(['rounded-full', imgClasses])} width={50} height={50} />
+            <Image src={src} className={imgClasses} width={width} height={height} />
             <input {...getInputProps()} />
           </label>
         )}

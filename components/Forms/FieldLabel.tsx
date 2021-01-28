@@ -1,5 +1,6 @@
 import React from 'react';
 import {clsx} from '../../util/clsx';
+import Typography from '../Typography/Typography';
 
 interface FieldLabelProps {
   htmlFor?: string;

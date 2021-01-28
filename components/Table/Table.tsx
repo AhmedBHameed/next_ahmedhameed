@@ -1,6 +1,6 @@
 import React from 'react';
 import {clsx} from '../../util/clsx';
-import HeaderCell from './HeaderCell';
+import HeaderCells from './HeaderCells';
 import TableHeader from './TableHeader';
 import Cell from './Cell';
 import Row from './Row';
@@ -10,10 +10,14 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({children, className}) => {
-  return <table className={clsx(['min-w-full divide-y divide-gray-200', className])}>{children}</table>;
+  return (
+    <div className="shadow overflow-hidden sm:rounded-lg border border-gray-50">
+      <table className={clsx(['min-w-full divide-y divide-gray-200', className])}>{children}</table>
+    </div>
+  );
 };
 
-export {TableHeader, HeaderCell, Table, Cell, Row};
+export {TableHeader, HeaderCells, Table, Cell, Row};
 
 // const Table = () => {
 //   return (

@@ -2,10 +2,10 @@ import React from 'react';
 
 interface HeaderCellProps {
   className?: string;
-  cells: string[];
+  cells: (string | JSX.Element)[];
 }
 
-const HeaderCell: React.FC<HeaderCellProps> = ({cells, className}) => {
+const HeaderCells: React.FC<HeaderCellProps> = ({cells, className}) => {
   return (
     <tr>
       {cells.map((cellText, i) => {
@@ -19,4 +19,4 @@ const HeaderCell: React.FC<HeaderCellProps> = ({cells, className}) => {
   );
 };
 
-export default HeaderCell;
+export default HeaderCells;

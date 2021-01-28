@@ -1,16 +1,18 @@
 import {gql} from '@apollo/client';
 
-const LOGIN_QUERY = gql`
+const CATEGORIES_QUERY = gql`
   query Categories {
-    category {
+    categories {
       id
       imgSrc
       name
       enDescription
       arDescription
       status
+      createdAt
+      updatedAt
     }
   }
 `;
 
-export default LOGIN_QUERY;
+export default CATEGORIES_QUERY;

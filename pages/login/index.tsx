@@ -13,6 +13,8 @@ import {useGenerateTokensLazyQuery} from '../../graphql/queries';
 import {isInvalidPassword} from '../../util/errorHandlers';
 import {joiResolver} from '../../util/joiResolver';
 import {PASSWORD_REGULAR_EXPRESSION} from '../../util/passwordRegularExpression';
+import {useProfileLazyQuery, UserRoles} from '../../graphql/queries';
+import {useNavigateToBlog} from '../../components/Blog/hooks/NavigateToBlogHook';
 
 interface LoginFormData {
   email: string;
@@ -22,10 +24,11 @@ interface LoginFormData {
 const Login: NextPage = () => {
   const {triggerNotification} = useNotification();
   const {goToDashboard} = useNavigateToDashboard();
+  const {goToBlog} = useNavigateToBlog();
 
   const [generateToken, {loading}] = useGenerateTokensLazyQuery({
     onCompleted: () => {
-      goToDashboard();
+      getProfile();
     },
     onError: error => {
       if (isInvalidPassword(error)) {
@@ -34,6 +37,22 @@ const Login: NextPage = () => {
           message: 'Oops! Invalid password',
         });
       }
+    },
+  });
+
+  const [getProfile] = useProfileLazyQuery({
+    onCompleted: data => {
+      if (data.profile.role === UserRoles.Admin) {
+        goToDashboard();
+      } else {
+        goToBlog();
+      }
+    },
+    onError: () => {
+      triggerNotification({
+        type: 'error',
+        message: 'Oops! Something went wrong fetching your profile',
+      });
     },
   });
 

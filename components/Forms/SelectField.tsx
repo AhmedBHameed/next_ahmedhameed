@@ -5,11 +5,7 @@ import {useSelect} from 'downshift';
 // import SelectArrowsSvg from '../../statics/select-arrows.svg';
 import {Popup} from 'reactjs-popup';
 import {FIELD_BORDER_CLASSES} from './shared';
-
-export interface SelectOption {
-  value: string | number;
-  label: string;
-}
+import {SelectOption} from './models/SelectOption';
 
 interface SelectFieldProps {
   rootClasses?: string;
@@ -23,14 +19,13 @@ interface SelectFieldProps {
 }
 
 const SelectField: React.FC<SelectFieldProps> = ({items, value, rootClasses, buttonClasses, placeholder, onChange}) => {
-  console.log('🚀 ~ file: SelectField.tsx ~ line 26 ~ value', value);
   const selectButtonRef = useRef<HTMLDivElement | null>(null);
   const {isOpen, selectedItem, getToggleButtonProps, getMenuProps, highlightedIndex, getItemProps} = useSelect({
     items,
     onSelectedItemChange: changes => {
       onChange(changes.selectedItem);
     },
-    initialSelectedItem: value,
+    selectedItem: value,
   });
 
   return (

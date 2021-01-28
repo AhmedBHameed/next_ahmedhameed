@@ -28,7 +28,6 @@ export type GenerateTokens = {
 export enum UserRoles {
   User = 'USER',
   Admin = 'ADMIN',
-  Publisher = 'PUBLISHER',
 }
 
 export enum UserStatus {
@@ -95,11 +94,22 @@ export type User = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
-export type Publisher = {
-  __typename?: 'Publisher';
-  id?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  name?: Maybe<Username>;
+export type File = {
+  __typename?: 'File';
+  filename?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['Int']>;
+  mimtype?: Maybe<Scalars['String']>;
+};
+
+export type Document = {
+  __typename?: 'Document';
+  id?: Maybe<Scalars['ID']>;
+  file?: Maybe<File>;
+  name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type Countries = {
@@ -134,79 +144,37 @@ export type AddressInput = {
   zip?: Maybe<Scalars['String']>;
 };
 
-export type UserAddresses = {
-  __typename?: 'UserAddresses';
-  id?: Maybe<Scalars['ID']>;
-  userId?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-  addresses?: Maybe<Array<Maybe<Address>>>;
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-};
-
-export type PackageLocationInput = {
-  packageCode: Scalars['String'];
-  locationName?: Maybe<AddressInput>;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
-};
-
-export type Location = {
-  __typename?: 'Location';
-  id?: Maybe<Scalars['ID']>;
-  shippedByUserId?: Maybe<Scalars['String']>;
-  shippedByUser?: Maybe<Publisher>;
-  packageCode?: Maybe<Scalars['String']>;
-  locationName?: Maybe<Address>;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-};
-
-export type PackageInput = {
-  packageCode: Scalars['String'];
-  senderName: Scalars['String'];
-  senderPhone: Scalars['String'];
-  senderEmail?: Maybe<Scalars['String']>;
-  destinationAddress: AddressInput;
-  recipientName: Scalars['String'];
-  recipientPhone: Scalars['String'];
-  sourceAddress: AddressInput;
-  packageType?: Maybe<Scalars['String']>;
-  packageNumber?: Maybe<Scalars['String']>;
-  packageNotes?: Maybe<Scalars['String']>;
-  shippingCost?: Maybe<Scalars['String']>;
-};
-
-export enum PackageStatus {
-  Incomplete = 'INCOMPLETE',
-  ReadyForShipping = 'READY_FOR_SHIPPING',
-  UnderShipping = 'UNDER_SHIPPING',
-  Delivered = 'DELIVERED',
+export enum CategoryStatus {
+  Active = 'ACTIVE',
+  Inactive = 'INACTIVE',
 }
 
-export type Package = {
-  __typename?: 'Package';
+export type AddCategoryInput = {
+  id: Scalars['ID'];
+  imgSrc: Scalars['String'];
+  name: Scalars['String'];
+  enDescription: Scalars['String'];
+  arDescription: Scalars['String'];
+  status: CategoryStatus;
+};
+
+export type UpdateCategoryInput = {
+  id: Scalars['ID'];
+  imgSrc?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  enDescription?: Maybe<Scalars['String']>;
+  arDescription?: Maybe<Scalars['String']>;
+  status?: Maybe<CategoryStatus>;
+};
+
+export type Category = {
+  __typename?: 'Category';
   id?: Maybe<Scalars['ID']>;
-  packageCode?: Maybe<Scalars['String']>;
-  status?: Maybe<PackageStatus>;
-  senderName?: Maybe<Scalars['String']>;
-  senderPhone?: Maybe<Scalars['String']>;
-  senderEmail?: Maybe<Scalars['String']>;
-  recipientSignature?: Maybe<Scalars['String']>;
-  sourceAddress?: Maybe<Address>;
-  recipientName?: Maybe<Scalars['String']>;
-  recipientPhone?: Maybe<Scalars['String']>;
-  destinationAddress?: Maybe<Address>;
-  packageType?: Maybe<Scalars['String']>;
-  packageNumber?: Maybe<Scalars['String']>;
-  packageNotes?: Maybe<Scalars['String']>;
-  shouldBeArchived?: Maybe<Scalars['Boolean']>;
-  shippedByUserId?: Maybe<Scalars['String']>;
-  shippedByUser?: Maybe<Publisher>;
-  shippingCost?: Maybe<Scalars['String']>;
-  locationHistory?: Maybe<Array<Maybe<Location>>>;
+  imgSrc?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  enDescription?: Maybe<Scalars['String']>;
+  arDescription?: Maybe<Scalars['String']>;
+  status?: Maybe<CategoryStatus>;
   createdAt?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
 };
@@ -218,13 +186,8 @@ export type Query = {
   users?: Maybe<Array<Maybe<User>>>;
   searchUsers?: Maybe<Array<Maybe<User>>>;
   generateTokens?: Maybe<GenerateTokens>;
-  countries?: Maybe<Array<Maybe<Countries>>>;
-  cities?: Maybe<Array<Maybe<Cities>>>;
-  publishers?: Maybe<Array<Maybe<Publisher>>>;
-  packages?: Maybe<Array<Maybe<Package>>>;
-  searchPackages?: Maybe<Array<Maybe<Package>>>;
-  findPackageByCode?: Maybe<Package>;
-  publisherPackages?: Maybe<Array<Maybe<Package>>>;
+  documents?: Maybe<Array<Maybe<Document>>>;
+  categories?: Maybe<Array<Maybe<Category>>>;
 };
 
 export type QueryUserArgs = {
@@ -239,18 +202,6 @@ export type QueryGenerateTokensArgs = {
   userData: LoginDataInput;
 };
 
-export type QueryCitiesArgs = {
-  country: Scalars['String'];
-};
-
-export type QuerySearchPackagesArgs = {
-  search: Scalars['String'];
-};
-
-export type QueryFindPackageByCodeArgs = {
-  packageCode: Scalars['String'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   verifyUser?: Maybe<Message>;
@@ -259,11 +210,10 @@ export type Mutation = {
   updateUser?: Maybe<User>;
   createUser?: Maybe<Message>;
   forgotPassword?: Maybe<Message>;
-  createPackage?: Maybe<Package>;
-  assignPackageTo?: Maybe<Package>;
-  updatePackage?: Maybe<Package>;
-  deliverPackage?: Maybe<Scalars['ID']>;
-  createPackageLocation?: Maybe<Location>;
+  deleteDocument?: Maybe<Message>;
+  addCategory?: Maybe<Category>;
+  updateCategory?: Maybe<Category>;
+  deleteCategory?: Maybe<Message>;
 };
 
 export type MutationVerifyUserArgs = {
@@ -290,36 +240,61 @@ export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
 
-export type MutationCreatePackageArgs = {
-  newPackage: PackageInput;
+export type MutationDeleteDocumentArgs = {
+  documentId: Scalars['String'];
 };
 
-export type MutationAssignPackageToArgs = {
-  publisherId: Scalars['ID'];
-  packageCode: Scalars['ID'];
+export type MutationAddCategoryArgs = {
+  addCategoryInput: AddCategoryInput;
 };
 
-export type MutationUpdatePackageArgs = {
-  updatePackage: PackageInput;
+export type MutationUpdateCategoryArgs = {
+  updateCategoryInput: UpdateCategoryInput;
 };
 
-export type MutationDeliverPackageArgs = {
-  packageCode: Scalars['ID'];
-  signatureSrc: Scalars['String'];
+export type MutationDeleteCategoryArgs = {
+  categoryId: Scalars['ID'];
 };
 
-export type MutationCreatePackageLocationArgs = {
-  location: PackageLocationInput;
+export type AddCategoryMutationVariables = Exact<{
+  addCategoryInput: AddCategoryInput;
+}>;
+
+export type AddCategoryMutation = {__typename?: 'Mutation'} & {
+  addCategory?: Maybe<
+    {__typename?: 'Category'} & Pick<
+      Category,
+      'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
+    >
+  >;
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  trackMyPackage?: Maybe<Location>;
-  trackPublishers?: Maybe<Array<Maybe<Location>>>;
+export type CategoriesQueryVariables = Exact<{[key: string]: never}>;
+
+export type CategoriesQuery = {__typename?: 'Query'} & {
+  categories?: Maybe<
+    Array<
+      Maybe<
+        {__typename?: 'Category'} & Pick<
+          Category,
+          'id' | 'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
+        >
+      >
+    >
+  >;
 };
 
-export type SubscriptionTrackMyPackageArgs = {
-  subId: Scalars['String'];
+export type UpdateCategoryMutationVariables = Exact<{
+  updateCategoryInput: UpdateCategoryInput;
+}>;
+
+export type UpdateCategoryMutation = {__typename?: 'Mutation'} & {
+  updateCategory?: Maybe<
+    {__typename?: 'Category'} & Pick<
+      Category,
+      'id' | 'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
+    >
+  >;
 };
 
 export type GenerateTokensQueryVariables = Exact<{
@@ -332,6 +307,144 @@ export type GenerateTokensQuery = {__typename?: 'Query'} & {
   >;
 };
 
+export type ProfileQueryVariables = Exact<{[key: string]: never}>;
+
+export type ProfileQuery = {__typename?: 'Query'} & {
+  profile?: Maybe<
+    {__typename?: 'User'} & Pick<User, 'id' | 'email' | 'status' | 'verificationId' | 'gender' | 'avatar' | 'role'> & {
+        name?: Maybe<{__typename?: 'Username'} & Pick<Username, 'first' | 'last'>>;
+      }
+  >;
+};
+
+export const AddCategoryDocument = gql`
+  mutation AddCategory($addCategoryInput: AddCategoryInput!) {
+    addCategory(addCategoryInput: $addCategoryInput) {
+      imgSrc
+      name
+      enDescription
+      arDescription
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export type AddCategoryMutationFn = Apollo.MutationFunction<AddCategoryMutation, AddCategoryMutationVariables>;
+
+/**
+ * __useAddCategoryMutation__
+ *
+ * To run a mutation, you first call `useAddCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCategoryMutation, { data, loading, error }] = useAddCategoryMutation({
+ *   variables: {
+ *      addCategoryInput: // value for 'addCategoryInput'
+ *   },
+ * });
+ */
+export function useAddCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<AddCategoryMutation, AddCategoryMutationVariables>
+) {
+  return Apollo.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(AddCategoryDocument, baseOptions);
+}
+export type AddCategoryMutationHookResult = ReturnType<typeof useAddCategoryMutation>;
+export type AddCategoryMutationResult = Apollo.MutationResult<AddCategoryMutation>;
+export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<AddCategoryMutation, AddCategoryMutationVariables>;
+export const CategoriesDocument = gql`
+  query Categories {
+    categories {
+      id
+      imgSrc
+      name
+      enDescription
+      arDescription
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+}
+export function useCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>
+) {
+  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+}
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
+export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export const UpdateCategoryDocument = gql`
+  mutation UpdateCategory($updateCategoryInput: UpdateCategoryInput!) {
+    updateCategory(updateCategoryInput: $updateCategoryInput) {
+      id
+      imgSrc
+      name
+      enDescription
+      arDescription
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
+
+/**
+ * __useUpdateCategoryMutation__
+ *
+ * To run a mutation, you first call `useUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
+ *   variables: {
+ *      updateCategoryInput: // value for 'updateCategoryInput'
+ *   },
+ * });
+ */
+export function useUpdateCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>
+) {
+  return Apollo.useMutation<UpdateCategoryMutation, UpdateCategoryMutationVariables>(
+    UpdateCategoryDocument,
+    baseOptions
+  );
+}
+export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCategoryMutation>;
+export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
+export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCategoryMutation,
+  UpdateCategoryMutationVariables
+>;
 export const GenerateTokensDocument = gql`
   query GenerateTokens($userData: LoginDataInput!) {
     generateTokens(userData: $userData) {
@@ -371,3 +484,45 @@ export function useGenerateTokensLazyQuery(
 export type GenerateTokensQueryHookResult = ReturnType<typeof useGenerateTokensQuery>;
 export type GenerateTokensLazyQueryHookResult = ReturnType<typeof useGenerateTokensLazyQuery>;
 export type GenerateTokensQueryResult = Apollo.QueryResult<GenerateTokensQuery, GenerateTokensQueryVariables>;
+export const ProfileDocument = gql`
+  query Profile {
+    profile {
+      id
+      name {
+        first
+        last
+      }
+      email
+      status
+      verificationId
+      gender
+      avatar
+      role
+    }
+  }
+`;
+
+/**
+ * __useProfileQuery__
+ *
+ * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProfileQuery(baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+  return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, baseOptions);
+}
+export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
+  return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, baseOptions);
+}
+export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
+export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
+export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;

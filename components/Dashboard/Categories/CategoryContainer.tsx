@@ -1,25 +1,25 @@
 import {useCallback, useState} from 'react';
 import {Modal} from '../../Modal/Modal';
-import ModalContainer from '../../Modal/ModalContainer';
-import {HeaderCell, Table, TableHeader} from '../../Table/Table';
+import {ModalContainer} from '../../Modal/ModalContainer';
+import {HeaderCells, Table, TableHeader} from '../../Table/Table';
 import {TableBody} from '../../Table/TableBody';
 import CategoryRow from './CategoryRow';
 import Typography from '../../Typography/Typography';
 import CategoryForm from './CategoryForm';
+import {useCategoriesQuery} from '../../../graphql/queries';
+import AddSvg from '../../../statics/add.svg';
+import CircleButton from '../../Buttons/CircleButton';
 
 const CategoryContainer: React.FC = () => {
+  const {data, loading} = useCategoriesQuery();
+
   const [category, setCategory] = useState(null);
-  const [categories] = useState([
-    {
-      id: 'abc',
-      imgSrc: 'media/caqui-rojo-brillante_1611439371850.jpg',
-      name: 'Node.js',
-      enDescription: 'Server side rendering',
-      arDescription: 'استدعاء من جهة السيرفر',
-      status: 'ACTIVE',
-    },
-  ]);
   const [openModal, setOpenModal] = useState(false);
+
+  const newCategory = useCallback(() => {
+    setCategory(null);
+    setOpenModal(true);
+  }, [setCategory, setOpenModal]);
 
   const editCategory = useCallback(
     category => {
@@ -35,35 +35,47 @@ const CategoryContainer: React.FC = () => {
 
   return (
     <div className="flex flex-col mt-10">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden sm:rounded-lg border border-gray-50">
+      {!loading && (
+        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="py-2 min-w-full sm:px-6 lg:px-8">
             <Table>
               <TableHeader className="bg-secondary">
-                <HeaderCell
-                  className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider"
-                  cells={['Category name', 'Description', 'Status', '']}
+                <HeaderCells
+                  className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider last:text-right"
+                  cells={[
+                    'Category name',
+                    'Description',
+                    'Status',
+                    <div className="flex justify-end px-5">
+                      <CircleButton
+                        className="text-right text-subject hover:bg-darkSubject hover:text-gray-100"
+                        Icon={AddSvg}
+                        onClick={newCategory}
+                      />
+                    </div>,
+                  ]}
                 />
+                {/* text-white bg-indigo-600 hover:bg-indigo-700 */}
               </TableHeader>
               <TableBody className="divide-y divide-gray-200 bg-aside">
-                {categories.map(category => {
+                {data?.categories.map(category => {
                   return <CategoryRow key={category.name} category={category} onEdit={editCategory} />;
                 })}
               </TableBody>
             </Table>
           </div>
         </div>
-      </div>
+      )}
 
       <Modal className="flex justify-center mx-8 items-center" open={openModal}>
         <ModalContainer className="p-3 w-full">
           {/* <ModalCloseButton onClose={closeModal} className="self-end" /> */}
 
           <Typography className="text-gray-50 mb-5">
-            <span>Update category</span>
+            <span>{category ? 'Update category' : 'Add category'}</span>
           </Typography>
 
-          <CategoryForm category={category} onSubmit={console.log} onClose={closeModal} />
+          <CategoryForm category={category} onClose={closeModal} />
         </ModalContainer>
       </Modal>
     </div>
