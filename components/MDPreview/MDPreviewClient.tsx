@@ -1,0 +1,38 @@
+import React from 'react';
+import Markdown from 'markdown-to-jsx';
+import {components} from './components';
+
+const {Audio, code, h1, h2, pre} = components;
+
+interface MDPreviewClientProps {
+  markdown: string;
+}
+
+const MDPreviewClient: React.FC<MDPreviewClientProps> = ({markdown}) => {
+  return (
+    <Markdown
+      children={markdown}
+      options={{
+        overrides: {
+          Audio: {
+            component: Audio,
+          },
+          h1: {
+            component: h1,
+          },
+          h2: {
+            component: h2,
+          },
+          pre: {
+            component: pre,
+          },
+          code: {
+            component: code,
+          },
+        },
+      }}
+    />
+  );
+};
+
+export default MDPreviewClient;

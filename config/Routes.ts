@@ -2,6 +2,13 @@ const ROUTES = {
   blog: {
     path: '/blog',
   },
+  article: {
+    path: '/article',
+  },
+  articlesArchive: {
+    path: '/articles-archive',
+  },
+  // Onboarding screens
   login: {
     path: '/login',
   },
@@ -14,6 +21,7 @@ const ROUTES = {
   resetPassword: {
     path: 'reset-password',
   },
+  // Dashboard
   dashboard: {
     path: '/dashboard',
   },
@@ -26,6 +34,7 @@ const ROUTES = {
   dashboardMedia: {
     path: '/dashboard/media',
   },
+  // Ahmed Hameed
   ahmedhameed: {
     path: '/ahmedhameed',
   },

@@ -1,5 +1,23 @@
 @tailwind base;
 @tailwind components;
+
+/*
+      www.OnlineWebFonts.Com 
+      You must credit the author Copy this link on your web 
+      <div>Font made from <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a>is licensed by CC BY 3.0</div>
+      OR
+      <a href="http://www.onlinewebfonts.com">oNline Web Fonts</a>
+*/
+@font-face {
+  font-family: 'Noto Kufi Arabic Regular';
+  src: url('/fonts/Noto_Kufi_Arabic_Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Kufi Arabic Bold';
+  src: url('/fonts/Noto_Kufi_Arabic_Bold.ttf') format('truetype');
+}
+
 @tailwind utilities;
 
 /* Root as light theme */

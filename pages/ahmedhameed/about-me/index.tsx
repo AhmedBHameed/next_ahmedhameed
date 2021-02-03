@@ -1,5 +1,4 @@
-import {gsap, Power4, TweenLite} from 'gsap';
-import CSSPlugin from 'gsap/dist/CSSRulePlugin';
+import {Power4, TweenLite} from 'gsap';
 import {NextPage} from 'next';
 import {useEffect, useRef} from 'react';
 
@@ -7,7 +6,6 @@ import styled from '@emotion/styled';
 
 import {useNavigateToContactMe} from '../../../components/AboutMe/hooks/NavigateToContactMe';
 import {BaseButton} from '../../../components/Buttons';
-import PageContainer from '../../../components/PageContainer/PageContainer';
 import ServiceCard from '../../../components/ServiceCard/ServiceCard';
 import Typography from '../../../components/Typography/Typography';
 import CodeSvg from '../../../statics/code.svg';
@@ -17,9 +15,9 @@ import FlourishSvg from '../../../statics/flourish.svg';
 import AhmedSvg from '../../../statics/mysvg.svg';
 import OptimizationSvg from '../../../statics/optimization.svg';
 import PlanningSvg from '../../../statics/planning.svg';
-
-// Force CSSPlugin to not get dropped during build
-gsap.registerPlugin(CSSPlugin);
+import Head from 'next/head';
+import AsideBar from '../../../components/AsideBar/AsideBar';
+import AhmedhammedNavigation from '../../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
 
 const SvgContainer = styled.div({
   width: 300,
@@ -55,7 +53,10 @@ const AboutMe: NextPage = () => {
   }, [mySvgRef.current]);
 
   return (
-    <PageContainer>
+    <AsideBar asideNavigationComponent={<AhmedhammedNavigation />}>
+      <Head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" />
+      </Head>
       <div className="relative bg-secondary">
         <FlourishSvg className="text-secondary opacity-20 absolute top-2 left-2 w-40 h-40 md:w-52 md:h-52 lg:w-96 lg:h-96" />
         <FlourishSvg className="text-secondary opacity-20 transform rotate-180 absolute bottom-2 right-2 w-40 h-40 md:w-52 md:h-52 lg:w-96 lg:h-96" />
@@ -135,7 +136,7 @@ const AboutMe: NextPage = () => {
           </BaseButton>
         </div>
       </div>
-    </PageContainer>
+    </AsideBar>
   );
 };
 

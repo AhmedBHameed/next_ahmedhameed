@@ -13,13 +13,16 @@ module.exports = {
   images: {
     domains: ['assets.vercel.com'],
   },
-  // webpack: config => {
-  //   config.module.rules.push({
-  //     test: /\.svg$/,
-  //     include: [require('path').resolve(__dirname, 'statics')],
-  //     use: ['@svgr/webpack'],
-  //   });
+  webpack: config => {
+    config.node = {
+      fs: 'empty',
+    };
+    // config.module.rules.push({
+    //   test: /\.svg$/,
+    //   include: [require('path').resolve(__dirname, 'statics')],
+    //   use: ['@svgr/webpack'],
+    // });
 
-  //   return config;
-  // },
+    return config;
+  },
 };

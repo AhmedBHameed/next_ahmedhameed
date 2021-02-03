@@ -18,8 +18,8 @@ export type Message = {
   message?: Maybe<Scalars['String']>;
 };
 
-export type GenerateTokens = {
-  __typename?: 'GenerateTokens';
+export type Login = {
+  __typename?: 'Login';
   accessToken: Scalars['String'];
   refreshToken: Scalars['String'];
   userRole: Scalars['String'];
@@ -185,7 +185,8 @@ export type Query = {
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   searchUsers?: Maybe<Array<Maybe<User>>>;
-  generateTokens?: Maybe<GenerateTokens>;
+  login?: Maybe<Login>;
+  logout?: Maybe<Message>;
   documents?: Maybe<Array<Maybe<Document>>>;
   categories?: Maybe<Array<Maybe<Category>>>;
 };
@@ -198,7 +199,7 @@ export type QuerySearchUsersArgs = {
   search: Scalars['String'];
 };
 
-export type QueryGenerateTokensArgs = {
+export type QueryLoginArgs = {
   userData: LoginDataInput;
 };
 
@@ -297,14 +298,18 @@ export type UpdateCategoryMutation = {__typename?: 'Mutation'} & {
   >;
 };
 
-export type GenerateTokensQueryVariables = Exact<{
+export type LoginQueryVariables = Exact<{
   userData: LoginDataInput;
 }>;
 
-export type GenerateTokensQuery = {__typename?: 'Query'} & {
-  generateTokens?: Maybe<
-    {__typename?: 'GenerateTokens'} & Pick<GenerateTokens, 'accessToken' | 'refreshToken' | 'userRole'>
-  >;
+export type LoginQuery = {__typename?: 'Query'} & {
+  login?: Maybe<{__typename?: 'Login'} & Pick<Login, 'accessToken' | 'refreshToken' | 'userRole'>>;
+};
+
+export type LogoutQueryVariables = Exact<{[key: string]: never}>;
+
+export type LogoutQuery = {__typename?: 'Query'} & {
+  logout?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
 export type ProfileQueryVariables = Exact<{[key: string]: never}>;
@@ -445,9 +450,9 @@ export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
   UpdateCategoryMutation,
   UpdateCategoryMutationVariables
 >;
-export const GenerateTokensDocument = gql`
-  query GenerateTokens($userData: LoginDataInput!) {
-    generateTokens(userData: $userData) {
+export const LoginDocument = gql`
+  query Login($userData: LoginDataInput!) {
+    login(userData: $userData) {
       accessToken
       refreshToken
       userRole
@@ -456,34 +461,62 @@ export const GenerateTokensDocument = gql`
 `;
 
 /**
- * __useGenerateTokensQuery__
+ * __useLoginQuery__
  *
- * To run a query within a React component, call `useGenerateTokensQuery` and pass it any options that fit your needs.
- * When your component renders, `useGenerateTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useLoginQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLoginQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGenerateTokensQuery({
+ * const { data, loading, error } = useLoginQuery({
  *   variables: {
  *      userData: // value for 'userData'
  *   },
  * });
  */
-export function useGenerateTokensQuery(
-  baseOptions: Apollo.QueryHookOptions<GenerateTokensQuery, GenerateTokensQueryVariables>
-) {
-  return Apollo.useQuery<GenerateTokensQuery, GenerateTokensQueryVariables>(GenerateTokensDocument, baseOptions);
+export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>) {
+  return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, baseOptions);
 }
-export function useGenerateTokensLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GenerateTokensQuery, GenerateTokensQueryVariables>
-) {
-  return Apollo.useLazyQuery<GenerateTokensQuery, GenerateTokensQueryVariables>(GenerateTokensDocument, baseOptions);
+export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+  return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, baseOptions);
 }
-export type GenerateTokensQueryHookResult = ReturnType<typeof useGenerateTokensQuery>;
-export type GenerateTokensLazyQueryHookResult = ReturnType<typeof useGenerateTokensLazyQuery>;
-export type GenerateTokensQueryResult = Apollo.QueryResult<GenerateTokensQuery, GenerateTokensQueryVariables>;
+export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
+export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
+export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
+export const LogoutDocument = gql`
+  query Logout {
+    logout {
+      message
+    }
+  }
+`;
+
+/**
+ * __useLogoutQuery__
+ *
+ * To run a query within a React component, call `useLogoutQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLogoutQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLogoutQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutQuery(baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
+  return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
+}
+export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
+  return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
+}
+export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
+export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
+export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
 export const ProfileDocument = gql`
   query Profile {
     profile {

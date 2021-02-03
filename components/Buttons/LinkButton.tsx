@@ -13,7 +13,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({Icon, children, href, className,
     <Link href={href}>
       <a
         className={`${clsx([
-          'flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md transition-colors duration-300 disabled:bg-gray-400 disabled:text-gray-600',
+          'flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors duration-300 disabled:bg-gray-400 disabled:text-gray-600',
           className,
         ])}`}
         target={targetBlank ? '_blank' : ''}

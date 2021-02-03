@@ -9,15 +9,14 @@ import {
   useCategoriesQuery,
 } from '../../../graphql/queries';
 import {BaseButton} from '../../Buttons';
-import {FieldLabel, FormControl, SelectOption, MultiSelectField, TextField, Textarea} from '../../Forms';
+import {FieldLabel, FormControl, MultiSelectField, TextField, Textarea} from '../../Forms';
 import UploadImage from '../../Forms/Upload/UploadImage';
 import useNotification from '../../Notification/Hooks/NotificationHook';
 import {ulid} from 'ulid';
 import environment from '../../../config/environment';
-import {MarkdownEditor} from '../../MarkdownEditor/MarkdownEditor';
-import {jsx} from '@emotion/react';
 import {Modal, ModalCloseButton, ModalContainer} from '../../Modal/Modal';
 import LoadingOverlay from '../../LoadingOverlay/LoadingOverlay';
+import MDPreviewClient from '../../MDPreview/MDPreviewClient';
 
 type ArticleFormData = any;
 
@@ -31,7 +30,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
   const isEditMode = !!category;
   const {status, imgSrc} = category || {};
 
-  const [markdown, setMarkdown] = useState(`A paragraph with *emphasis* and **strong importance**.
+  const [markdown, setMarkdown] = useState(`
+  # شلونة الحجي
+  A paragraph with *emphasis* and **strong importance**.
 
   > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
   
@@ -54,6 +55,10 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
   
   | a | b |
   | - | - |
+
+  <Audio src="http://localhost:5000/media/shlon_alhaji.mp3" />
+
+  ![image](https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3)
   `);
   const [openModal, setOpenModal] = useState(false);
   const [addCategory, addCategoryResult] = useAddCategoryMutation();
@@ -64,7 +69,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
     return categoriesQuery.data?.categories.map(cat => cat.name);
   }, [categoriesQuery.data]);
 
-  const {formState, control, register, setValue, handleSubmit} = useForm<ArticleFormData>({
+  const {formState, control, register, watch, setValue, handleSubmit} = useForm<ArticleFormData>({
     // resolver: joiResolver(loginSchema),
     mode: 'onChange',
     defaultValues: {
@@ -72,6 +77,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
       imgSrc: imgSrc || environment.noImageAvatar,
     },
   });
+
+  console.log(watch());
 
   const submitCategory = useCallback(
     async (category: ArticleFormData) => {
@@ -200,36 +207,24 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
         </div>
 
         <FormControl>
-          {/* <Controller
+          <FieldLabel className="text-gray-50 text-lg">Categories</FieldLabel>
+          <Controller
             render={({value, onChange}) => {
               return (
                 <MultiSelectField
-                  multiple
-                  items={statusArray}
-                  value={statusArray.find(item => item.value === value.value)}
+                  items={categoriesTags}
+                  value={value}
+                  placeholder="Category tags"
                   buttonClasses="text-primary w-full"
-                  placeholder="Category status"
+                  buttonLabel="Select categories"
                   onChange={selected => {
                     onChange(selected);
-                    setValue('status', selected);
                   }}
                 />
               );
             }}
-            name="status"
+            name="categoryTags"
             control={control}
-          /> */}
-
-          <MultiSelectField
-            items={categoriesTags}
-            // value={statusArray.find(item => item.value === value.value)}
-            buttonClasses="text-primary w-full"
-            buttonLabel="Select categories"
-            onChange={selected => {
-              console.log('🚀 ~ file: ArticleForm.tsx ~ line 199 ~ selected', selected);
-              // onChange(selected);
-              // setValue('status', selected);
-            }}
           />
         </FormControl>
 
@@ -265,7 +260,9 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
               />
             </div>
             <div className="p-1 h-full w-1/2">
-              <MarkdownEditor markdown={markdown} className=" p-2 h-full border-2 rounded-lg" />
+              <div className="p-2 h-full border-2 rounded-lg overflow-auto font-kufiRegular">
+                <MDPreviewClient markdown={markdown} />
+              </div>
             </div>
           </div>
         </ModalContainer>

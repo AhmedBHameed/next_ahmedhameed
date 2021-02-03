@@ -3,11 +3,12 @@ import {NextPage} from 'next';
 import {useCallback, useContext, useEffect, useMemo, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import MapGL, {Marker} from 'react-map-gl';
+import AhmedhammedNavigation from '../../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
+import AsideBar from '../../../components/AsideBar/AsideBar';
 
 import {BaseButton} from '../../../components/Buttons';
 import {FormControl, Textarea, TextField} from '../../../components/Forms';
 import InfoCard from '../../../components/InfoCard/InfoCard';
-import PageContainer from '../../../components/PageContainer/PageContainer';
 import {ThemeContext} from '../../../components/ThemeSwitcher/ThemeContext';
 import environment from '../../../config/environment';
 import EmailSvg from '../../../statics/email.svg';
@@ -73,7 +74,7 @@ const ContactMe: NextPage = () => {
   const inputClassName = 'p-2 text-subject bg-aside border-2 border-gray-400 border-opacity-60 w-full';
 
   return (
-    <PageContainer>
+    <AsideBar asideNavigationComponent={<AhmedhammedNavigation />}>
       <div className="p-8 lg:px-52 h-96 bg-secondary relative flex flex-col justify-center items-center">
         <FlourishSvg className="text-secondary opacity-20 transform rotate-90 absolute top-2 right-2 w-40 h-40 md:w-52 md:h-52 lg:w-80 lg:h-80" />
         <FlourishSvg className="text-secondary opacity-20 transform -rotate-90 absolute bottom-2 left-2 w-40 h-40 md:w-52 md:h-52 lg:w-80 lg:h-80" />
@@ -182,7 +183,7 @@ const ContactMe: NextPage = () => {
           </Marker>
         </MapGL>
       </div>
-    </PageContainer>
+    </AsideBar>
   );
 };
 

@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 import {useNavigateToContactMe} from '../../../components/AboutMe/hooks/NavigateToContactMe';
 import {BaseButton} from '../../../components/Buttons';
 import {useTranslation} from '../../../components/shared/hooks/useTranslate';
-import PageContainer from '../../../components/PageContainer/PageContainer';
 import ServiceCard from '../../../components/ServiceCard/ServiceCard';
 import Typography from '../../../components/Typography/Typography';
 import ApiSvg from '../../../statics/api.svg';
@@ -15,6 +14,9 @@ import StructureSvg from '../../../statics/project_structure.svg';
 import QuoteSvg from '../../../statics/quote.svg';
 import mq from '../../../styles/breakpoints';
 import {NextPage} from 'next';
+import Head from 'next/head';
+import AhmedhammedNavigation from '../../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
+import AsideBar from '../../../components/AsideBar/AsideBar';
 
 const MainTitle = styled.h4({
   fontFamily: 'Fredericka the Great',
@@ -62,7 +64,10 @@ const HireMe: NextPage = () => {
   }, [projectSvg.current, captionEl.current]);
 
   return (
-    <PageContainer>
+    <AsideBar asideNavigationComponent={<AhmedhammedNavigation />}>
+      <Head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" />
+      </Head>
       <div className="p-8 lg:px-52 bg-secondary relative flex flex-col justify-center items-center">
         <MainTitle ref={captionEl} className="text-primary text-center text-2xl md:text-4xl mb-10 opacity-0">
           {t('hireMe.headerSection.title')}
@@ -117,7 +122,7 @@ const HireMe: NextPage = () => {
           </BaseButton>
         </div>
       </div>
-    </PageContainer>
+    </AsideBar>
   );
 };
 

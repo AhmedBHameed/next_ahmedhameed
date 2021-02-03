@@ -8,9 +8,7 @@ interface TypographyProps {
 
 const Typography: React.FC<TypographyProps> = ({children, className}) => {
   return (
-    <article className={clsx(['text-primary prose prose-sm lg:prose-lg xl:prose-xl max-w-none', className])}>
-      {children}
-    </article>
+    <article className={clsx(['prose prose-sm lg:prose-lg xl:prose-xl max-w-none', className])}>{children}</article>
   );
 };
 

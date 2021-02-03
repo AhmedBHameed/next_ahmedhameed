@@ -9,7 +9,7 @@ import {useNavigateToDashboard} from '../../components/Login/hooks/NavigateToDas
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';
-import {useGenerateTokensLazyQuery} from '../../graphql/queries';
+import {useLoginLazyQuery} from '../../graphql/queries';
 import {isInvalidPassword} from '../../util/errorHandlers';
 import {joiResolver} from '../../util/joiResolver';
 import {PASSWORD_REGULAR_EXPRESSION} from '../../util/passwordRegularExpression';
@@ -26,7 +26,7 @@ const Login: NextPage = () => {
   const {goToDashboard} = useNavigateToDashboard();
   const {goToBlog} = useNavigateToBlog();
 
-  const [generateToken, {loading}] = useGenerateTokensLazyQuery({
+  const [login, {loading}] = useLoginLazyQuery({
     onCompleted: () => {
       getProfile();
     },
@@ -83,8 +83,8 @@ const Login: NextPage = () => {
     },
   });
 
-  const login = useCallback(({email, password}: LoginFormData) => {
-    generateToken({
+  const submit = useCallback(({email, password}: LoginFormData) => {
+    login({
       variables: {
         userData: {
           email,
@@ -98,7 +98,7 @@ const Login: NextPage = () => {
 
   return (
     <Onboarding title="Log in" backgroundUrl="/images/todo-list.jpg">
-      <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit(login)}>
+      <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit(submit)}>
         <FormControl className="flex flex-col pt-4" error={email?.message}>
           <FieldLabel className="text-lg" htmlFor="email">
             Email

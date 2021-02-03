@@ -1,11 +1,12 @@
 import {NextPage} from 'next';
-import AdminPageContainer from '../../components/Dashboard/AdminPageContainer';
+import AdminNavigation from '../../components/AsideBar/AdminNavigation/AdminNavigation';
+import AsideBar from '../../components/AsideBar/AsideBar';
 
 const Dashboard: NextPage = () => {
   return (
-    <AdminPageContainer>
+    <AsideBar asideNavigationComponent={<AdminNavigation />}>
       This is articles page <span className="bg-white dark:bg-black">Test</span>
-    </AdminPageContainer>
+    </AsideBar>
   );
 };
 

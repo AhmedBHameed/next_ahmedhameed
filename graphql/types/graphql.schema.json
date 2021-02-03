@@ -43,7 +43,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "GenerateTokens",
+        "name": "Login",
         "description": null,
         "fields": [
           {
@@ -1450,7 +1450,7 @@
             "deprecationReason": null
           },
           {
-            "name": "generateTokens",
+            "name": "login",
             "description": null,
             "args": [
               {
@@ -1470,7 +1470,19 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "GenerateTokens",
+              "name": "Login",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "logout",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Message",
               "ofType": null
             },
             "isDeprecated": false,
