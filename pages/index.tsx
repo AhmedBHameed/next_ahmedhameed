@@ -25,7 +25,7 @@ const Home: NextPage<HomeProps> = ({changeTheme}) => {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" />
 
-        <title>KAKIEE</title>
+        <title>Ahmed HAMEED</title>
       </Head>
 
       <h1>{t.menu.kakiee}</h1>

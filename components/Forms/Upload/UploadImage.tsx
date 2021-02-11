@@ -57,7 +57,7 @@ const UploadImage: React.FC<UploadImageProps> = ({src, rootClasses, width, heigh
             ])}
             {...getRootProps()}
           >
-            <Image src={src} className={imgClasses} width={width} height={height} />
+            <Image src={src} className={imgClasses} width={width} height={height} alt="upload placeholder" />
             <input {...getInputProps()} />
           </label>
         )}

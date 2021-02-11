@@ -17,7 +17,7 @@ const CategoryRow: React.FC<CategoryRowProps> = ({category, onEdit}) => {
       <Cell className="px-6 py-3 whitespace-nowrap">
         <div className="flex items-center">
           <div className="flex items-center flex-shrink-0 h-20 w-20">
-            <Image src={imgSrc} className="rounded-full border-2 w-full h-full" />
+            <Image src={imgSrc} className="rounded-full border-2 w-full h-full" alt="Category placeholder" />
             {/* <Image src="/images/nodejs.png" alt="Keyboard image" layout="fixed" width="40" height="40" /> */}
           </div>
           <div className="ml-4">

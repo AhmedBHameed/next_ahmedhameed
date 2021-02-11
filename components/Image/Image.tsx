@@ -8,11 +8,12 @@ const BREAK_POINTS = [375, 640, 768, 1024, 1280];
 interface ImageProps {
   width?: number;
   height?: number;
+  alt: string;
   src: string;
   className?: string;
 }
 
-const Image: React.FC<ImageProps> = ({src, className, height, width}) => {
+const Image: React.FC<ImageProps> = ({src, className, alt, height, width}) => {
   const wSize = useWindowSize();
   const [imgUrl, setImgUrl] = useState('');
 
@@ -43,6 +44,7 @@ const Image: React.FC<ImageProps> = ({src, className, height, width}) => {
 
   return imgUrl ? (
     <img
+      alt={alt}
       className={className}
       src={`${baseUrl}${imgUrl}${height ? `&height=${height}` : ''}`}
       style={{maxWidth: width ? 'unset' : '100%', width: width ? width : 'auto'}}

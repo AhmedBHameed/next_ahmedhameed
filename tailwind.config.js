@@ -21,6 +21,15 @@ module.exports = {
       emerald: colors.emerald,
     },
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            'h1,h2,h3,h4,h5,h6': {
+              color: 'var(--color-text-primary)',
+            },
+          },
+        },
+      },
       fontFamily: {
         kufiBold: ['Noto Kufi Arabic Bold', 'sans-serif'],
         kufiRegular: ['Noto Kufi Arabic Regular', 'sans-serif'],

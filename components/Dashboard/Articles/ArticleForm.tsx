@@ -9,7 +9,7 @@ import {
   useCategoriesQuery,
 } from '../../../graphql/queries';
 import {BaseButton} from '../../Buttons';
-import {FieldLabel, FormControl, MultiSelectField, TextField, Textarea} from '../../Forms';
+import {FieldLabel, FormControl, MultiSelectField, TextField, Textarea, SelectField, SelectOption} from '../../Forms';
 import UploadImage from '../../Forms/Upload/UploadImage';
 import useNotification from '../../Notification/Hooks/NotificationHook';
 import {ulid} from 'ulid';
@@ -19,6 +19,11 @@ import LoadingOverlay from '../../LoadingOverlay/LoadingOverlay';
 import MDPreviewClient from '../../MDPreview/MDPreviewClient';
 
 type ArticleFormData = any;
+
+const articleStatus: SelectOption[] = [
+  {label: 'Draft', value: 'Draft'},
+  {label: 'Publish', value: 'publish'},
+];
 
 interface ArticleFormProps {
   className?: string;
@@ -60,6 +65,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
 
   ![image](https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3)
   `);
+  const [previewMode, setPreviewMode] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [addCategory, addCategoryResult] = useAddCategoryMutation();
   const categoriesQuery = useCategoriesQuery();
@@ -75,6 +81,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
     defaultValues: {
       ...category,
       imgSrc: imgSrc || environment.noImageAvatar,
+      status: articleStatus[0],
     },
   });
 
@@ -165,7 +172,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
   return (
     <>
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(submitCategory)}>
-        <div className="flex items-center h-20 w-32">
+        <div className="flex flex-col gap-1 items-center h-20 w-32">
           <Controller
             render={({value, onChange}) => (
               <UploadImage
@@ -183,7 +190,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
 
         <div className="flex flex-col flex-grow">
           <FormControl>
-            <FieldLabel className="text-gray-50 text-lg">Title [Arabic, English]</FieldLabel>
+            <FieldLabel className="text-primary text-lg">Title [Arabic, English]</FieldLabel>
             <TextField
               // error={!!email?.message}
               type="text"
@@ -207,7 +214,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
         </div>
 
         <FormControl>
-          <FieldLabel className="text-gray-50 text-lg">Categories</FieldLabel>
+          <FieldLabel className="text-primary text-lg">Categories</FieldLabel>
           <Controller
             render={({value, onChange}) => {
               return (
@@ -228,9 +235,45 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
           />
         </FormControl>
 
-        <BaseButton className="my-4 bg-red-200 hover:bg-red-400 w-40 justify-center" onClick={() => setOpenModal(true)}>
-          Open modal
-        </BaseButton>
+        <div className="flex gap-4">
+          <BaseButton
+            className="my-4 bg-subject w-full hover:bg-darkSubject justify-center"
+            onClick={() => setOpenModal(true)}
+          >
+            Edit English article
+          </BaseButton>
+
+          <BaseButton
+            className="my-4 bg-subject w-full hover:bg-darkSubject justify-center"
+            onClick={() => setOpenModal(true)}
+          >
+            Edit Arabic article
+          </BaseButton>
+        </div>
+
+        <div className="flex">
+          <FormControl className="w-1/2">
+            <FieldLabel className="text-primary text-lg">Status</FieldLabel>
+            <Controller
+              render={({value, onChange}) => {
+                return (
+                  <SelectField
+                    items={articleStatus}
+                    value={articleStatus.find(item => item.value === value.value)}
+                    buttonClasses="text-primary w-full"
+                    placeholder="Article status"
+                    onChange={selected => {
+                      onChange(selected);
+                      setValue('status', selected);
+                    }}
+                  />
+                );
+              }}
+              name="status"
+              control={control}
+            />
+          </FormControl>
+        </div>
 
         <div className="flex gap-2 justify-end">
           <BaseButton className="my-4 bg-red-200 hover:bg-red-400 w-40 justify-center" onClick={onClose}>
@@ -250,20 +293,30 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
       <Modal open={openModal}>
         <ModalContainer className="p-2 h-full">
           <ModalCloseButton className="mb-2 self-end" onClose={() => setOpenModal(false)} />
-          <div className="flex h-full">
-            <div className="p-1 h-full w-1/2">
-              <Textarea
-                indentOnTabKey
-                className="bg-primary h-full overflow-auto resize-none text-subject"
-                value={markdown}
-                onChange={event => setMarkdown(event.target.value)}
-              />
-            </div>
-            <div className="p-1 h-full w-1/2">
-              <div className="p-2 h-full border-2 rounded-lg overflow-auto font-kufiRegular">
-                <MDPreviewClient markdown={markdown} />
+
+          <BaseButton
+            className="mx-1 flex-shrink text-subject border border-subject"
+            onClick={() => setPreviewMode(s => !s)}
+          >
+            {previewMode ? 'Write' : 'Preview'}
+          </BaseButton>
+          <div className="flex flex-grow overflow-auto">
+            {previewMode ? (
+              <div className="p-1 h-full w-full">
+                <div className="p-2 h-full border-2 overflow-auto rounded-lg font-kufiRegular">
+                  <MDPreviewClient markdown={markdown} />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="p-1 h-full w-full">
+                <Textarea
+                  indentOnTabKey
+                  className="bg-primary h-full resize-none text-subject"
+                  value={markdown}
+                  onChange={event => setMarkdown(event.target.value)}
+                />
+              </div>
+            )}
           </div>
         </ModalContainer>
       </Modal>

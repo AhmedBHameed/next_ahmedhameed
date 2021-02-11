@@ -4,6 +4,7 @@ import BlogNavigation from '../../../components/AsideBar/BlogNavigation/BlogNavi
 import {useDetectLanguage} from '../../../components/shared/hooks/useDetectLanguageHook';
 import renderToString from 'next-mdx-remote/render-to-string';
 import MDPreview, {Source, components} from '../../../components/MDPreview/MDPreview';
+import MetaTags from '../../../components/MetaTags/MetaTags';
 
 const Blog: NextPage<{source: Source}> = ({source}) => {
   const {dir} = useDetectLanguage();
@@ -12,7 +13,16 @@ const Blog: NextPage<{source: Source}> = ({source}) => {
 
   return (
     <AsideBar asideNavigationComponent={<BlogNavigation />} dir={dir}>
-      <div className="relative py-10 bg-primary overflow-hidden font-kufiRegular">
+      <article itemScope itemType="abc" className="relative py-10 bg-primary overflow-hidden font-kufiRegular">
+        <MetaTags
+          title="Testing social media cards"
+          description="This description must be revealed in social media platforms"
+          imageUrl="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3"
+          articleUrl="https://www.ahmedhameed.dev/"
+          articleBy="Ahmed HAMEED"
+          articleId="123456789a"
+        />
+
         <div className="relative px-4 sm:px-6 lg:px-8">
           <div className="text-lg max-w-prose mx-auto">
             <h1>
@@ -29,7 +39,7 @@ const Blog: NextPage<{source: Source}> = ({source}) => {
             <MDPreview markdown={source} />
           </div>
         </div>
-      </div>
+      </article>
     </AsideBar>
   );
 };
@@ -68,6 +78,7 @@ export async function getServerSideProps() {
   # شلونة الحجي
   A paragraph with *emphasis* and **strong importance**.
 
+  ## كس اختك
   > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
   
   \`\`\`jsx

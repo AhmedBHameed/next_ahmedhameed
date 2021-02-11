@@ -13,12 +13,12 @@ interface ArticleRowProps {
 }
 
 const ArticleRow: React.FC<ArticleRowProps> = ({category, onEdit, onShare, onDelete}) => {
-  const {imgSrc, name, enDescription, arDescription, status} = category;
+  const {imgSrc, enDescription, arDescription, status} = category;
   return (
     <Row>
       <Cell className="px-6 py-3 whitespace-nowrap">
         <div className="flex items-center flex-shrink-0 h-20 w-32">
-          <Image src={imgSrc} className="rounded-lg p-1 border-2" width={128} height={80} />
+          <Image src={imgSrc} className="rounded-lg p-1 border-2" width={128} height={80} alt="article banner" />
           {/* <Image src="/images/nodejs.png" alt="Keyboard image" layout="fixed" width="40" height="40" /> */}
         </div>
       </Cell>

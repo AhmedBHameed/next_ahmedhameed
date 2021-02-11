@@ -70,7 +70,7 @@ const ArticleContainer: React.FC = () => {
         <ModalContainer className="p-3 w-full">
           {/* <ModalCloseButton onClose={closeModal} className="self-end" /> */}
 
-          <Typography className="text-gray-50 mb-5">
+          <Typography className="text-gray-50 mb-8">
             <span>{category ? 'Update article' : 'Add Article'}</span>
           </Typography>
 

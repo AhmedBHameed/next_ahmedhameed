@@ -1,4 +1,5 @@
 const ROUTES = {
+  // Blog
   blog: {
     path: '/blog',
   },

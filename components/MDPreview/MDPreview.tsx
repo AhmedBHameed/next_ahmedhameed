@@ -10,13 +10,12 @@ export interface Source {
 
 interface MDPreviewProps {
   markdown: Source;
-  className?: string;
 }
 
-const MDPreview: React.FC<MDPreviewProps> = ({markdown, className}) => {
+const MDPreview: React.FC<MDPreviewProps> = ({markdown}) => {
   const content = hydrate(markdown, {components});
 
-  return <div className={className}>{content}</div>;
+  return <>{content}</>;
 };
 
 export {components};
