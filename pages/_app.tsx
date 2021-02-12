@@ -5,7 +5,6 @@ import {AppContext, AppInitialProps, AppProps} from 'next/app';
 import Head from 'next/head';
 
 import {ApolloProvider} from '@apollo/client';
-import {StylesProvider} from '@material-ui/core/styles';
 
 import Notification from '../components/Notification/Notification';
 import {ThemeContextProvider} from '../components/ThemeSwitcher/ThemeContext';
@@ -15,7 +14,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({Componen
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
-    <StylesProvider injectFirst>
+    <>
       <Head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </Head>
@@ -26,7 +25,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({Componen
           <Notification />
         </ApolloProvider>
       </ThemeContextProvider>
-    </StylesProvider>
+    </>
   );
 };
 
