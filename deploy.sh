@@ -4,5 +4,9 @@ echo "Shutdown docker container ...\n"
 {
     sudo docker-compose -f docker-compose.yml down && echo "Rebuild docker container ...\n" && sudo docker-compose -f docker-compose.yml up --build -d
 } || {
-    echo "Rebuild docker container ...\n" && sudo docker-compose -f docker-compose.yml up --build -d
+    echo "Rebuild docker container  ...\n" && sudo docker-compose -f docker-compose.yml up --build -d
 }
+
+
+/usr/local/bin/docker-compose
+/usr/bin/docker
