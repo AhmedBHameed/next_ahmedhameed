@@ -1,6 +1,7 @@
 module.exports = {
   publicRuntimeConfig: {
-    mapboxApiAccessToken: process.env.REACT_APP_MAP_KEY,
+    mapboxApiAccessToken:
+      'pk.eyJ1IjoiYWhtZWRiaGFtZWVkIiwiYSI6ImNrNmNpd3M3ZzExZXMza21neGoxNHJoeDcifQ.07EbC691qPVJ86uLhJyfWA',
     domain: 'http://localhost:5000',
     graphqlApi: '/v1/graphql',
     uploadApi: '/api/upload',
@@ -9,6 +10,7 @@ module.exports = {
   i18n: {
     locales: ['en', 'ar'],
     defaultLocale: 'en',
+    localeDetection: false,
   },
   images: {
     domains: ['assets.vercel.com'],

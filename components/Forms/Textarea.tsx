@@ -33,11 +33,7 @@ const Textarea = ({value, name, indentOnTabKey, rows, className, placeholder, on
       value={value}
       onKeyDown={indentOnTabKey && onKeyDown}
       placeholder={placeholder}
-      className={clsx([
-        FIELD_BORDER_CLASSES,
-        'w-full shadow-sm block focus:ring-indigo-500 sm:text-sm rounded-md',
-        className,
-      ])}
+      className={clsx([FIELD_BORDER_CLASSES, 'w-full shadow-sm block sm:text-sm rounded-md', className])}
       ref={ref}
     />
   );

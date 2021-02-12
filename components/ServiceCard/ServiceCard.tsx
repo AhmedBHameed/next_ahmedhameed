@@ -18,7 +18,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({Icon, iconClasses, title, para
         {Icon && <Icon className={clsx(['w-14 text-subject', iconClasses])} />}
       </div>
       <Typography className="flex flex-col justify-center md:mr-5">
-        <span className="md:text-lg font-medium tracking-wider">{title}</span>
+        <h5 className="md:text-lg font-medium tracking-wider">{title}</h5>
         {paragraph && <p className="md:text-lg text-secondary">{paragraph}</p>}
       </Typography>
     </div>

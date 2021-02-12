@@ -1,4 +1,10 @@
 {
+  "common": {
+    "required": "هذه الحقل مطلوب"
+  },
+  "validationErrors": {
+    "invalidEmail": "الايميل لا يطابق المعايير او غير صحيح"
+  },
   "brand": {
     "name": "Ahmed HAMEED"
   },

@@ -16,7 +16,7 @@ export const ThemeContextProvider: React.FC = ({children}) => {
     const htmlElement = window.document.documentElement;
 
     const themeType = window.localStorage.getItem('themeType');
-    let nextThemeType = 'light';
+    let nextThemeType = 'dark';
     if (themeType) {
       const isDark = themeType === 'dark';
       nextThemeType = isDark ? 'light' : 'dark';
@@ -34,10 +34,8 @@ export const ThemeContextProvider: React.FC = ({children}) => {
     const htmlElement = window.document.documentElement;
     const themeType = window.localStorage.getItem('themeType');
     setDarkTheme(themeType === 'dark');
-    if (themeType) {
-      htmlElement.classList.add(themeType);
-    }
-  }, []);
+    htmlElement.classList.add(themeType ? themeType : 'light');
+  }, [setDarkTheme]);
 
   return (
     <ThemeContext.Provider value={{darkTheme, changeTheme}}>

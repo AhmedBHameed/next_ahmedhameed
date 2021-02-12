@@ -1,4 +1,3 @@
-import Joi from 'joi';
 import {NextPage} from 'next';
 import {useCallback, useContext, useEffect, useMemo, useRef} from 'react';
 import {useForm} from 'react-hook-form';
@@ -11,6 +10,7 @@ import {BaseButton} from '../../components/Buttons';
 import {FormControl, Textarea, TextField} from '../../components/Forms';
 import InfoCard from '../../components/InfoCard/InfoCard';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
+import {useValidations} from '../../components/shared/hooks/useValidationsHook';
 import {ThemeContext} from '../../components/ThemeSwitcher/ThemeContext';
 import environment from '../../config/environment';
 import {ContactInput, useContactMeMutation} from '../../graphql/queries';
@@ -18,6 +18,7 @@ import EmailSvg from '../../statics/email.svg';
 import FlourishSvg from '../../statics/flourish.svg';
 import LocationSvg from '../../statics/location.svg';
 import PhoneSvg from '../../statics/phone.svg';
+import {clsx} from '../../util/clsx';
 import {joiResolver} from '../../util/joiResolver';
 
 const viewport = {
@@ -32,6 +33,7 @@ const ContactMe: NextPage = () => {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {triggerNotification} = useNotification();
   const theme = useContext(ThemeContext);
+  const {Joi, requiredEmail, requiredString} = useValidations();
 
   const [addContact] = useContactMeMutation({
     onCompleted: ({contactMe}) => {
@@ -51,12 +53,10 @@ const ContactMe: NextPage = () => {
   const contactSchema = useMemo(
     () =>
       Joi.object({
-        email: Joi.string()
-          .email({tlds: {allow: false}})
-          .required(),
-        name: Joi.string().required(),
-        subject: Joi.string().required(),
-        message: Joi.string().required(),
+        email: requiredEmail,
+        name: requiredString,
+        subject: requiredString,
+        message: requiredString,
       }),
     []
   );
@@ -73,27 +73,30 @@ const ContactMe: NextPage = () => {
     },
   });
 
-  const submit = useCallback((formData: ContactInput) => {
-    try {
-      addContact({
-        variables: {
-          contact: {
-            ...formData,
-            id: ulid(),
+  const submit = useCallback(
+    (formData: ContactInput) => {
+      try {
+        addContact({
+          variables: {
+            contact: {
+              ...formData,
+              id: ulid(),
+            },
           },
-        },
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [addContact]
+  );
 
   useEffect(() => {
     if (emailInputRef.current) {
       emailInputRef.current.focus();
       register(emailInputRef.current, {required: true});
     }
-  }, [emailInputRef.current]);
+  }, [emailInputRef.current, register]);
 
   const inputClassName = 'p-2 text-subject bg-aside border-2 border-gray-400 border-opacity-60 w-full';
 
@@ -150,7 +153,7 @@ const ContactMe: NextPage = () => {
                 <Textarea
                   placeholder="Message"
                   name="message"
-                  className="p-2 text-subject bg-aside border-2 border-gray-400 border-opacity-60 h-full"
+                  className={clsx(['h-full', inputClassName])}
                   ref={register}
                 />
               </FormControl>

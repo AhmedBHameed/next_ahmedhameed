@@ -1,4 +1,10 @@
 {
+  "common": {
+    "required": "This field is required"
+  },
+  "validationErrors": {
+    "invalidEmail": "Email is invalid"
+  },
   "brand": {
     "name": "Ahmed HAMEED"
   },
