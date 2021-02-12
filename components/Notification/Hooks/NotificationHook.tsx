@@ -1,5 +1,6 @@
 import {useCallback} from 'react';
-import {toast, TypeOptions, ToastOptions} from 'react-toastify';
+import {toast, ToastOptions, TypeOptions} from 'react-toastify';
+
 import NotificationDismissButton from '../NotificationDismissButton';
 import ToastMessage from '../ToastMessage';
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import environment from '../../config/environment';
 
+import environment from '../../config/environment';
 import {useWindowSize} from './hooks/useWindowSize';
 
 const BREAK_POINTS = [375, 640, 768, 1024, 1280];

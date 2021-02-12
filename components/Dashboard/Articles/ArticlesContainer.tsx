@@ -1,14 +1,15 @@
 import {useCallback, useState} from 'react';
+
+import {useCategoriesQuery} from '../../../graphql/queries';
+import AddSvg from '../../../statics/add.svg';
+import CircleButton from '../../Buttons/CircleButton';
 import {Modal} from '../../Modal/Modal';
 import {ModalContainer} from '../../Modal/ModalContainer';
 import {HeaderCells, Table, TableHeader} from '../../Table/Table';
 import {TableBody} from '../../Table/TableBody';
-import ArticleRow from './ArticleRow';
 import Typography from '../../Typography/Typography';
 import ArticleForm from './ArticleForm';
-import {useCategoriesQuery} from '../../../graphql/queries';
-import AddSvg from '../../../statics/add.svg';
-import CircleButton from '../../Buttons/CircleButton';
+import ArticleRow from './ArticleRow';
 
 const ArticleContainer: React.FC = () => {
   const {data, loading, error} = useCategoriesQuery();

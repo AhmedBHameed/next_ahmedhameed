@@ -1,4 +1,5 @@
 import {forwardRef} from 'react';
+
 import {clsx} from '../../util/clsx';
 
 interface BurgerProps {

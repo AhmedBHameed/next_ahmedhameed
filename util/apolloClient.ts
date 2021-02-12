@@ -1,6 +1,8 @@
 // lib/apolloClient.js
 import {useMemo} from 'react';
+
 import {ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject} from '@apollo/client';
+
 import environment from '../config/environment';
 
 const {domain, graphqlApi} = environment;

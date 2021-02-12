@@ -134,6 +134,14 @@ export type Address = {
   zip?: Maybe<Scalars['String']>;
 };
 
+export type ContactInput = {
+  id: Scalars['ID'];
+  email?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+};
+
 export type AddressInput = {
   state: Scalars['String'];
   city: Scalars['String'];
@@ -211,6 +219,7 @@ export type Mutation = {
   updateUser?: Maybe<User>;
   createUser?: Maybe<Message>;
   forgotPassword?: Maybe<Message>;
+  contactMe?: Maybe<Message>;
   deleteDocument?: Maybe<Message>;
   addCategory?: Maybe<Category>;
   updateCategory?: Maybe<Category>;
@@ -241,6 +250,10 @@ export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
 
+export type MutationContactMeArgs = {
+  contact: ContactInput;
+};
+
 export type MutationDeleteDocumentArgs = {
   documentId: Scalars['String'];
 };
@@ -255,6 +268,20 @@ export type MutationUpdateCategoryArgs = {
 
 export type MutationDeleteCategoryArgs = {
   categoryId: Scalars['ID'];
+};
+
+export type LogoutQueryVariables = Exact<{[key: string]: never}>;
+
+export type LogoutQuery = {__typename?: 'Query'} & {
+  logout?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
+};
+
+export type ContactMeMutationVariables = Exact<{
+  contact: ContactInput;
+}>;
+
+export type ContactMeMutation = {__typename?: 'Mutation'} & {
+  contactMe?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
 export type AddCategoryMutationVariables = Exact<{
@@ -306,12 +333,6 @@ export type LoginQuery = {__typename?: 'Query'} & {
   login?: Maybe<{__typename?: 'Login'} & Pick<Login, 'accessToken' | 'refreshToken' | 'userRole'>>;
 };
 
-export type LogoutQueryVariables = Exact<{[key: string]: never}>;
-
-export type LogoutQuery = {__typename?: 'Query'} & {
-  logout?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
-};
-
 export type ProfileQueryVariables = Exact<{[key: string]: never}>;
 
 export type ProfileQuery = {__typename?: 'Query'} & {
@@ -322,6 +343,72 @@ export type ProfileQuery = {__typename?: 'Query'} & {
   >;
 };
 
+export const LogoutDocument = gql`
+  query Logout {
+    logout {
+      message
+    }
+  }
+`;
+
+/**
+ * __useLogoutQuery__
+ *
+ * To run a query within a React component, call `useLogoutQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLogoutQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLogoutQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutQuery(baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
+  return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
+}
+export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
+  return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
+}
+export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
+export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
+export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
+export const ContactMeDocument = gql`
+  mutation ContactMe($contact: ContactInput!) {
+    contactMe(contact: $contact) {
+      message
+    }
+  }
+`;
+export type ContactMeMutationFn = Apollo.MutationFunction<ContactMeMutation, ContactMeMutationVariables>;
+
+/**
+ * __useContactMeMutation__
+ *
+ * To run a mutation, you first call `useContactMeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useContactMeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [contactMeMutation, { data, loading, error }] = useContactMeMutation({
+ *   variables: {
+ *      contact: // value for 'contact'
+ *   },
+ * });
+ */
+export function useContactMeMutation(
+  baseOptions?: Apollo.MutationHookOptions<ContactMeMutation, ContactMeMutationVariables>
+) {
+  return Apollo.useMutation<ContactMeMutation, ContactMeMutationVariables>(ContactMeDocument, baseOptions);
+}
+export type ContactMeMutationHookResult = ReturnType<typeof useContactMeMutation>;
+export type ContactMeMutationResult = Apollo.MutationResult<ContactMeMutation>;
+export type ContactMeMutationOptions = Apollo.BaseMutationOptions<ContactMeMutation, ContactMeMutationVariables>;
 export const AddCategoryDocument = gql`
   mutation AddCategory($addCategoryInput: AddCategoryInput!) {
     addCategory(addCategoryInput: $addCategoryInput) {
@@ -485,38 +572,6 @@ export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Logi
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
 export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
-export const LogoutDocument = gql`
-  query Logout {
-    logout {
-      message
-    }
-  }
-`;
-
-/**
- * __useLogoutQuery__
- *
- * To run a query within a React component, call `useLogoutQuery` and pass it any options that fit your needs.
- * When your component renders, `useLogoutQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLogoutQuery({
- *   variables: {
- *   },
- * });
- */
-export function useLogoutQuery(baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
-  return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
-}
-export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
-  return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
-}
-export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
-export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
-export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
 export const ProfileDocument = gql`
   query Profile {
     profile {

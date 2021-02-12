@@ -1,5 +1,6 @@
-import React from 'react';
 import hydrate from 'next-mdx-remote/hydrate';
+import React from 'react';
+
 import {components} from './components';
 
 export interface Source {

@@ -1,11 +1,12 @@
+import {useSelect} from 'downshift';
 import {useRef} from 'react';
+import {Popup} from 'reactjs-popup';
+
+import SelectArrowsSvg from '../../statics/select-arrows.svg';
 // import CheckSvg from '../../statics/check.svg';
 import {clsx} from '../../util/clsx';
-import {useSelect} from 'downshift';
-import SelectArrowsSvg from '../../statics/select-arrows.svg';
-import {Popup} from 'reactjs-popup';
-import {FIELD_BORDER_CLASSES} from './shared';
 import {SelectOption} from './models/SelectOption';
+import {FIELD_BORDER_CLASSES} from './shared';
 
 interface SelectFieldProps {
   rootClasses?: string;

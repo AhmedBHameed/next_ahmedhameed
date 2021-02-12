@@ -1,7 +1,8 @@
 import React from 'react';
-import {LinkButton} from '../../Buttons';
-import WwwSvg from '../../../statics/www.svg';
+
 import ROUTES from '../../../config/Routes';
+import WwwSvg from '../../../statics/www.svg';
+import {LinkButton} from '../../Buttons';
 
 interface ToolbarProps {
   className?: string;

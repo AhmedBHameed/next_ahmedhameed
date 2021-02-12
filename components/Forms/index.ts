@@ -1,6 +1,7 @@
+import dynamic from 'next/dynamic';
+
 import Textarea from './Textarea';
 import TextField from './TextField';
-import dynamic from 'next/dynamic';
 
 const SelectField = dynamic(() => import('./SelectField'), {ssr: false});
 const MultiSelectField = dynamic(() => import('./MultiSelectField'), {ssr: false});

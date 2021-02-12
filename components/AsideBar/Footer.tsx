@@ -1,4 +1,5 @@
 import React from 'react';
+
 import MailIcon from '../../statics/email.svg';
 import GithubIcon from '../../statics/github-sign.svg';
 import HeartIcon from '../../statics/heart.svg';

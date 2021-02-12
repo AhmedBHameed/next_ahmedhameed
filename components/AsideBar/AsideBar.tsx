@@ -1,11 +1,12 @@
+import {gsap} from 'gsap';
+import CSSPlugin from 'gsap/dist/CSSRulePlugin';
+
+import {clsx} from '../../util/clsx';
 import DetectOutsideClick from '../DetectOutsideClick/DetectOutsideClick';
 import Brand from '../shared/Brand';
 import Burger from './Burger';
 import Footer from './Footer';
 import useMousePosition from './hooks/mousePosition';
-import {gsap} from 'gsap';
-import CSSPlugin from 'gsap/dist/CSSRulePlugin';
-import {clsx} from '../../util/clsx';
 
 // Force CSSPlugin to not get dropped during build
 gsap.registerPlugin(CSSPlugin);

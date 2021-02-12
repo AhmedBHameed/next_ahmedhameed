@@ -1,4 +1,5 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
+
 import environment from '../config/environment';
 
 const {domain} = environment;

@@ -1,23 +1,23 @@
 import {Power4, TweenLite} from 'gsap';
 import {NextPage} from 'next';
+import Head from 'next/head';
 import {useEffect, useRef} from 'react';
 
 import styled from '@emotion/styled';
 
-import {useNavigateToContactMe} from '../../../components/AboutMe/hooks/NavigateToContactMe';
-import {BaseButton} from '../../../components/Buttons';
-import ServiceCard from '../../../components/ServiceCard/ServiceCard';
-import Typography from '../../../components/Typography/Typography';
-import CodeSvg from '../../../statics/code.svg';
-import ConsultingSvg from '../../../statics/consulting.svg';
-import EmailSvg from '../../../statics/email.svg';
-import FlourishSvg from '../../../statics/flourish.svg';
-import AhmedSvg from '../../../statics/mysvg.svg';
-import OptimizationSvg from '../../../statics/optimization.svg';
-import PlanningSvg from '../../../statics/planning.svg';
-import Head from 'next/head';
-import AsideBar from '../../../components/AsideBar/AsideBar';
-import AhmedhammedNavigation from '../../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
+import {useNavigateToContactMe} from '../../components/AboutMe/hooks/NavigateToContactMe';
+import AhmedhammedNavigation from '../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
+import AsideBar from '../../components/AsideBar/AsideBar';
+import {BaseButton} from '../../components/Buttons';
+import ServiceCard from '../../components/ServiceCard/ServiceCard';
+import Typography from '../../components/Typography/Typography';
+import CodeSvg from '../../statics/code.svg';
+import ConsultingSvg from '../../statics/consulting.svg';
+import EmailSvg from '../../statics/email.svg';
+import FlourishSvg from '../../statics/flourish.svg';
+import AhmedSvg from '../../statics/mysvg.svg';
+import OptimizationSvg from '../../statics/optimization.svg';
+import PlanningSvg from '../../statics/planning.svg';
 
 const SvgContainer = styled.div({
   width: 300,
@@ -65,9 +65,8 @@ const AboutMe: NextPage = () => {
         </SvgContainer>
 
         <WhoAmIContainer ref={captionEl} className="text-primary absolute md:ml-20 lg:ml-16 top-1/2 left-1/2">
-          <h4 className="text-2xl sm:text-2xl md:text-3xl">Hi, my name is</h4>
+          <h4 className="text-2xl sm:text-2xl md:text-3xl text-center">Hi, my name is</h4>
           <h3 className="text-4xl sm:text-5xl md:text-5xl text-center whitespace-nowrap">Ahmed HAMEED</h3>
-          <h6 className="text-2xl sm:text-2xl md:text-3xl text-right">Founder of kakiee.at</h6>
         </WhoAmIContainer>
       </div>
 
@@ -78,16 +77,6 @@ const AboutMe: NextPage = () => {
             I'm a software engineer with experience in web development. Coding is my passion. I love training/coaching
             web technologies and dreaming about building codding school which working on slowly. Arabic food is my style
             and regarding to social status, (Searching for soulmate ...).
-          </p>
-        </Typography>
-
-        <Typography className="mb-16">
-          <h6 className="uppercase font-bold">About kakiee 🤔</h6>
-          <p className="md:text-lg text-secondary">
-            KAKIEE is a simple personal portfolio with a technical blog section for sharing knowledge and codes. As a
-            digital entrepreneur with years of experience, it is a pleasure to share what I’ve learned. Blogs can inform
-            and educate others on completing tasks in the best practice. The name “KAKIEE” comes from the “kaki fruit”,
-            which I love so much.
           </p>
         </Typography>
 

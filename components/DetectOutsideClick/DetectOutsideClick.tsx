@@ -1,4 +1,5 @@
 import {useRef} from 'react';
+
 import {useOutsideClick} from './hooks/OutsideClickHook';
 
 interface DetectOutsideClickProps {

@@ -1,6 +1,7 @@
 import {NextPage} from 'next';
 import {useRouter} from 'next/router';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
+
 import Onboarding from '../../components/Onboarding/Onboarding';
 import Typography from '../../components/Typography/Typography';
 import ROUTES from '../../config/Routes';

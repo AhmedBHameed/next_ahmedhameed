@@ -1,8 +1,8 @@
-import Image from '../../Image/Image';
-import {Cell, Row} from '../../Table/Table';
-import SimpleButton from '../../Buttons/SimpleButton';
 import {Category, CategoryStatus} from '../../../graphql/queries';
 import {clsx} from '../../../util/clsx';
+import SimpleButton from '../../Buttons/SimpleButton';
+import Image from '../../Image/Image';
+import {Cell, Row} from '../../Table/Table';
 
 interface CategoryRowProps {
   category?: Category;

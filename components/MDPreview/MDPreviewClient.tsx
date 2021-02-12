@@ -1,5 +1,6 @@
-import React from 'react';
 import Markdown from 'markdown-to-jsx';
+import React from 'react';
+
 import {components} from './components';
 
 const {Audio, code, h1, h2, pre} = components;

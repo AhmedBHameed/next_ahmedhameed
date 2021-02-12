@@ -1,13 +1,14 @@
 import '../styles/styles.css';
 
-import {ApolloProvider} from '@apollo/client';
 import {NextComponentType} from 'next';
 import {AppContext, AppInitialProps, AppProps} from 'next/app';
 import Head from 'next/head';
 
+import {ApolloProvider} from '@apollo/client';
 import {StylesProvider} from '@material-ui/core/styles';
-import {ThemeContextProvider} from '../components/ThemeSwitcher/ThemeContext';
+
 import Notification from '../components/Notification/Notification';
+import {ThemeContextProvider} from '../components/ThemeSwitcher/ThemeContext';
 import {useApollo} from '../util/apolloClient';
 
 const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({Component, pageProps}) => {

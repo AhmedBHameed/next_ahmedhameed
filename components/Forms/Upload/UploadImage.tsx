@@ -1,12 +1,13 @@
+import dynamic from 'next/dynamic';
 import React, {useCallback} from 'react';
+
+import environment from '../../../config/environment';
 import {clsx} from '../../../util/clsx';
 import Image from '../../Image/Image';
-
+import LoadingOverlay from '../../LoadingOverlay/LoadingOverlay';
 import useNotification from '../../Notification/Hooks/NotificationHook';
 import {useUploadFile} from './hooks/uploadFileHook';
-import environment from '../../../config/environment';
-import dynamic from 'next/dynamic';
-import LoadingOverlay from '../../LoadingOverlay/LoadingOverlay';
+
 const Dropzone = dynamic(() => import('react-dropzone'), {ssr: false});
 
 interface UploadImageProps {

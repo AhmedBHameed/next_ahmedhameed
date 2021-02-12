@@ -1,10 +1,11 @@
 import {NextPage} from 'next';
+import renderToString from 'next-mdx-remote/render-to-string';
+
 import AsideBar from '../../../components/AsideBar/AsideBar';
 import BlogNavigation from '../../../components/AsideBar/BlogNavigation/BlogNavigation';
-import {useDetectLanguage} from '../../../components/shared/hooks/useDetectLanguageHook';
-import renderToString from 'next-mdx-remote/render-to-string';
-import MDPreview, {Source, components} from '../../../components/MDPreview/MDPreview';
+import MDPreview, {components, Source} from '../../../components/MDPreview/MDPreview';
 import MetaTags from '../../../components/MetaTags/MetaTags';
+import {useDetectLanguage} from '../../../components/shared/hooks/useDetectLanguageHook';
 
 const Blog: NextPage<{source: Source}> = ({source}) => {
   const {dir} = useDetectLanguage();

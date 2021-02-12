@@ -3,19 +3,22 @@ import {NextPage} from 'next';
 import {useCallback, useContext, useEffect, useMemo, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import MapGL, {Marker} from 'react-map-gl';
-import AhmedhammedNavigation from '../../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
-import AsideBar from '../../../components/AsideBar/AsideBar';
+import {ulid} from 'ulid';
 
-import {BaseButton} from '../../../components/Buttons';
-import {FormControl, Textarea, TextField} from '../../../components/Forms';
-import InfoCard from '../../../components/InfoCard/InfoCard';
-import {ThemeContext} from '../../../components/ThemeSwitcher/ThemeContext';
-import environment from '../../../config/environment';
-import EmailSvg from '../../../statics/email.svg';
-import FlourishSvg from '../../../statics/flourish.svg';
-import LocationSvg from '../../../statics/location.svg';
-import PhoneSvg from '../../../statics/phone.svg';
-import {joiResolver} from '../../../util/joiResolver';
+import AhmedhammedNavigation from '../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
+import AsideBar from '../../components/AsideBar/AsideBar';
+import {BaseButton} from '../../components/Buttons';
+import {FormControl, Textarea, TextField} from '../../components/Forms';
+import InfoCard from '../../components/InfoCard/InfoCard';
+import useNotification from '../../components/Notification/Hooks/NotificationHook';
+import {ThemeContext} from '../../components/ThemeSwitcher/ThemeContext';
+import environment from '../../config/environment';
+import {ContactInput, useContactMeMutation} from '../../graphql/queries';
+import EmailSvg from '../../statics/email.svg';
+import FlourishSvg from '../../statics/flourish.svg';
+import LocationSvg from '../../statics/location.svg';
+import PhoneSvg from '../../statics/phone.svg';
+import {joiResolver} from '../../util/joiResolver';
 
 const viewport = {
   width: '100%',
@@ -25,16 +28,25 @@ const viewport = {
   zoom: 14,
 };
 
-interface ContactFormData {
-  email: string;
-  name: string;
-  subject: string;
-  message: string;
-}
-
 const ContactMe: NextPage = () => {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const {triggerNotification} = useNotification();
   const theme = useContext(ThemeContext);
+
+  const [addContact] = useContactMeMutation({
+    onCompleted: ({contactMe}) => {
+      triggerNotification({
+        type: 'success',
+        message: contactMe.message,
+      });
+    },
+    onError: () => {
+      triggerNotification({
+        type: 'error',
+        message: 'Oops! something went wrong, you can send direct email instead',
+      });
+    },
+  });
 
   const contactSchema = useMemo(
     () =>
@@ -49,10 +61,11 @@ const ContactMe: NextPage = () => {
     []
   );
 
-  const {formState, errors, register, handleSubmit} = useForm<ContactFormData>({
+  const {formState, errors, register, handleSubmit} = useForm<ContactInput>({
     resolver: joiResolver(contactSchema),
     mode: 'onChange',
     defaultValues: {
+      id: '',
       email: '',
       name: '',
       subject: '',
@@ -60,8 +73,19 @@ const ContactMe: NextPage = () => {
     },
   });
 
-  const submit = useCallback((formData: ContactFormData) => {
-    console.log(formData);
+  const submit = useCallback((formData: ContactInput) => {
+    try {
+      addContact({
+        variables: {
+          contact: {
+            ...formData,
+            id: ulid(),
+          },
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   useEffect(() => {

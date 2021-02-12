@@ -1,4 +1,5 @@
 import React from 'react';
+
 import CloseSvg from '../../statics/delete.svg';
 import {clsx} from '../../util/clsx';
 

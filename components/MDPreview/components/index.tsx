@@ -1,6 +1,6 @@
-import Codeblock from './Codeblock';
-import Audio from './Audio';
 import Typography from '../../Typography/Typography';
+import Audio from './Audio';
+import Codeblock from './Codeblock';
 
 export const components = {
   Audio,

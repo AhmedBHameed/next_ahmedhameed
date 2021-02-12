@@ -37,16 +37,16 @@ const ROUTES = {
   },
   // Ahmed Hameed
   ahmedhameed: {
-    path: '/ahmedhameed',
+    path: '/',
   },
   aboutMe: {
-    path: '/ahmedhameed/about-me',
+    path: '/about-me',
   },
   contactMe: {
-    path: '/ahmedhameed/contact-me',
+    path: '/contact-me',
   },
   hireMe: {
-    path: '/ahmedhameed/hire-me',
+    path: '/hire-me',
   },
 };
 

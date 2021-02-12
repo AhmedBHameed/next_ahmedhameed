@@ -1,9 +1,10 @@
-import {useRef, useState} from 'react';
-// import CheckSvg from '../../statics/check.svg';
-import {clsx} from '../../util/clsx';
 import {useCombobox, useMultipleSelection} from 'downshift';
+import {useRef, useState} from 'react';
 // import SelectArrowsSvg from '../../statics/select-arrows.svg';
 import {Popup} from 'reactjs-popup';
+
+// import CheckSvg from '../../statics/check.svg';
+import {clsx} from '../../util/clsx';
 import {FIELD_BORDER_CLASSES} from './shared';
 
 interface MultiSelectFieldProps {

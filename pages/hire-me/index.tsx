@@ -1,22 +1,22 @@
 import {Power4, TweenLite} from 'gsap';
+import {NextPage} from 'next';
+import Head from 'next/head';
 import React, {useEffect, useRef} from 'react';
 
 import styled from '@emotion/styled';
 
-import {useNavigateToContactMe} from '../../../components/AboutMe/hooks/NavigateToContactMe';
-import {BaseButton} from '../../../components/Buttons';
-import {useTranslation} from '../../../components/shared/hooks/useTranslate';
-import ServiceCard from '../../../components/ServiceCard/ServiceCard';
-import Typography from '../../../components/Typography/Typography';
-import ApiSvg from '../../../statics/api.svg';
-import DockerSvg from '../../../statics/docker.svg';
-import StructureSvg from '../../../statics/project_structure.svg';
-import QuoteSvg from '../../../statics/quote.svg';
-import mq from '../../../styles/breakpoints';
-import {NextPage} from 'next';
-import Head from 'next/head';
-import AhmedhammedNavigation from '../../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
-import AsideBar from '../../../components/AsideBar/AsideBar';
+import {useNavigateToContactMe} from '../../components/AboutMe/hooks/NavigateToContactMe';
+import AhmedhammedNavigation from '../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
+import AsideBar from '../../components/AsideBar/AsideBar';
+import {BaseButton} from '../../components/Buttons';
+import ServiceCard from '../../components/ServiceCard/ServiceCard';
+import {useTranslation} from '../../components/shared/hooks/useTranslate';
+import Typography from '../../components/Typography/Typography';
+import ApiSvg from '../../statics/api.svg';
+import DockerSvg from '../../statics/docker.svg';
+import StructureSvg from '../../statics/project_structure.svg';
+import QuoteSvg from '../../statics/quote.svg';
+import mq from '../../styles/breakpoints';
 
 const MainTitle = styled.h4({
   fontFamily: 'Fredericka the Great',

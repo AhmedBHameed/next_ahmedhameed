@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import {clsx} from '../../util/clsx';
 
 interface LinkButtonProps {

@@ -3,8 +3,9 @@ import {NextPage} from 'next';
 import Link from 'next/link';
 import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
+
 import {BaseButton} from '../../components/Buttons';
-import {TextField, FieldLabel, FormControl} from '../../components/Forms';
+import {FieldLabel, FormControl, TextField} from '../../components/Forms';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';
 import {joiResolver} from '../../util/joiResolver';

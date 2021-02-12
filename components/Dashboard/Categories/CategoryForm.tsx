@@ -1,5 +1,8 @@
 import {useCallback, useEffect} from 'react';
 import {Controller, useForm} from 'react-hook-form';
+import {ulid} from 'ulid';
+
+import environment from '../../../config/environment';
 import {
   CategoriesQuery,
   Category,
@@ -9,12 +12,10 @@ import {
   useUpdateCategoryMutation,
 } from '../../../graphql/queries';
 import {BaseButton} from '../../Buttons';
-import {FormControl, SelectOption, SelectField, TextField} from '../../Forms';
+import {FormControl, SelectField, SelectOption, TextField} from '../../Forms';
 import UploadImage from '../../Forms/Upload/UploadImage';
 import useNotification from '../../Notification/Hooks/NotificationHook';
-import {ulid} from 'ulid';
 import CATEGORIES_QUERY from './graphql/getCategories.graphql';
-import environment from '../../../config/environment';
 
 type CategoryFormData = Omit<UpdateCategoryInput, 'status'> & {status: SelectOption<CategoryStatus>};
 

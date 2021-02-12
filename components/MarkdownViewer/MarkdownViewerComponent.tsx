@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
-import remarkGtm from 'remark-gfm';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import remarkGtm from 'remark-gfm';
 
 const renderers = {
   code: ({language, value}) => {

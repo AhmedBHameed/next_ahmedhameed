@@ -1,7 +1,7 @@
+import {Category} from '../../../graphql/queries';
+import SimpleButton from '../../Buttons/SimpleButton';
 import Image from '../../Image/Image';
 import {Cell, Row} from '../../Table/Table';
-import SimpleButton from '../../Buttons/SimpleButton';
-import {Category} from '../../../graphql/queries';
 
 interface ArticleRowProps {
   category?: Category;

@@ -3,18 +3,18 @@ import {NextPage} from 'next';
 import Link from 'next/link';
 import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
+
+import {useNavigateToBlog} from '../../components/Blog/hooks/NavigateToBlogHook';
 import {BaseButton} from '../../components/Buttons';
-import {TextField, FieldLabel, FormControl} from '../../components/Forms';
+import {FieldLabel, FormControl, TextField} from '../../components/Forms';
 import {useNavigateToDashboard} from '../../components/Login/hooks/NavigateToDashboard';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';
-import {useLoginLazyQuery} from '../../graphql/queries';
+import {useLoginLazyQuery, useProfileLazyQuery, UserRoles} from '../../graphql/queries';
 import {isInvalidPassword} from '../../util/errorHandlers';
 import {joiResolver} from '../../util/joiResolver';
 import {PASSWORD_REGULAR_EXPRESSION} from '../../util/passwordRegularExpression';
-import {useProfileLazyQuery, UserRoles} from '../../graphql/queries';
-import {useNavigateToBlog} from '../../components/Blog/hooks/NavigateToBlogHook';
 
 interface LoginFormData {
   email: string;

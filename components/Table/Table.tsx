@@ -1,9 +1,10 @@
 import React from 'react';
+
 import {clsx} from '../../util/clsx';
-import HeaderCells from './HeaderCells';
-import TableHeader from './TableHeader';
 import Cell from './Cell';
+import HeaderCells from './HeaderCells';
 import Row from './Row';
+import TableHeader from './TableHeader';
 
 interface TableProps {
   className?: string;
