@@ -21,7 +21,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({articleUrl, title, imageUrl, descrip
       <meta property="og:url" content={articleUrl} />
       <meta property="og:image" content={imageUrl} />
       <meta property="og:description" content={description} />
-      <meta name="twitter:card" content={title.replace(' ', '_')} />
+      <meta name="twitter:card" content="summary_large_image" />
 
       {/* Non-Essential, But Recommended */}
 
