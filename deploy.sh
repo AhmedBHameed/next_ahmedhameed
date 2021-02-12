@@ -6,7 +6,3 @@ echo "Shutdown docker container ...\n"
 } || {
     echo "Rebuild docker container  ...\n" && sudo docker-compose -f docker-compose.yml build && sudo docker-compose -f docker-compose.yml up -d
 }
-
-
-/usr/local/bin/docker-compose
-/usr/bin/docker
