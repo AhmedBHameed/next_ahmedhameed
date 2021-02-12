@@ -1,10 +1,5 @@
 FROM node:12.18.3-slim
 
-USER root
-ADD ./sudoers.txt /etc/sudoers
-RUN chmod 440 /etc/sudoers
-USER nodeys
-
 ENV PORT 3000
 
 # Create app directory
@@ -22,7 +17,5 @@ COPY ./ .
 RUN yarn build
 EXPOSE 3000
 
-
-FROM strider/strider-docker-slave
 # Running the app
 # CMD "npm" "run" "dev"
