@@ -6,7 +6,7 @@ interface MetaTagsProps {
   description: string;
   imageUrl: string;
   articleUrl: string;
-  articleId?: string;
+  articleId: string;
   articleBy: string;
 }
 
@@ -51,7 +51,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
 
       {/* Non-Essential, But Required for Analytics */}
 
-      {articleId && <meta property="fb:app_id" content={articleId} />}
+      <meta property="fb:app_id" content={articleId} />
       {/* <meta name="twitter:site" content={articleBy} /> */}
       {children}
     </Head>
