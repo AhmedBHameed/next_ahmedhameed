@@ -36,11 +36,8 @@ const ROUTES = {
     path: '/dashboard/media',
   },
   // Ahmed Hameed
-  ahmedhameed: {
-    path: '/',
-  },
   aboutMe: {
-    path: '/about-me',
+    path: '/',
   },
   contactMe: {
     path: '/contact-me',
