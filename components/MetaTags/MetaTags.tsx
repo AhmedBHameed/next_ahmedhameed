@@ -6,11 +6,19 @@ interface MetaTagsProps {
   description: string;
   imageUrl: string;
   articleUrl: string;
-  articleId: string;
+  articleId?: string;
   articleBy: string;
 }
 
-const MetaTags: React.FC<MetaTagsProps> = ({articleUrl, title, imageUrl, description, articleId, articleBy}) => {
+const MetaTags: React.FC<MetaTagsProps> = ({
+  articleUrl,
+  title,
+  imageUrl,
+  description,
+  articleId,
+  articleBy,
+  children,
+}) => {
   return (
     <Head>
       <title>{title}</title>
@@ -43,8 +51,9 @@ const MetaTags: React.FC<MetaTagsProps> = ({articleUrl, title, imageUrl, descrip
 
       {/* Non-Essential, But Required for Analytics */}
 
-      <meta property="fb:app_id" content={articleId} />
+      {articleId && <meta property="fb:app_id" content={articleId} />}
       {/* <meta name="twitter:site" content={articleBy} /> */}
+      {children}
     </Head>
   );
 };

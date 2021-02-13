@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import {useMemo} from 'react';
+import {PASSWORD_REGULAR_EXPRESSION} from '../../../util/passwordRegularExpression';
 
 import {useTranslation} from './useTranslate';
 
@@ -20,6 +21,13 @@ export const useValidations = () => {
         .required()
         .messages({
           'string.empty': t('common.required'),
+        }),
+      requiredPassword: Joi.string()
+        .pattern(PASSWORD_REGULAR_EXPRESSION)
+        .required()
+        .messages({
+          'string.empty': t('common.required'),
+          'string.pattern.base': t('validationErrors.invalidPassword'),
         }),
     }),
     [t]

@@ -1,6 +1,5 @@
 import {Power4, TweenLite} from 'gsap';
 import {NextPage} from 'next';
-import Head from 'next/head';
 import {useEffect, useRef} from 'react';
 
 import styled from '@emotion/styled';
@@ -18,6 +17,7 @@ import FlourishSvg from '../statics/flourish.svg';
 import AhmedSvg from '../statics/mysvg.svg';
 import OptimizationSvg from '../statics/optimization.svg';
 import PlanningSvg from '../statics/planning.svg';
+import MetaTags from '../components/MetaTags/MetaTags';
 
 const SvgContainer = styled.div({
   width: 300,
@@ -54,10 +54,18 @@ const AboutMe: NextPage = () => {
 
   return (
     <AsideBar asideNavigationComponent={<AhmedhammedNavigation />}>
-      <Head>
+      <MetaTags
+        articleUrl="https://www.ahmedhameed.dev"
+        title="Hi my name is Ahmed HAMEED"
+        imageUrl="/images/ahmedhameed.png"
+        description="I'm a software engineer with experience in web development. Coding is my passion. I love training/coaching
+        web technologies and dreaming about building codding school which working on slowly. Arabic food is my style
+        and regarding to social status, (Searching for soulmate ...)."
+        articleBy="Ahmed HAMEED"
+      >
         <title>About Ahmed HAMEED</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" />
-      </Head>
+      </MetaTags>
       <div className="relative bg-secondary">
         <FlourishSvg className="text-secondary opacity-20 absolute top-2 left-2 w-40 h-40 md:w-52 md:h-52 lg:w-96 lg:h-96" />
         <FlourishSvg className="text-secondary opacity-20 transform rotate-180 absolute bottom-2 right-2 w-40 h-40 md:w-52 md:h-52 lg:w-96 lg:h-96" />

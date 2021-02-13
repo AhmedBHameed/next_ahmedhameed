@@ -3,7 +3,16 @@
     "required": "This field is required"
   },
   "validationErrors": {
-    "invalidEmail": "Email is invalid"
+    "invalidEmail": "Email is invalid",
+    "invalidPassword": "Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space"
+  },
+  "signup": {
+    "success": {
+      "userRegistered": "Thank you! we will send you an email to activate your account."
+    },
+    "error": {
+      "userNotRegistered": "Oops! something went wrong!"
+    }
   },
   "brand": {
     "name": "Ahmed HAMEED"
