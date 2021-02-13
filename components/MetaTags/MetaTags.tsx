@@ -10,7 +10,15 @@ interface MetaTagsProps {
   articleBy: string;
 }
 
-const MetaTags: React.FC<MetaTagsProps> = ({articleUrl, title, imageUrl, description, articleId, articleBy}) => {
+const MetaTags: React.FC<MetaTagsProps> = ({
+  articleUrl,
+  title,
+  imageUrl,
+  description,
+  articleId,
+  articleBy,
+  children,
+}) => {
   return (
     <Head>
       <title>{title}</title>
@@ -45,6 +53,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({articleUrl, title, imageUrl, descrip
 
       <meta property="fb:app_id" content={articleId} />
       {/* <meta name="twitter:site" content={articleBy} /> */}
+      {children}
     </Head>
   );
 };

@@ -7,7 +7,7 @@ import {useForm} from 'react-hook-form';
 import {useNavigateToBlog} from '../../components/Blog/hooks/NavigateToBlogHook';
 import {BaseButton} from '../../components/Buttons';
 import {FieldLabel, FormControl, TextField} from '../../components/Forms';
-import {useNavigateToDashboard} from '../../components/Login/hooks/NavigateToDashboard';
+import {useNavigateToDashboard} from '../../components/Onboarding/Login/hooks/NavigateToDashboard';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';

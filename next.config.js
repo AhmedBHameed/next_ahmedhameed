@@ -2,9 +2,9 @@ module.exports = {
   publicRuntimeConfig: {
     mapboxApiAccessToken:
       'pk.eyJ1IjoiYWhtZWRiaGFtZWVkIiwiYSI6ImNrNmNpd3M3ZzExZXMza21neGoxNHJoeDcifQ.07EbC691qPVJ86uLhJyfWA',
-    domain: `${process.env.NODE_ENV === 'production' ? 'https://www.ahmedhameed.dev' : 'http://localhost:5000'}/nodeys`,
-    graphqlApi: '/v1/graphql',
-    uploadApi: '/api/upload',
+    domain: `${process.env.NODE_ENV === 'production' ? 'https://www.ahmedhameed.dev' : 'http://localhost:5000'}`,
+    graphqlApi: '/nodeys/v1/graphql',
+    uploadApi: '/nodeys/api/upload',
     localeSubpaths: typeof process.env.LOCALE_SUBPATHS === 'string' ? process.env.LOCALE_SUBPATHS : 'none',
   },
   i18n: {
