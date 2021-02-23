@@ -28,7 +28,7 @@ const SignUp: NextPage = () => {
     },
     onError: () => {
       triggerNotification({
-        type: 'success',
+        type: 'error',
         message: t('signup.error.userNotRegistered'),
       });
     },

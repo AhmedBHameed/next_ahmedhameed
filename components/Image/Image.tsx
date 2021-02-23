@@ -40,7 +40,7 @@ const Image: React.FC<ImageProps> = ({src, className, alt, height, width}) => {
     }
   }, [wSize, width]);
 
-  const baseUrl = `${environment.domain}/image?url=${src}`;
+  const baseUrl = `${environment.domain}/nodeys/image?url=${src}`;
 
   return imgUrl ? (
     <img

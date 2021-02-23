@@ -157,22 +157,13 @@ export enum CategoryStatus {
   Inactive = 'INACTIVE',
 }
 
-export type AddCategoryInput = {
+export type CategoryInput = {
   id: Scalars['ID'];
   imgSrc: Scalars['String'];
   name: Scalars['String'];
   enDescription: Scalars['String'];
   arDescription: Scalars['String'];
   status: CategoryStatus;
-};
-
-export type UpdateCategoryInput = {
-  id: Scalars['ID'];
-  imgSrc?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  enDescription?: Maybe<Scalars['String']>;
-  arDescription?: Maybe<Scalars['String']>;
-  status?: Maybe<CategoryStatus>;
 };
 
 export type Category = {
@@ -187,6 +178,40 @@ export type Category = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export enum PostStatus {
+  Published = 'PUBLISHED',
+  Draft = 'DRAFT',
+  Course = 'COURSE',
+}
+
+export type PostInput = {
+  id: Scalars['ID'];
+  banner?: Maybe<Scalars['String']>;
+  postCategoryIds?: Maybe<Array<Maybe<Scalars['String']>>>;
+  arTitle: Scalars['String'];
+  arBody?: Maybe<Scalars['String']>;
+  enTitle: Scalars['String'];
+  enBody?: Maybe<Scalars['String']>;
+  status: PostStatus;
+};
+
+export type Post = {
+  __typename?: 'Post';
+  id?: Maybe<Scalars['ID']>;
+  banner?: Maybe<Scalars['String']>;
+  status?: Maybe<PostStatus>;
+  postCategoryIds?: Maybe<Array<Maybe<Scalars['String']>>>;
+  postCategoryTags?: Maybe<Array<Maybe<Category>>>;
+  arTitle?: Maybe<Scalars['String']>;
+  arBody?: Maybe<Scalars['String']>;
+  arReadingTime?: Maybe<Scalars['String']>;
+  enTitle?: Maybe<Scalars['String']>;
+  enBody?: Maybe<Scalars['String']>;
+  enReadingTime?: Maybe<Scalars['String']>;
+  authorId?: Maybe<Scalars['String']>;
+  author?: Maybe<User>;
+};
+
 export type Query = {
   __typename?: 'Query';
   profile?: Maybe<User>;
@@ -197,6 +222,7 @@ export type Query = {
   logout?: Maybe<Message>;
   documents?: Maybe<Array<Maybe<Document>>>;
   categories?: Maybe<Array<Maybe<Category>>>;
+  posts?: Maybe<Array<Maybe<Post>>>;
 };
 
 export type QueryUserArgs = {
@@ -221,9 +247,11 @@ export type Mutation = {
   forgotPassword?: Maybe<Message>;
   contactMe?: Maybe<Message>;
   deleteDocument?: Maybe<Message>;
-  addCategory?: Maybe<Category>;
+  createCategory?: Maybe<Category>;
   updateCategory?: Maybe<Category>;
   deleteCategory?: Maybe<Message>;
+  createPost?: Maybe<Post>;
+  updatePost?: Maybe<Post>;
 };
 
 export type MutationVerifyUserArgs = {
@@ -258,16 +286,24 @@ export type MutationDeleteDocumentArgs = {
   documentId: Scalars['String'];
 };
 
-export type MutationAddCategoryArgs = {
-  addCategoryInput: AddCategoryInput;
+export type MutationCreateCategoryArgs = {
+  categoryData: CategoryInput;
 };
 
 export type MutationUpdateCategoryArgs = {
-  updateCategoryInput: UpdateCategoryInput;
+  categoryData: CategoryInput;
 };
 
 export type MutationDeleteCategoryArgs = {
   categoryId: Scalars['ID'];
+};
+
+export type MutationCreatePostArgs = {
+  post: PostInput;
+};
+
+export type MutationUpdatePostArgs = {
+  post: PostInput;
 };
 
 export type LogoutQueryVariables = Exact<{[key: string]: never}>;
@@ -284,17 +320,12 @@ export type ContactMeMutation = {__typename?: 'Mutation'} & {
   contactMe?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
-export type AddCategoryMutationVariables = Exact<{
-  addCategoryInput: AddCategoryInput;
+export type CreateCategoryMutationVariables = Exact<{
+  categoryData: CategoryInput;
 }>;
 
-export type AddCategoryMutation = {__typename?: 'Mutation'} & {
-  addCategory?: Maybe<
-    {__typename?: 'Category'} & Pick<
-      Category,
-      'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
-    >
-  >;
+export type CreateCategoryMutation = {__typename?: 'Mutation'} & {
+  createCategory?: Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>;
 };
 
 export type CategoriesQueryVariables = Exact<{[key: string]: never}>;
@@ -313,16 +344,11 @@ export type CategoriesQuery = {__typename?: 'Query'} & {
 };
 
 export type UpdateCategoryMutationVariables = Exact<{
-  updateCategoryInput: UpdateCategoryInput;
+  categoryData: CategoryInput;
 }>;
 
 export type UpdateCategoryMutation = {__typename?: 'Mutation'} & {
-  updateCategory?: Maybe<
-    {__typename?: 'Category'} & Pick<
-      Category,
-      'id' | 'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
-    >
-  >;
+  updateCategory?: Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>;
 };
 
 export type LoginQueryVariables = Exact<{
@@ -341,6 +367,43 @@ export type SignupMutation = {__typename?: 'Mutation'} & {
   signup?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
+export type CategoryFragmentFragment = {__typename?: 'Category'} & Pick<
+  Category,
+  'id' | 'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
+>;
+
+export type CreatePostMutationVariables = Exact<{
+  post: PostInput;
+}>;
+
+export type CreatePostMutation = {__typename?: 'Mutation'} & {
+  createPost?: Maybe<{__typename?: 'Post'} & PostFragmentFragment>;
+};
+
+export type PostFragmentFragment = {__typename?: 'Post'} & Pick<
+  Post,
+  | 'id'
+  | 'banner'
+  | 'status'
+  | 'postCategoryIds'
+  | 'arTitle'
+  | 'arBody'
+  | 'arReadingTime'
+  | 'enTitle'
+  | 'enBody'
+  | 'enReadingTime'
+  | 'authorId'
+> & {
+    postCategoryTags?: Maybe<Array<Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>>>;
+    author?: Maybe<{__typename?: 'User'} & UserFragmentFragment>;
+  };
+
+export type PostsQueryVariables = Exact<{[key: string]: never}>;
+
+export type PostsQuery = {__typename?: 'Query'} & {
+  posts?: Maybe<Array<Maybe<{__typename?: 'Post'} & PostFragmentFragment>>>;
+};
+
 export type ProfileQueryVariables = Exact<{[key: string]: never}>;
 
 export type ProfileQuery = {__typename?: 'Query'} & {
@@ -351,6 +414,69 @@ export type ProfileQuery = {__typename?: 'Query'} & {
   >;
 };
 
+export type UpdatePostMutationVariables = Exact<{
+  post: PostInput;
+}>;
+
+export type UpdatePostMutation = {__typename?: 'Mutation'} & {
+  updatePost?: Maybe<{__typename?: 'Post'} & PostFragmentFragment>;
+};
+
+export type UserFragmentFragment = {__typename?: 'User'} & Pick<
+  User,
+  'id' | 'email' | 'status' | 'verificationId' | 'gender' | 'avatar' | 'role'
+> & {name?: Maybe<{__typename?: 'Username'} & Pick<Username, 'first' | 'last'>>};
+
+export const CategoryFragmentFragmentDoc = gql`
+  fragment CategoryFragment on Category {
+    id
+    imgSrc
+    name
+    enDescription
+    arDescription
+    status
+    createdAt
+    updatedAt
+  }
+`;
+export const UserFragmentFragmentDoc = gql`
+  fragment UserFragment on User {
+    id
+    name {
+      first
+      last
+    }
+    email
+    status
+    verificationId
+    gender
+    avatar
+    role
+  }
+`;
+export const PostFragmentFragmentDoc = gql`
+  fragment PostFragment on Post {
+    id
+    banner
+    status
+    postCategoryIds
+    postCategoryTags {
+      ...CategoryFragment
+    }
+    arTitle
+    arBody
+    arReadingTime
+    enTitle
+    enBody
+    enReadingTime
+    authorId
+    author {
+      ...UserFragment
+    }
+  }
+  ${CategoryFragmentFragmentDoc}
+  ${UserFragmentFragmentDoc}
+`;
 export const LogoutDocument = gql`
   query Logout {
     logout {
@@ -417,46 +543,47 @@ export function useContactMeMutation(
 export type ContactMeMutationHookResult = ReturnType<typeof useContactMeMutation>;
 export type ContactMeMutationResult = Apollo.MutationResult<ContactMeMutation>;
 export type ContactMeMutationOptions = Apollo.BaseMutationOptions<ContactMeMutation, ContactMeMutationVariables>;
-export const AddCategoryDocument = gql`
-  mutation AddCategory($addCategoryInput: AddCategoryInput!) {
-    addCategory(addCategoryInput: $addCategoryInput) {
-      imgSrc
-      name
-      enDescription
-      arDescription
-      status
-      createdAt
-      updatedAt
+export const CreateCategoryDocument = gql`
+  mutation CreateCategory($categoryData: CategoryInput!) {
+    createCategory(categoryData: $categoryData) {
+      ...CategoryFragment
     }
   }
+  ${CategoryFragmentFragmentDoc}
 `;
-export type AddCategoryMutationFn = Apollo.MutationFunction<AddCategoryMutation, AddCategoryMutationVariables>;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
 
 /**
- * __useAddCategoryMutation__
+ * __useCreateCategoryMutation__
  *
- * To run a mutation, you first call `useAddCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddCategoryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addCategoryMutation, { data, loading, error }] = useAddCategoryMutation({
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
  *   variables: {
- *      addCategoryInput: // value for 'addCategoryInput'
+ *      categoryData: // value for 'categoryData'
  *   },
  * });
  */
-export function useAddCategoryMutation(
-  baseOptions?: Apollo.MutationHookOptions<AddCategoryMutation, AddCategoryMutationVariables>
+export function useCreateCategoryMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>
 ) {
-  return Apollo.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(AddCategoryDocument, baseOptions);
+  return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(
+    CreateCategoryDocument,
+    baseOptions
+  );
 }
-export type AddCategoryMutationHookResult = ReturnType<typeof useAddCategoryMutation>;
-export type AddCategoryMutationResult = Apollo.MutationResult<AddCategoryMutation>;
-export type AddCategoryMutationOptions = Apollo.BaseMutationOptions<AddCategoryMutation, AddCategoryMutationVariables>;
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<
+  CreateCategoryMutation,
+  CreateCategoryMutationVariables
+>;
 export const CategoriesDocument = gql`
   query Categories {
     categories {
@@ -499,18 +626,12 @@ export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const UpdateCategoryDocument = gql`
-  mutation UpdateCategory($updateCategoryInput: UpdateCategoryInput!) {
-    updateCategory(updateCategoryInput: $updateCategoryInput) {
-      id
-      imgSrc
-      name
-      enDescription
-      arDescription
-      status
-      createdAt
-      updatedAt
+  mutation UpdateCategory($categoryData: CategoryInput!) {
+    updateCategory(categoryData: $categoryData) {
+      ...CategoryFragment
     }
   }
+  ${CategoryFragmentFragmentDoc}
 `;
 export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
 
@@ -527,7 +648,7 @@ export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMut
  * @example
  * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
  *   variables: {
- *      updateCategoryInput: // value for 'updateCategoryInput'
+ *      categoryData: // value for 'categoryData'
  *   },
  * });
  */
@@ -612,6 +733,74 @@ export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<Signu
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export const CreatePostDocument = gql`
+  mutation CreatePost($post: PostInput!) {
+    createPost(post: $post) {
+      ...PostFragment
+    }
+  }
+  ${PostFragmentFragmentDoc}
+`;
+export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, CreatePostMutationVariables>;
+
+/**
+ * __useCreatePostMutation__
+ *
+ * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
+ *   variables: {
+ *      post: // value for 'post'
+ *   },
+ * });
+ */
+export function useCreatePostMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>
+) {
+  return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument, baseOptions);
+}
+export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
+export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
+export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const PostsDocument = gql`
+  query Posts {
+    posts {
+      ...PostFragment
+    }
+  }
+  ${PostFragmentFragmentDoc}
+`;
+
+/**
+ * __usePostsQuery__
+ *
+ * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
+  return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, baseOptions);
+}
+export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
+  return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, baseOptions);
+}
+export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
+export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
+export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
 export const ProfileDocument = gql`
   query Profile {
     profile {
@@ -654,3 +843,38 @@ export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pr
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export const UpdatePostDocument = gql`
+  mutation UpdatePost($post: PostInput!) {
+    updatePost(post: $post) {
+      ...PostFragment
+    }
+  }
+  ${PostFragmentFragmentDoc}
+`;
+export type UpdatePostMutationFn = Apollo.MutationFunction<UpdatePostMutation, UpdatePostMutationVariables>;
+
+/**
+ * __useUpdatePostMutation__
+ *
+ * To run a mutation, you first call `useUpdatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePostMutation, { data, loading, error }] = useUpdatePostMutation({
+ *   variables: {
+ *      post: // value for 'post'
+ *   },
+ * });
+ */
+export function useUpdatePostMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdatePostMutation, UpdatePostMutationVariables>
+) {
+  return Apollo.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument, baseOptions);
+}
+export type UpdatePostMutationHookResult = ReturnType<typeof useUpdatePostMutation>;
+export type UpdatePostMutationResult = Apollo.MutationResult<UpdatePostMutation>;
+export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<UpdatePostMutation, UpdatePostMutationVariables>;

@@ -37,13 +37,13 @@ const MetaTags: React.FC<MetaTagsProps> = ({
       <meta property="og:site_name" content={title} />
       <meta property="og:title" content={title} />
       <meta name="twitter:title" content={title} />
-      <meta property="og:image" content={imageUrl} />
+      <meta name="image" property="og:image" content={imageUrl} />
       <meta name="twitter:image:src" content={imageUrl} />
       <meta property="og:description" content={description} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:creator" content={articleBy} />
       <meta name="twitter:site" content="www.ahmedhameed.dev" />
-
+      <meta name="author" content="Ahmed HAMEED"></meta>
       {/* Non-Essential, But Recommended */}
 
       {/* <meta property="og:site_name" content="www.ahmedhameed.dev" />

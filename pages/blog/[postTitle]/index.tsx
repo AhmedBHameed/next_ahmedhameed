@@ -14,7 +14,7 @@ const Blog: NextPage<{source: Source}> = ({source}) => {
 
   return (
     <AsideBar asideNavigationComponent={<BlogNavigation />} dir={dir}>
-      <article itemScope itemType="abc" className="relative py-10 bg-primary overflow-hidden font-kufiRegular">
+      <article itemScope itemType="article" className="relative py-10 bg-primary overflow-hidden font-kufiRegular">
         <MetaTags
           title="Testing social media cards"
           description="This description must be revealed in social media platforms"
