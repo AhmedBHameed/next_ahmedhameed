@@ -23,6 +23,8 @@ const POST_FRAGMENT = gql`
     author {
       ...UserFragment
     }
+    createdAt
+    updatedAt
   }
 `;
 

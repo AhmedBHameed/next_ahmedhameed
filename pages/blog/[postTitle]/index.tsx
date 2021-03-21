@@ -3,14 +3,15 @@ import renderToString from 'next-mdx-remote/render-to-string';
 
 import AsideBar from '../../../components/AsideBar/AsideBar';
 import BlogNavigation from '../../../components/AsideBar/BlogNavigation/BlogNavigation';
+import FIND_POST_BY_TITLE_QUERY from '../../../components/Blog/graphql/findPostByTitle.graphql';
 import MDPreview, {components, Source} from '../../../components/MDPreview/MDPreview';
 import MetaTags from '../../../components/MetaTags/MetaTags';
 import {useDetectLanguage} from '../../../components/shared/hooks/useDetectLanguageHook';
+import {FindPostByTitleQuery, QueryFindPostByTitleArgs} from '../../../graphql/queries';
+import {getStandaloneApolloClient} from '../../../util/apolloClient';
 
-const Blog: NextPage<{source: Source}> = ({source}) => {
+const Blog: NextPage<{source: Source; title: string}> = ({source, title}) => {
   const {dir} = useDetectLanguage();
-  // const router = useRouter();
-  // console.log('🚀 ~ file: index.tsx ~ line 7 ~ router', router.query);
 
   return (
     <AsideBar asideNavigationComponent={<BlogNavigation />} dir={dir}>
@@ -31,7 +32,7 @@ const Blog: NextPage<{source: Source}> = ({source}) => {
                 Introducing
               </span> */}
               <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-subject sm:text-4xl">
-                تعلم الجافاسكربت من الصفر
+                {title}
               </span>
             </h1>
             {/* <p className="mt-8 text-xl text-gray-500 leading-8">خلينا نجرب الفونت الجديد ونشوق شلون يطلع شكلة</p> */}
@@ -45,83 +46,35 @@ const Blog: NextPage<{source: Source}> = ({source}) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   return {
-//     paths: [
-//       // String variant:
-//       '/blog/unknown',
-//       // Object variant:
-//       {params: {postTitle: 'unknown'}},
-//     ],
-//     fallback: true,
-//   };
-// }
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const apolloClient = initializeApollo();
-
-//   const data = await apolloClient.query({
-//     query: PROFILE_QUERY,
-//   });
-//   console.log('🚀 ~ file: BlogNavbar.tsx ~ line 68 ~ constgetStaticProps:GetStaticProps= ~ data', data);
-
-//   // const {data} = useProfileQuery({ssr: true});
-
-//   return addApolloState(apolloClient, {
-//     props: {profile: 123},
-//     revalidate: 1,
-//   });
-// };
-
-export async function getServerSideProps() {
-  // MDX text - can be from a local file, database, anywhere
-  let source = `
-  # شلونة الحجي
-  A paragraph with *emphasis* and **strong importance**.
-
-  ## كس اختك
-  > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-  
-  \`\`\`jsx
-  function test() {
-    console.log('This is jsx sample');
-  }
-  \`\`\`
-  
-  \`\`\`css
-  .test {
-    color: red;
-  }
-  \`\`\`
-  * Lists
-  * [ ] todo
-  * [x] done
-  
-  A table:
-  
-  | a | b |
-  | - | - |
-
-  <Audio src="http://localhost:5000/media/shlon_alhaji.mp3" />
-
-  ![image](https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3)
-  `;
+export async function getServerSideProps(props) {
+  const isArabicPage = props.locale === 'ar';
+  const apolloClient = await getStandaloneApolloClient();
 
   let mdxSource;
 
-  setTimeout(() => {
-    source += `
-    
-      <Audio src="http://localhost:5000/media/shlon_alhaji.mp3" />
-    `;
-  }, 5000);
-
   try {
-    mdxSource = await renderToString(source, {components});
+    const {data} = await apolloClient.query<FindPostByTitleQuery, QueryFindPostByTitleArgs>({
+      query: FIND_POST_BY_TITLE_QUERY,
+      fetchPolicy: 'network-only',
+      variables: {
+        title: props.query.postTitle,
+      },
+    });
+
+    mdxSource = await renderToString(isArabicPage ? data.findPostByTitle.arBody : data.findPostByTitle.enBody, {
+      components,
+    });
+    return {
+      props: {source: mdxSource, title: isArabicPage ? data.findPostByTitle.arTitle : data.findPostByTitle.enTitle},
+    };
   } catch (error) {
+    console.log('🚀 ~ file: index.tsx ~ line 71 ~ getServerSideProps ~ error', error);
     mdxSource = await renderToString('Markdown syntex error!', {components});
   }
-  return {props: {source: mdxSource}};
+
+  return {
+    props: {source: mdxSource, title: 'Oops! something went wrong'},
+  };
 }
 
 export default Blog;

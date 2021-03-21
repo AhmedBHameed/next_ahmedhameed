@@ -14,6 +14,7 @@ import {
 } from '../../../graphql/queries';
 import {joiResolver} from '../../../util/joiResolver';
 import {BaseButton} from '../../Buttons';
+import {useUnauthenticated} from '../../Errors/hooks/unauthenticatedHook';
 import {FieldLabel, FormControl, MultiSelectField, SelectField, SelectOption, Textarea, TextField} from '../../Forms';
 import UploadImage from '../../Forms/Upload/UploadImage';
 import LoadingOverlay from '../../LoadingOverlay/LoadingOverlay';
@@ -42,6 +43,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) =>
   const isEditMode = !!post;
 
   const [isArabicPost, setIsArabicPost] = useState(true);
+  const {isAuthenticated} = useUnauthenticated();
 
   const [createPost, createPostQuery] = useCreatePostMutation({
     update: (cache, newCategoryResult) => {
@@ -96,38 +98,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) =>
     defaultValues: {
       id: post?.id || '',
       arTitle: post?.arTitle || '',
-      arBody:
-        post?.arBody ||
-        `
-      # شلونة الحجي
-      A paragraph with *emphasis* and **strong importance**.
-      
-      > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-      
-      \`\`\`jsx
-      function test() {
-        console.log('This is jsx sample');
-      }
-  \`\`\`
-  
-  \`\`\`css
-  .test {
-    color: red;
-  }
-  \`\`\`
-  * Lists
-  * [ ] todo
-  * [x] done
-  
-  A table:
-  
-  | a | b |
-  | - | - |
-  
-  <Audio src="http://localhost:5000/nodeys/media/shlon_alhaji.mp3" />
-  
-  ![image](https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3)
-  `,
+      arBody: post?.arBody || '',
       enTitle: post?.enTitle || '',
       enBody: post?.enBody || '',
       banner: post?.banner || '',
@@ -137,7 +108,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) =>
       },
       postCategoryNames:
         categories
-          .filter(category => (post?.postCategoryIds.includes(category.id) ? category : null))
+          ?.filter(category => (post?.postCategoryIds.includes(category.id) ? category : null))
           .map(cat => cat.name) || [],
     },
   });
@@ -151,15 +122,17 @@ const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) =>
         enTitle: postData.enTitle,
         enBody: postData.enBody,
         banner: postData.banner,
-        postCategoryIds: categories
-          .filter(category => (postData.postCategoryNames.includes(category.name) ? category : null))
-          .map(cat => cat.id),
+        postCategoryIds:
+          categories
+            ?.filter(category => (postData.postCategoryNames.includes(category.name) ? category : null))
+            .map(cat => cat.id) || [],
         status: postData.status?.value as PostStatus,
       };
 
+      console.log('🚀 ~ file: ArticleForm.tsx ~ line 131 ~ postData.status?.value', postData.status?.value);
       if (isEditMode) {
         try {
-          updatePost({
+          await updatePost({
             variables: {
               post: {
                 ...data,
@@ -176,10 +149,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) =>
             type: 'error',
             message: 'Oops! something went wrong with adding category',
           });
+          isAuthenticated(error);
         }
       } else {
         try {
-          createPost({
+          await createPost({
             variables: {
               post: {
                 ...data,
@@ -197,10 +171,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) =>
             type: 'error',
             message: 'Oops! something went wrong with adding category',
           });
+          isAuthenticated(error);
         }
       }
     },
-    [isEditMode, categories, onClose, triggerNotification]
+    [isEditMode, categories, isAuthenticated, onClose, triggerNotification]
   );
 
   useEffect(() => {

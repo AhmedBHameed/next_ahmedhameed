@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 import POST_FRAGMENT from './postFragment.graphql';
 
-const POST_QUERY = gql`
+const POSTS_QUERY = gql`
   ${POST_FRAGMENT}
   query Posts {
     posts {
@@ -10,4 +10,4 @@ const POST_QUERY = gql`
   }
 `;
 
-export default POST_QUERY;
+export default POSTS_QUERY;

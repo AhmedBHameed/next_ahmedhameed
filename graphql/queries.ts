@@ -11,6 +11,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: Date;
 };
 
 export type Message = {
@@ -210,6 +211,8 @@ export type Post = {
   enReadingTime?: Maybe<Scalars['String']>;
   authorId?: Maybe<Scalars['String']>;
   author?: Maybe<User>;
+  createdAt?: Maybe<Scalars['Date']>;
+  updatedAt?: Maybe<Scalars['Date']>;
 };
 
 export type Query = {
@@ -223,6 +226,7 @@ export type Query = {
   documents?: Maybe<Array<Maybe<Document>>>;
   categories?: Maybe<Array<Maybe<Category>>>;
   posts?: Maybe<Array<Maybe<Post>>>;
+  findPostByTitle?: Maybe<Post>;
 };
 
 export type QueryUserArgs = {
@@ -235,6 +239,10 @@ export type QuerySearchUsersArgs = {
 
 export type QueryLoginArgs = {
   userData: LoginDataInput;
+};
+
+export type QueryFindPostByTitleArgs = {
+  title: Scalars['String'];
 };
 
 export type Mutation = {
@@ -310,6 +318,14 @@ export type LogoutQueryVariables = Exact<{[key: string]: never}>;
 
 export type LogoutQuery = {__typename?: 'Query'} & {
   logout?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
+};
+
+export type FindPostByTitleQueryVariables = Exact<{
+  title: Scalars['String'];
+}>;
+
+export type FindPostByTitleQuery = {__typename?: 'Query'} & {
+  findPostByTitle?: Maybe<{__typename?: 'Post'} & PostFragmentFragment>;
 };
 
 export type ContactMeMutationVariables = Exact<{
@@ -393,6 +409,8 @@ export type PostFragmentFragment = {__typename?: 'Post'} & Pick<
   | 'enBody'
   | 'enReadingTime'
   | 'authorId'
+  | 'createdAt'
+  | 'updatedAt'
 > & {
     postCategoryTags?: Maybe<Array<Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>>>;
     author?: Maybe<{__typename?: 'User'} & UserFragmentFragment>;
@@ -473,6 +491,8 @@ export const PostFragmentFragmentDoc = gql`
     author {
       ...UserFragment
     }
+    createdAt
+    updatedAt
   }
   ${CategoryFragmentFragmentDoc}
   ${UserFragmentFragmentDoc}
@@ -509,6 +529,44 @@ export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Log
 export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
 export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
 export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
+export const FindPostByTitleDocument = gql`
+  query FindPostByTitle($title: String!) {
+    findPostByTitle(title: $title) {
+      ...PostFragment
+    }
+  }
+  ${PostFragmentFragmentDoc}
+`;
+
+/**
+ * __useFindPostByTitleQuery__
+ *
+ * To run a query within a React component, call `useFindPostByTitleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindPostByTitleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindPostByTitleQuery({
+ *   variables: {
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useFindPostByTitleQuery(
+  baseOptions: Apollo.QueryHookOptions<FindPostByTitleQuery, FindPostByTitleQueryVariables>
+) {
+  return Apollo.useQuery<FindPostByTitleQuery, FindPostByTitleQueryVariables>(FindPostByTitleDocument, baseOptions);
+}
+export function useFindPostByTitleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FindPostByTitleQuery, FindPostByTitleQueryVariables>
+) {
+  return Apollo.useLazyQuery<FindPostByTitleQuery, FindPostByTitleQueryVariables>(FindPostByTitleDocument, baseOptions);
+}
+export type FindPostByTitleQueryHookResult = ReturnType<typeof useFindPostByTitleQuery>;
+export type FindPostByTitleLazyQueryHookResult = ReturnType<typeof useFindPostByTitleLazyQuery>;
+export type FindPostByTitleQueryResult = Apollo.QueryResult<FindPostByTitleQuery, FindPostByTitleQueryVariables>;
 export const ContactMeDocument = gql`
   mutation ContactMe($contact: ContactInput!) {
     contactMe(contact: $contact) {
