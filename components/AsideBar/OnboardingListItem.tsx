@@ -6,6 +6,7 @@ import ListItem from './ListItem';
 
 const OnboardingListItem: React.FC = () => {
   const {logout} = useLogout();
+
   const {data} = useProfileQuery();
 
   const isLoggedIn = !!data?.profile;

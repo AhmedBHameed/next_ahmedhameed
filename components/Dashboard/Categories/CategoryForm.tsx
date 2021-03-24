@@ -6,9 +6,9 @@ import environment from '../../../config/environment';
 import {
   CategoriesQuery,
   Category,
+  CategoryInput,
   CategoryStatus,
-  UpdateCategoryInput,
-  useAddCategoryMutation,
+  useCreateCategoryMutation,
   useUpdateCategoryMutation,
 } from '../../../graphql/queries';
 import {BaseButton} from '../../Buttons';
@@ -17,7 +17,7 @@ import UploadImage from '../../Forms/Upload/UploadImage';
 import useNotification from '../../Notification/Hooks/NotificationHook';
 import CATEGORIES_QUERY from './graphql/getCategories.graphql';
 
-type CategoryFormData = Omit<UpdateCategoryInput, 'status'> & {status: SelectOption<CategoryStatus>};
+type CategoryFormData = Omit<CategoryInput, 'status'> & {status: SelectOption<CategoryStatus>};
 
 interface CategoryFormProps {
   className?: string;
@@ -29,7 +29,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({category, onClose}) => {
   const isEditMode = !!category;
   const {status, imgSrc} = category || {};
 
-  const [addCategory, addCategoryResult] = useAddCategoryMutation();
+  const [addCategory, addCategoryResult] = useCreateCategoryMutation();
   const [updateCategory, updateCategoryResult] = useUpdateCategoryMutation();
   const {triggerNotification} = useNotification();
 
@@ -56,7 +56,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({category, onClose}) => {
         try {
           await updateCategory({
             variables: {
-              updateCategoryInput: {
+              categoryData: {
                 id,
                 arDescription,
                 enDescription,
@@ -82,7 +82,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({category, onClose}) => {
         try {
           await addCategory({
             variables: {
-              addCategoryInput: {
+              categoryData: {
                 id: ulid(),
                 arDescription,
                 enDescription,
@@ -100,7 +100,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({category, onClose}) => {
                 cache.writeQuery({
                   query: CATEGORIES_QUERY,
                   data: {
-                    categories: [...oldCategories.categories, newCategoryResult.data.addCategory],
+                    categories: [...oldCategories.categories, newCategoryResult.data.createCategory],
                   },
                 });
               }

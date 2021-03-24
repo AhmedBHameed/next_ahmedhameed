@@ -46,3 +46,15 @@ export function useApollo(initialState) {
   const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
 }
+
+export async function getStandaloneApolloClient() {
+  const {ApolloClient, InMemoryCache, HttpLink} = await import('@apollo/client');
+  return new ApolloClient({
+    ssrMode: typeof window === 'undefined', // set to true for SSR
+    link: new HttpLink({
+      uri: domain + graphqlApi,
+      credentials: 'include',
+    }),
+    cache: new InMemoryCache(),
+  });
+}

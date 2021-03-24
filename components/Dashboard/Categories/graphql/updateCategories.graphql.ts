@@ -1,16 +1,11 @@
 import {gql} from '@apollo/client';
+import CATEGORY_FRAGMENT from '../../../shared/graphql/categoryFragment.graphql';
 
 const UPDATE_CATEGORY = gql`
-  mutation UpdateCategory($updateCategoryInput: UpdateCategoryInput!) {
-    updateCategory(updateCategoryInput: $updateCategoryInput) {
-      id
-      imgSrc
-      name
-      enDescription
-      arDescription
-      status
-      createdAt
-      updatedAt
+  ${CATEGORY_FRAGMENT}
+  mutation UpdateCategory($categoryData: CategoryInput!) {
+    updateCategory(categoryData: $categoryData) {
+      ...CategoryFragment
     }
   }
 `;

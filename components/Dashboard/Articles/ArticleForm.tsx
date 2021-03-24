@@ -4,189 +4,205 @@ import {ulid} from 'ulid';
 
 import environment from '../../../config/environment';
 import {
-  CategoriesQuery,
+  Post,
+  PostStatus,
+  PostInput,
+  useCreatePostMutation,
+  useUpdatePostMutation,
   Category,
-  CategoryStatus,
-  UpdateCategoryInput,
-  useAddCategoryMutation,
-  useCategoriesQuery,
+  PostsQuery,
 } from '../../../graphql/queries';
+import {joiResolver} from '../../../util/joiResolver';
 import {BaseButton} from '../../Buttons';
+import {useUnauthenticated} from '../../Errors/hooks/unauthenticatedHook';
 import {FieldLabel, FormControl, MultiSelectField, SelectField, SelectOption, Textarea, TextField} from '../../Forms';
 import UploadImage from '../../Forms/Upload/UploadImage';
 import LoadingOverlay from '../../LoadingOverlay/LoadingOverlay';
 import MDPreviewClient from '../../MDPreview/MDPreviewClient';
 import {Modal, ModalCloseButton, ModalContainer} from '../../Modal/Modal';
 import useNotification from '../../Notification/Hooks/NotificationHook';
-
-type ArticleFormData = any;
+import POST_QUERY from '../../shared/graphql/posts.graphql';
+import {useValidations} from '../../shared/hooks/useValidationsHook';
 
 const articleStatus: SelectOption[] = [
-  {label: 'Draft', value: 'Draft'},
-  {label: 'Publish', value: 'publish'},
+  {label: PostStatus.Draft, value: PostStatus.Draft},
+  {label: PostStatus.Published, value: PostStatus.Published},
+  {label: PostStatus.Course, value: PostStatus.Course},
 ];
+
+type PostFormData = Omit<PostInput, 'postCategoryIds' | 'status'> & {postCategoryNames: string[]; status: SelectOption};
 
 interface ArticleFormProps {
   className?: string;
-  category?: Category;
+  post?: Post;
+  categories?: Category[];
   onClose?: () => void;
 }
 
-const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
-  const isEditMode = !!category;
-  const {status, imgSrc} = category || {};
+const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) => {
+  const isEditMode = !!post;
 
-  const [markdown, setMarkdown] = useState(`
-  # شلونة الحجي
-  A paragraph with *emphasis* and **strong importance**.
+  const [isArabicPost, setIsArabicPost] = useState(true);
+  const {isAuthenticated} = useUnauthenticated();
 
-  > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-  
-  \`\`\`jsx
-  function test() {
-    console.log('This is jsx sample');
-  }
-  \`\`\`
-  
-  \`\`\`css
-  .test {
-    color: red;
-  }
-  \`\`\`
-  * Lists
-  * [ ] todo
-  * [x] done
-  
-  A table:
-  
-  | a | b |
-  | - | - |
+  const [createPost, createPostQuery] = useCreatePostMutation({
+    update: (cache, newCategoryResult) => {
+      const allPosts = cache.readQuery<PostsQuery>({
+        query: POST_QUERY,
+      });
 
-  <Audio src="http://localhost:5000/media/shlon_alhaji.mp3" />
-
-  ![image](https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3)
-  `);
-  const [previewMode, setPreviewMode] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [addCategory, addCategoryResult] = useAddCategoryMutation();
-  const categoriesQuery = useCategoriesQuery();
-  const {triggerNotification} = useNotification();
+      if (allPosts.posts.length) {
+        cache.writeQuery<PostsQuery>({
+          query: POST_QUERY,
+          data: {
+            posts: [...allPosts.posts, newCategoryResult.data.createPost],
+          },
+        });
+      }
+    },
+  });
+  const [updatePost, updatePostQuery] = useUpdatePostMutation();
 
   const categoriesTags = useMemo(() => {
-    return categoriesQuery.data?.categories.map(cat => cat.name);
-  }, [categoriesQuery.data]);
+    if (!categories) return [];
+    return categories.map(category => category.name);
+  }, [categories]);
 
-  const {formState, control, register, watch, setValue, handleSubmit} = useForm<ArticleFormData>({
-    // resolver: joiResolver(loginSchema),
+  const [previewMode, setPreviewMode] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const {triggerNotification} = useNotification();
+  const {Joi, requiredString, optionalString, requiredArrayOfStrings} = useValidations();
+
+  const postSchema = useMemo(
+    () =>
+      Joi.object({
+        id: optionalString,
+        arTitle: requiredString,
+        arBody: requiredString,
+        enTitle: requiredString,
+        enBody: requiredString,
+        banner: requiredString,
+        status: Joi.object({
+          label: requiredString,
+          value: requiredString,
+        }),
+        postCategoryNames: requiredArrayOfStrings,
+      }),
+    []
+  );
+
+  const {formState, control, errors, register, setValue, getValues, handleSubmit} = useForm<PostFormData>({
+    resolver: joiResolver(postSchema),
     mode: 'onChange',
+    shouldUnregister: false,
     defaultValues: {
-      ...category,
-      imgSrc: imgSrc || environment.noImageAvatar,
-      status: articleStatus[0],
+      id: post?.id || '',
+      arTitle: post?.arTitle || '',
+      arBody: post?.arBody || '',
+      enTitle: post?.enTitle || '',
+      enBody: post?.enBody || '',
+      banner: post?.banner || '',
+      status: {
+        label: post?.status || PostStatus.Draft,
+        value: post?.status || PostStatus.Draft,
+      },
+      postCategoryNames:
+        categories
+          ?.filter(category => (post?.postCategoryIds.includes(category.id) ? category : null))
+          .map(cat => cat.name) || [],
     },
   });
 
-  console.log(watch());
+  const submit = useCallback(
+    async (postData: PostFormData) => {
+      const data = {
+        id: postData.id,
+        arTitle: postData.arTitle,
+        arBody: postData.arBody,
+        enTitle: postData.enTitle,
+        enBody: postData.enBody,
+        banner: postData.banner,
+        postCategoryIds:
+          categories
+            ?.filter(category => (postData.postCategoryNames.includes(category.name) ? category : null))
+            .map(cat => cat.id) || [],
+        status: postData.status?.value as PostStatus,
+      };
 
-  const submitCategory = useCallback(
-    async (category: ArticleFormData) => {
-      // console.log('🚀 ~ file: ArticleForm.tsx ~ line 51 ~ category', category);
-      // const {status, imgSrc, enDescription, arDescription, id, name} = category;
-      // if (isEditMode) {
-      //   try {
-      //     await updateCategory({
-      //       variables: {
-      //         updateCategoryInput: {
-      //           id,
-      //           arDescription,
-      //           enDescription,
-      //           name,
-      //           imgSrc,
-      //           status: status.value,
-      //         },
-      //       },
-      //     });
-      //     triggerNotification({
-      //       type: 'success',
-      //       message: 'Category has been updated successfully.',
-      //     });
-      //     onClose();
-      //   } catch (error) {
-      //     console.log(error);
-      //     triggerNotification({
-      //       type: 'error',
-      //       message: 'Oops! something went wrong with updating category',
-      //     });
-      //   }
-      // } else {
-      //   try {
-      //     await addCategory({
-      //       variables: {
-      //         addCategoryInput: {
-      //           id: ulid(),
-      //           arDescription,
-      //           enDescription,
-      //           name,
-      //           imgSrc,
-      //           status: status.value,
-      //         },
-      //       },
-      //       update: (cache, newCategoryResult) => {
-      //         const oldCategories = cache.readQuery<CategoriesQuery>({
-      //           query: CATEGORIES_QUERY,
-      //         });
-      //         if (oldCategories?.categories.length) {
-      //           cache.writeQuery({
-      //             query: CATEGORIES_QUERY,
-      //             data: {
-      //               categories: [...oldCategories.categories, newCategoryResult.data.addCategory],
-      //             },
-      //           });
-      //         }
-      //       },
-      //     });
-      //     triggerNotification({
-      //       type: 'success',
-      //       message: 'New category has been added successfully.',
-      //     });
-      //     onClose();
-      //   } catch (error) {
-      //     console.log(error);
-      //     triggerNotification({
-      //       type: 'error',
-      //       message: 'Oops! something went wrong with adding category',
-      //     });
-      //   }
-      // }
+      if (isEditMode) {
+        try {
+          await updatePost({
+            variables: {
+              post: {
+                ...data,
+              },
+            },
+          });
+          triggerNotification({
+            type: 'success',
+            message: 'Your post has been updated.',
+          });
+        } catch (error) {
+          console.log(error);
+          triggerNotification({
+            type: 'error',
+            message: 'Oops! something went wrong with adding category',
+          });
+          isAuthenticated(error);
+        }
+      } else {
+        try {
+          await createPost({
+            variables: {
+              post: {
+                ...data,
+                id: ulid(),
+              },
+            },
+          });
+          triggerNotification({
+            type: 'success',
+            message: 'Your post has been created.',
+          });
+        } catch (error) {
+          console.log(error);
+          triggerNotification({
+            type: 'error',
+            message: 'Oops! something went wrong with adding category',
+          });
+          isAuthenticated(error);
+        }
+      }
     },
-    [isEditMode, addCategory, onClose, triggerNotification]
+    [isEditMode, categories, isAuthenticated, onClose, triggerNotification]
   );
 
   useEffect(() => {
     register('id');
   }, [register]);
 
-  const loading = addCategoryResult.loading || categoriesQuery.loading;
-
-  if (loading) return <LoadingOverlay />;
+  const loading = createPostQuery.loading || updatePostQuery.loading;
 
   return (
     <>
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit(submitCategory)}>
+      {loading && <LoadingOverlay />}
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit(submit)}>
         <div className="flex flex-col gap-1 items-center h-20 w-32">
-          <Controller
-            render={({value, onChange}) => (
-              <UploadImage
-                rootClasses="border-subject flex-shrink-0 rounded-lg p-1 border-2 w-full h-full"
-                src={value}
-                onChange={urls => onChange(urls[0])}
-                width={116}
-                height={68}
-              />
-            )}
-            name="imgSrc"
-            control={control}
-          />
+          <FormControl error={errors.banner?.message}>
+            <Controller
+              render={({value, onChange}) => (
+                <UploadImage
+                  rootClasses="border-subject flex-shrink-0 rounded-lg p-1 border-2 w-full h-full"
+                  src={value || environment.noImageAvatar}
+                  onChange={urls => onChange(urls[0])}
+                  width={116}
+                  height={68}
+                />
+              )}
+              name="banner"
+              control={control}
+            />
+          </FormControl>
         </div>
 
         <div className="flex flex-col flex-grow">
@@ -195,7 +211,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
             <TextField
               // error={!!email?.message}
               type="text"
-              name="enDescription"
+              name="enTitle"
               placeholder="Category description"
               ref={register}
               className="text-primary bg-secondary"
@@ -206,7 +222,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
             <TextField
               // error={!!email?.message}
               type="text"
-              name="arDescription"
+              name="arTitle"
               placeholder="وصف الفئة"
               ref={register}
               className="text-primary bg-secondary mt-2"
@@ -225,13 +241,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
                   placeholder="Category tags"
                   buttonClasses="text-primary w-full"
                   buttonLabel="Select categories"
-                  onChange={selected => {
-                    onChange(selected);
-                  }}
+                  onChange={onChange}
                 />
               );
             }}
-            name="categoryTags"
+            name="postCategoryNames"
             control={control}
           />
         </FormControl>
@@ -239,14 +253,20 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
         <div className="flex gap-4">
           <BaseButton
             className="my-4 bg-subject w-full hover:bg-darkSubject justify-center"
-            onClick={() => setOpenModal(true)}
+            onClick={() => {
+              setIsArabicPost(false);
+              setOpenModal(true);
+            }}
           >
             Edit English article
           </BaseButton>
 
           <BaseButton
             className="my-4 bg-subject w-full hover:bg-darkSubject justify-center"
-            onClick={() => setOpenModal(true)}
+            onClick={() => {
+              setIsArabicPost(true);
+              setOpenModal(true);
+            }}
           >
             Edit Arabic article
           </BaseButton>
@@ -260,7 +280,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
                 return (
                   <SelectField
                     items={articleStatus}
-                    value={articleStatus.find(item => item.value === value.value)}
+                    value={value}
                     buttonClasses="text-primary w-full"
                     placeholder="Article status"
                     onChange={selected => {
@@ -286,7 +306,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
             className="my-4 bg-green-200 hover:bg-green-400 w-40 justify-center"
             disabled={!formState.isValid || loading}
           >
-            {category ? 'Update Article' : 'Add Article'}
+            {isEditMode ? 'Update Article' : 'Add Article'}
           </BaseButton>
         </div>
       </form>
@@ -296,26 +316,35 @@ const ArticleForm: React.FC<ArticleFormProps> = ({category, onClose}) => {
           <ModalCloseButton className="mb-2 self-end" onClose={() => setOpenModal(false)} />
 
           <BaseButton
-            className="mx-1 flex-shrink text-subject border border-subject"
+            className="mx-1 flex-shrink text-reverse border border-subject bg-subject"
             onClick={() => setPreviewMode(s => !s)}
           >
-            {previewMode ? 'Write' : 'Preview'}
+            {previewMode ? 'Compose mode' : 'Preview mode'}
           </BaseButton>
           <div className="flex flex-grow overflow-auto">
             {previewMode ? (
               <div className="p-1 h-full w-full">
                 <div className="p-2 h-full border-2 overflow-auto rounded-lg font-kufiRegular">
-                  <MDPreviewClient markdown={markdown} />
+                  <MDPreviewClient markdown={isArabicPost ? getValues('arBody') : getValues('enBody')} />
                 </div>
               </div>
             ) : (
               <div className="p-1 h-full w-full">
-                <Textarea
-                  indentOnTabKey
-                  className="bg-primary h-full resize-none text-subject"
-                  value={markdown}
-                  onChange={event => setMarkdown(event.target.value)}
-                />
+                {isArabicPost ? (
+                  <Textarea
+                    indentOnTabKey
+                    className="bg-primary h-full resize-none text-subject"
+                    ref={register}
+                    name="arBody"
+                  />
+                ) : (
+                  <Textarea
+                    indentOnTabKey
+                    className="bg-primary h-full resize-none text-subject"
+                    ref={register}
+                    name="enBody"
+                  />
+                )}
               </div>
             )}
           </div>

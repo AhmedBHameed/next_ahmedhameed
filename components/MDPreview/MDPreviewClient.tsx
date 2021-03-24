@@ -10,6 +10,7 @@ interface MDPreviewClientProps {
 }
 
 const MDPreviewClient: React.FC<MDPreviewClientProps> = ({markdown}) => {
+  console.log('🚀 ~ file: MDPreviewClient.tsx ~ line 13 ~ markdown', markdown);
   return (
     <Markdown
       children={markdown}

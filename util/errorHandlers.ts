@@ -8,3 +8,12 @@ export const isInvalidPassword = (error: ApolloError) => {
     graphqlError[0].extensions?.errorCode === 'INVALID_PASSWORD'
   );
 };
+
+export const isPermissionDenied = (error: ApolloError) => {
+  const graphqlError = error.graphQLErrors;
+  return (
+    graphqlError.length &&
+    graphqlError[0].extensions?.code === 'BAD_USER_INPUT' &&
+    graphqlError[0].extensions?.errorCode === 'PERMISSION_DENIED'
+  );
+};

@@ -6,8 +6,8 @@ import {useForm} from 'react-hook-form';
 
 import {useNavigateToBlog} from '../../components/Blog/hooks/NavigateToBlogHook';
 import {BaseButton} from '../../components/Buttons';
+import {useNavigateToDashboard} from '../../components/Dashboard/hooks/NavigateToDashboard';
 import {FieldLabel, FormControl, TextField} from '../../components/Forms';
-import {useNavigateToDashboard} from '../../components/Onboarding/Login/hooks/NavigateToDashboard';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';
@@ -26,20 +26,6 @@ const Login: NextPage = () => {
   const {goToDashboard} = useNavigateToDashboard();
   const {goToBlog} = useNavigateToBlog();
 
-  const [login, {loading}] = useLoginLazyQuery({
-    onCompleted: () => {
-      getProfile();
-    },
-    onError: error => {
-      if (isInvalidPassword(error)) {
-        triggerNotification({
-          type: 'error',
-          message: 'Oops! Invalid password',
-        });
-      }
-    },
-  });
-
   const [getProfile] = useProfileLazyQuery({
     onCompleted: data => {
       if (data.profile.role === UserRoles.Admin) {
@@ -53,6 +39,21 @@ const Login: NextPage = () => {
         type: 'error',
         message: 'Oops! Something went wrong fetching your profile',
       });
+    },
+  });
+
+  const [login, {loading}] = useLoginLazyQuery({
+    fetchPolicy: 'network-only',
+    onCompleted: () => {
+      getProfile();
+    },
+    onError: error => {
+      if (isInvalidPassword(error)) {
+        triggerNotification({
+          type: 'error',
+          message: 'Oops! Invalid password',
+        });
+      }
     },
   });
 

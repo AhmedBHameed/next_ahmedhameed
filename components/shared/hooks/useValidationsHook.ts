@@ -29,6 +29,8 @@ export const useValidations = () => {
           'string.empty': t('common.required'),
           'string.pattern.base': t('validationErrors.invalidPassword'),
         }),
+      requiredArrayOfStrings: Joi.array().items(Joi.string()),
+      requiredArrayOfItems: Joi.array(),
     }),
     [t]
   );

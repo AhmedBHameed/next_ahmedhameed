@@ -1,6 +1,6 @@
 import {useCallback, useState} from 'react';
 
-import {useCategoriesQuery} from '../../../graphql/queries';
+import {Post, useCategoriesQuery, usePostsQuery} from '../../../graphql/queries';
 import AddSvg from '../../../statics/add.svg';
 import CircleButton from '../../Buttons/CircleButton';
 import {Modal} from '../../Modal/Modal';
@@ -12,22 +12,23 @@ import ArticleForm from './ArticleForm';
 import ArticleRow from './ArticleRow';
 
 const ArticleContainer: React.FC = () => {
-  const {data, loading, error} = useCategoriesQuery();
+  const postQuery = usePostsQuery();
+  const categoriesQuery = useCategoriesQuery();
 
-  const [category, setCategory] = useState(null);
-  const [openModal, setOpenModal] = useState(true);
+  const [post, setPost] = useState<Post | undefined>();
+  const [openModal, setOpenModal] = useState(false);
 
-  const newCategory = useCallback(() => {
-    setCategory(null);
+  const newPost = useCallback(() => {
+    setPost(null);
     setOpenModal(true);
-  }, [setCategory, setOpenModal]);
+  }, [setPost, setOpenModal]);
 
-  const editCategory = useCallback(
-    category => {
-      setCategory(category);
+  const editPost = useCallback(
+    postId => {
+      setPost(postId);
       setOpenModal(true);
     },
-    [setCategory, setOpenModal]
+    [setPost, setOpenModal]
   );
 
   const closeModal = useCallback(() => {
@@ -51,7 +52,7 @@ const ArticleContainer: React.FC = () => {
                     <CircleButton
                       className="text-right text-subject hover:bg-darkSubject hover:text-gray-100"
                       Icon={AddSvg}
-                      onClick={newCategory}
+                      onClick={newPost}
                     />
                   </div>,
                 ]}
@@ -59,8 +60,8 @@ const ArticleContainer: React.FC = () => {
               {/* text-white bg-indigo-600 hover:bg-indigo-700 */}
             </TableHeader>
             <TableBody className="divide-y divide-gray-200 bg-aside">
-              {data?.categories.map(category => {
-                return <ArticleRow key={category.name} category={category} onEdit={editCategory} />;
+              {postQuery.data?.posts.map(post => {
+                return <ArticleRow key={post.id} post={post} onEdit={editPost} />;
               })}
             </TableBody>
           </Table>
@@ -72,10 +73,10 @@ const ArticleContainer: React.FC = () => {
           {/* <ModalCloseButton onClose={closeModal} className="self-end" /> */}
 
           <Typography className="text-gray-50 mb-8">
-            <span>{category ? 'Update article' : 'Add Article'}</span>
+            <span>{post ? 'Update article' : 'Add Article'}</span>
           </Typography>
 
-          <ArticleForm category={category} onClose={closeModal} />
+          <ArticleForm post={post} categories={categoriesQuery.data?.categories} onClose={closeModal} />
         </ModalContainer>
       </Modal>
     </div>

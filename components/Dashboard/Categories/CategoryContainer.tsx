@@ -2,6 +2,8 @@ import {useCallback, useState} from 'react';
 
 import {useCategoriesQuery} from '../../../graphql/queries';
 import AddSvg from '../../../statics/add.svg';
+import {isPermissionDenied} from '../../../util/errorHandlers';
+import {useNavigateToLogin} from '../../AsideBar/hooks/NavigateToLoginHook';
 import CircleButton from '../../Buttons/CircleButton';
 import {Modal} from '../../Modal/Modal';
 import {ModalContainer} from '../../Modal/ModalContainer';
@@ -12,7 +14,12 @@ import CategoryForm from './CategoryForm';
 import CategoryRow from './CategoryRow';
 
 const CategoryContainer: React.FC = () => {
-  const {data, loading} = useCategoriesQuery();
+  const {goToLogin} = useNavigateToLogin();
+  const {data, loading} = useCategoriesQuery({
+    onError(error) {
+      if (isPermissionDenied(error)) goToLogin();
+    },
+  });
 
   const [category, setCategory] = useState(null);
   const [openModal, setOpenModal] = useState(false);

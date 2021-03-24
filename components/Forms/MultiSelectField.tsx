@@ -118,7 +118,7 @@ const MultiSelectField: React.FC<MultiSelectFieldProps> = ({
               />
             </div>
             <button
-              {...getToggleButtonProps()}
+              {...getToggleButtonProps({type: 'button'})}
               aria-label={'toggle menu'}
               className={clsx([
                 FIELD_BORDER_CLASSES,
