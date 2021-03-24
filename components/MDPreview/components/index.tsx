@@ -14,6 +14,8 @@ export const components = {
       <h2 className="text-primary" {...props}></h2>
     </Typography>
   ),
+  p: props => <p {...props} className="text-primary" />,
+  a: props => <a {...props} />,
   pre: props => <div {...props} />,
   code: props => <Codeblock {...props} />,
 };

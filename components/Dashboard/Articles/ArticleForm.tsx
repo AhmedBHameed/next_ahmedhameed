@@ -129,7 +129,6 @@ const ArticleForm: React.FC<ArticleFormProps> = ({post, categories, onClose}) =>
         status: postData.status?.value as PostStatus,
       };
 
-      console.log('🚀 ~ file: ArticleForm.tsx ~ line 131 ~ postData.status?.value', postData.status?.value);
       if (isEditMode) {
         try {
           await updatePost({

@@ -37,9 +37,9 @@ const Blog: NextPage<{source: Source; title: string}> = ({source, title}) => {
             </h1>
             {/* <p className="mt-8 text-xl text-gray-500 leading-8">خلينا نجرب الفونت الجديد ونشوق شلون يطلع شكلة</p> */}
           </div>
-          <div className="mt-6 prose prose-indigo prose-lg text-primary mx-auto">
+          <article className="mt-6 prose prose-lg lg:prose-xl prose-indigo text-primary mx-auto">
             <MDPreview markdown={source} />
-          </div>
+          </article>
         </div>
       </article>
     </AsideBar>

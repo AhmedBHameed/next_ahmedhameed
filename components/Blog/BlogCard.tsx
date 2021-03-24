@@ -3,7 +3,6 @@ import {Post} from '../../graphql/queries';
 import {format} from 'date-fns';
 import {ar, enUS} from 'date-fns/locale';
 import Image from '../Image/Image';
-import ROUTES from '../../config/Routes';
 import {useRouter} from 'next/router';
 
 interface BlogCardProps {
@@ -16,9 +15,10 @@ const BlogCard: React.FC<BlogCardProps> = ({post, dir}) => {
   const {locale, pathname} = useRouter();
 
   const postUrl = `/${locale}${pathname}/${encodeURIComponent(isArabicPage ? post.arTitle : post.enTitle)}`;
+  const postDate = format(new Date(post.createdAt), 'MMMM dd, yyyy', {locale: isArabicPage ? ar : enUS});
 
   return (
-    <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
+    <div className="flex flex-col rounded-lg shadow-lg overflow-hidden border border-gray-300">
       <div className="flex-shrink-0 overflow-hidden">
         <a href={postUrl}>
           <Image
@@ -32,11 +32,12 @@ const BlogCard: React.FC<BlogCardProps> = ({post, dir}) => {
       <div className="flex-1 bg-white p-6 flex flex-col justify-between">
         <div className="flex-1">
           <div className="flex space-x-1 text-sm text-gray-500">
-            <time dateTime="2020-03-10">
-              {format(new Date(post.createdAt), 'MMMM dd, yyyy', {locale: isArabicPage ? ar : enUS})}
-            </time>
+            <i>
+              <time dateTime={postDate}>{postDate}</time>
+              {' -- '}
+              <span>{isArabicPage ? post.arReadingTime : post.enReadingTime}</span>
+            </i>
             <span aria-hidden="true">&middot;</span>
-            <span>{isArabicPage ? post.arReadingTime : post.enReadingTime}</span>
           </div>
 
           <a href={postUrl} className="block mt-2">
@@ -49,12 +50,18 @@ const BlogCard: React.FC<BlogCardProps> = ({post, dir}) => {
         </div>
         <div className="mt-6 flex items-center">
           <p className="text-sm font-medium text-subject">
-            <a
+            {post.postCategoryTags.map(category => {
+              return (
+                <span className="inline-flex items-center px-3 mr-1 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-pink-800">
+                  {category.name}
+                </span>
+              );
+            })}
+            {/* <a
               href="#"
               className="hover:underline inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-pink-800"
-            >
-              Video
-            </a>
+            > */}
+            {/* </a> */}
           </p>
           {/* <div className="flex-shrink-0">
             <a href="#">
