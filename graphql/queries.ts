@@ -1,9 +1,12 @@
 import {gql} from '@apollo/client';
 import * as Apollo from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type Exact<T extends {[key: string]: unknown}> = {[K in keyof T]: T[K]};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]?: Maybe<T[SubKey]>};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]: Maybe<T[SubKey]>};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  {[SubKey in K]?: Maybe<T[SubKey]>};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  {[SubKey in K]: Maybe<T[SubKey]>};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -352,7 +355,14 @@ export type CategoriesQuery = {__typename?: 'Query'} & {
       Maybe<
         {__typename?: 'Category'} & Pick<
           Category,
-          'id' | 'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
+          | 'id'
+          | 'imgSrc'
+          | 'name'
+          | 'enDescription'
+          | 'arDescription'
+          | 'status'
+          | 'createdAt'
+          | 'updatedAt'
         >
       >
     >
@@ -372,7 +382,12 @@ export type LoginQueryVariables = Exact<{
 }>;
 
 export type LoginQuery = {__typename?: 'Query'} & {
-  login?: Maybe<{__typename?: 'Login'} & Pick<Login, 'accessToken' | 'refreshToken' | 'userRole'>>;
+  login?: Maybe<
+    {__typename?: 'Login'} & Pick<
+      Login,
+      'accessToken' | 'refreshToken' | 'userRole'
+    >
+  >;
 };
 
 export type SignupMutationVariables = Exact<{
@@ -385,7 +400,14 @@ export type SignupMutation = {__typename?: 'Mutation'} & {
 
 export type CategoryFragmentFragment = {__typename?: 'Category'} & Pick<
   Category,
-  'id' | 'imgSrc' | 'name' | 'enDescription' | 'arDescription' | 'status' | 'createdAt' | 'updatedAt'
+  | 'id'
+  | 'imgSrc'
+  | 'name'
+  | 'enDescription'
+  | 'arDescription'
+  | 'status'
+  | 'createdAt'
+  | 'updatedAt'
 >;
 
 export type CreatePostMutationVariables = Exact<{
@@ -412,7 +434,9 @@ export type PostFragmentFragment = {__typename?: 'Post'} & Pick<
   | 'createdAt'
   | 'updatedAt'
 > & {
-    postCategoryTags?: Maybe<Array<Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>>>;
+    postCategoryTags?: Maybe<
+      Array<Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>>
+    >;
     author?: Maybe<{__typename?: 'User'} & UserFragmentFragment>;
   };
 
@@ -426,8 +450,19 @@ export type ProfileQueryVariables = Exact<{[key: string]: never}>;
 
 export type ProfileQuery = {__typename?: 'Query'} & {
   profile?: Maybe<
-    {__typename?: 'User'} & Pick<User, 'id' | 'email' | 'status' | 'verificationId' | 'gender' | 'avatar' | 'role'> & {
-        name?: Maybe<{__typename?: 'Username'} & Pick<Username, 'first' | 'last'>>;
+    {__typename?: 'User'} & Pick<
+      User,
+      | 'id'
+      | 'email'
+      | 'status'
+      | 'verificationId'
+      | 'gender'
+      | 'avatar'
+      | 'role'
+    > & {
+        name?: Maybe<
+          {__typename?: 'Username'} & Pick<Username, 'first' | 'last'>
+        >;
       }
   >;
 };
@@ -443,7 +478,9 @@ export type UpdatePostMutation = {__typename?: 'Mutation'} & {
 export type UserFragmentFragment = {__typename?: 'User'} & Pick<
   User,
   'id' | 'email' | 'status' | 'verificationId' | 'gender' | 'avatar' | 'role'
-> & {name?: Maybe<{__typename?: 'Username'} & Pick<Username, 'first' | 'last'>>};
+> & {
+    name?: Maybe<{__typename?: 'Username'} & Pick<Username, 'first' | 'last'>>;
+  };
 
 export const CategoryFragmentFragmentDoc = gql`
   fragment CategoryFragment on Category {
@@ -520,15 +557,28 @@ export const LogoutDocument = gql`
  *   },
  * });
  */
-export function useLogoutQuery(baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
-  return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
+export function useLogoutQuery(
+  baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>
+) {
+  return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(
+    LogoutDocument,
+    baseOptions
+  );
 }
-export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
-  return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, baseOptions);
+export function useLogoutLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>
+) {
+  return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(
+    LogoutDocument,
+    baseOptions
+  );
 }
 export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
 export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
-export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
+export type LogoutQueryResult = Apollo.QueryResult<
+  LogoutQuery,
+  LogoutQueryVariables
+>;
 export const FindPostByTitleDocument = gql`
   query FindPostByTitle($title: String!) {
     findPostByTitle(title: $title) {
@@ -555,18 +605,37 @@ export const FindPostByTitleDocument = gql`
  * });
  */
 export function useFindPostByTitleQuery(
-  baseOptions: Apollo.QueryHookOptions<FindPostByTitleQuery, FindPostByTitleQueryVariables>
+  baseOptions: Apollo.QueryHookOptions<
+    FindPostByTitleQuery,
+    FindPostByTitleQueryVariables
+  >
 ) {
-  return Apollo.useQuery<FindPostByTitleQuery, FindPostByTitleQueryVariables>(FindPostByTitleDocument, baseOptions);
+  return Apollo.useQuery<FindPostByTitleQuery, FindPostByTitleQueryVariables>(
+    FindPostByTitleDocument,
+    baseOptions
+  );
 }
 export function useFindPostByTitleLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<FindPostByTitleQuery, FindPostByTitleQueryVariables>
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindPostByTitleQuery,
+    FindPostByTitleQueryVariables
+  >
 ) {
-  return Apollo.useLazyQuery<FindPostByTitleQuery, FindPostByTitleQueryVariables>(FindPostByTitleDocument, baseOptions);
+  return Apollo.useLazyQuery<
+    FindPostByTitleQuery,
+    FindPostByTitleQueryVariables
+  >(FindPostByTitleDocument, baseOptions);
 }
-export type FindPostByTitleQueryHookResult = ReturnType<typeof useFindPostByTitleQuery>;
-export type FindPostByTitleLazyQueryHookResult = ReturnType<typeof useFindPostByTitleLazyQuery>;
-export type FindPostByTitleQueryResult = Apollo.QueryResult<FindPostByTitleQuery, FindPostByTitleQueryVariables>;
+export type FindPostByTitleQueryHookResult = ReturnType<
+  typeof useFindPostByTitleQuery
+>;
+export type FindPostByTitleLazyQueryHookResult = ReturnType<
+  typeof useFindPostByTitleLazyQuery
+>;
+export type FindPostByTitleQueryResult = Apollo.QueryResult<
+  FindPostByTitleQuery,
+  FindPostByTitleQueryVariables
+>;
 export const ContactMeDocument = gql`
   mutation ContactMe($contact: ContactInput!) {
     contactMe(contact: $contact) {
@@ -574,7 +643,10 @@ export const ContactMeDocument = gql`
     }
   }
 `;
-export type ContactMeMutationFn = Apollo.MutationFunction<ContactMeMutation, ContactMeMutationVariables>;
+export type ContactMeMutationFn = Apollo.MutationFunction<
+  ContactMeMutation,
+  ContactMeMutationVariables
+>;
 
 /**
  * __useContactMeMutation__
@@ -594,13 +666,24 @@ export type ContactMeMutationFn = Apollo.MutationFunction<ContactMeMutation, Con
  * });
  */
 export function useContactMeMutation(
-  baseOptions?: Apollo.MutationHookOptions<ContactMeMutation, ContactMeMutationVariables>
+  baseOptions?: Apollo.MutationHookOptions<
+    ContactMeMutation,
+    ContactMeMutationVariables
+  >
 ) {
-  return Apollo.useMutation<ContactMeMutation, ContactMeMutationVariables>(ContactMeDocument, baseOptions);
+  return Apollo.useMutation<ContactMeMutation, ContactMeMutationVariables>(
+    ContactMeDocument,
+    baseOptions
+  );
 }
-export type ContactMeMutationHookResult = ReturnType<typeof useContactMeMutation>;
+export type ContactMeMutationHookResult = ReturnType<
+  typeof useContactMeMutation
+>;
 export type ContactMeMutationResult = Apollo.MutationResult<ContactMeMutation>;
-export type ContactMeMutationOptions = Apollo.BaseMutationOptions<ContactMeMutation, ContactMeMutationVariables>;
+export type ContactMeMutationOptions = Apollo.BaseMutationOptions<
+  ContactMeMutation,
+  ContactMeMutationVariables
+>;
 export const CreateCategoryDocument = gql`
   mutation CreateCategory($categoryData: CategoryInput!) {
     createCategory(categoryData: $categoryData) {
@@ -609,7 +692,10 @@ export const CreateCategoryDocument = gql`
   }
   ${CategoryFragmentFragmentDoc}
 `;
-export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<
+  CreateCategoryMutation,
+  CreateCategoryMutationVariables
+>;
 
 /**
  * __useCreateCategoryMutation__
@@ -629,15 +715,21 @@ export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMut
  * });
  */
 export function useCreateCategoryMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCategoryMutation,
+    CreateCategoryMutationVariables
+  >
 ) {
-  return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(
-    CreateCategoryDocument,
-    baseOptions
-  );
+  return Apollo.useMutation<
+    CreateCategoryMutation,
+    CreateCategoryMutationVariables
+  >(CreateCategoryDocument, baseOptions);
 }
-export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
-export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationHookResult = ReturnType<
+  typeof useCreateCategoryMutation
+>;
+export type CreateCategoryMutationResult =
+  Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<
   CreateCategoryMutation,
   CreateCategoryMutationVariables
@@ -672,17 +764,36 @@ export const CategoriesDocument = gql`
  *   },
  * });
  */
-export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
-  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+export function useCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CategoriesQuery,
+    CategoriesQueryVariables
+  >
+) {
+  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
+    CategoriesDocument,
+    baseOptions
+  );
 }
 export function useCategoriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CategoriesQuery,
+    CategoriesQueryVariables
+  >
 ) {
-  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, baseOptions);
+  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
+    CategoriesDocument,
+    baseOptions
+  );
 }
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
-export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
-export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export type CategoriesLazyQueryHookResult = ReturnType<
+  typeof useCategoriesLazyQuery
+>;
+export type CategoriesQueryResult = Apollo.QueryResult<
+  CategoriesQuery,
+  CategoriesQueryVariables
+>;
 export const UpdateCategoryDocument = gql`
   mutation UpdateCategory($categoryData: CategoryInput!) {
     updateCategory(categoryData: $categoryData) {
@@ -691,7 +802,10 @@ export const UpdateCategoryDocument = gql`
   }
   ${CategoryFragmentFragmentDoc}
 `;
-export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMutation, UpdateCategoryMutationVariables>;
+export type UpdateCategoryMutationFn = Apollo.MutationFunction<
+  UpdateCategoryMutation,
+  UpdateCategoryMutationVariables
+>;
 
 /**
  * __useUpdateCategoryMutation__
@@ -711,15 +825,21 @@ export type UpdateCategoryMutationFn = Apollo.MutationFunction<UpdateCategoryMut
  * });
  */
 export function useUpdateCategoryMutation(
-  baseOptions?: Apollo.MutationHookOptions<UpdateCategoryMutation, UpdateCategoryMutationVariables>
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCategoryMutation,
+    UpdateCategoryMutationVariables
+  >
 ) {
-  return Apollo.useMutation<UpdateCategoryMutation, UpdateCategoryMutationVariables>(
-    UpdateCategoryDocument,
-    baseOptions
-  );
+  return Apollo.useMutation<
+    UpdateCategoryMutation,
+    UpdateCategoryMutationVariables
+  >(UpdateCategoryDocument, baseOptions);
 }
-export type UpdateCategoryMutationHookResult = ReturnType<typeof useUpdateCategoryMutation>;
-export type UpdateCategoryMutationResult = Apollo.MutationResult<UpdateCategoryMutation>;
+export type UpdateCategoryMutationHookResult = ReturnType<
+  typeof useUpdateCategoryMutation
+>;
+export type UpdateCategoryMutationResult =
+  Apollo.MutationResult<UpdateCategoryMutation>;
 export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
   UpdateCategoryMutation,
   UpdateCategoryMutationVariables
@@ -750,15 +870,28 @@ export const LoginDocument = gql`
  *   },
  * });
  */
-export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>) {
-  return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, baseOptions);
+export function useLoginQuery(
+  baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>
+) {
+  return Apollo.useQuery<LoginQuery, LoginQueryVariables>(
+    LoginDocument,
+    baseOptions
+  );
 }
-export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
-  return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, baseOptions);
+export function useLoginLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>
+) {
+  return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(
+    LoginDocument,
+    baseOptions
+  );
 }
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
-export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
+export type LoginQueryResult = Apollo.QueryResult<
+  LoginQuery,
+  LoginQueryVariables
+>;
 export const SignupDocument = gql`
   mutation Signup($userData: Signup!) {
     signup(userData: $userData) {
@@ -766,7 +899,10 @@ export const SignupDocument = gql`
     }
   }
 `;
-export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
+export type SignupMutationFn = Apollo.MutationFunction<
+  SignupMutation,
+  SignupMutationVariables
+>;
 
 /**
  * __useSignupMutation__
@@ -785,12 +921,23 @@ export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMut
  *   },
  * });
  */
-export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<SignupMutation, SignupMutationVariables>) {
-  return Apollo.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument, baseOptions);
+export function useSignupMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SignupMutation,
+    SignupMutationVariables
+  >
+) {
+  return Apollo.useMutation<SignupMutation, SignupMutationVariables>(
+    SignupDocument,
+    baseOptions
+  );
 }
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
-export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export type SignupMutationOptions = Apollo.BaseMutationOptions<
+  SignupMutation,
+  SignupMutationVariables
+>;
 export const CreatePostDocument = gql`
   mutation CreatePost($post: PostInput!) {
     createPost(post: $post) {
@@ -799,7 +946,10 @@ export const CreatePostDocument = gql`
   }
   ${PostFragmentFragmentDoc}
 `;
-export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, CreatePostMutationVariables>;
+export type CreatePostMutationFn = Apollo.MutationFunction<
+  CreatePostMutation,
+  CreatePostMutationVariables
+>;
 
 /**
  * __useCreatePostMutation__
@@ -819,13 +969,25 @@ export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, C
  * });
  */
 export function useCreatePostMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>
+  baseOptions?: Apollo.MutationHookOptions<
+    CreatePostMutation,
+    CreatePostMutationVariables
+  >
 ) {
-  return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument, baseOptions);
+  return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(
+    CreatePostDocument,
+    baseOptions
+  );
 }
-export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
-export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
-export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export type CreatePostMutationHookResult = ReturnType<
+  typeof useCreatePostMutation
+>;
+export type CreatePostMutationResult =
+  Apollo.MutationResult<CreatePostMutation>;
+export type CreatePostMutationOptions = Apollo.BaseMutationOptions<
+  CreatePostMutation,
+  CreatePostMutationVariables
+>;
 export const PostsDocument = gql`
   query Posts {
     posts {
@@ -850,15 +1012,28 @@ export const PostsDocument = gql`
  *   },
  * });
  */
-export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
-  return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, baseOptions);
+export function usePostsQuery(
+  baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>
+) {
+  return Apollo.useQuery<PostsQuery, PostsQueryVariables>(
+    PostsDocument,
+    baseOptions
+  );
 }
-export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
-  return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, baseOptions);
+export function usePostsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>
+) {
+  return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(
+    PostsDocument,
+    baseOptions
+  );
 }
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
-export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
+export type PostsQueryResult = Apollo.QueryResult<
+  PostsQuery,
+  PostsQueryVariables
+>;
 export const ProfileDocument = gql`
   query Profile {
     profile {
@@ -892,15 +1067,28 @@ export const ProfileDocument = gql`
  *   },
  * });
  */
-export function useProfileQuery(baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-  return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, baseOptions);
+export function useProfileQuery(
+  baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>
+) {
+  return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(
+    ProfileDocument,
+    baseOptions
+  );
 }
-export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>) {
-  return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(ProfileDocument, baseOptions);
+export function useProfileLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>
+) {
+  return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(
+    ProfileDocument,
+    baseOptions
+  );
 }
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
-export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export type ProfileQueryResult = Apollo.QueryResult<
+  ProfileQuery,
+  ProfileQueryVariables
+>;
 export const UpdatePostDocument = gql`
   mutation UpdatePost($post: PostInput!) {
     updatePost(post: $post) {
@@ -909,7 +1097,10 @@ export const UpdatePostDocument = gql`
   }
   ${PostFragmentFragmentDoc}
 `;
-export type UpdatePostMutationFn = Apollo.MutationFunction<UpdatePostMutation, UpdatePostMutationVariables>;
+export type UpdatePostMutationFn = Apollo.MutationFunction<
+  UpdatePostMutation,
+  UpdatePostMutationVariables
+>;
 
 /**
  * __useUpdatePostMutation__
@@ -929,10 +1120,22 @@ export type UpdatePostMutationFn = Apollo.MutationFunction<UpdatePostMutation, U
  * });
  */
 export function useUpdatePostMutation(
-  baseOptions?: Apollo.MutationHookOptions<UpdatePostMutation, UpdatePostMutationVariables>
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdatePostMutation,
+    UpdatePostMutationVariables
+  >
 ) {
-  return Apollo.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(UpdatePostDocument, baseOptions);
+  return Apollo.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(
+    UpdatePostDocument,
+    baseOptions
+  );
 }
-export type UpdatePostMutationHookResult = ReturnType<typeof useUpdatePostMutation>;
-export type UpdatePostMutationResult = Apollo.MutationResult<UpdatePostMutation>;
-export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<UpdatePostMutation, UpdatePostMutationVariables>;
+export type UpdatePostMutationHookResult = ReturnType<
+  typeof useUpdatePostMutation
+>;
+export type UpdatePostMutationResult =
+  Apollo.MutationResult<UpdatePostMutation>;
+export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<
+  UpdatePostMutation,
+  UpdatePostMutationVariables
+>;

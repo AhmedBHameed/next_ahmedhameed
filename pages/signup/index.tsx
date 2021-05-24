@@ -1,18 +1,18 @@
+import {joiResolver} from '@hookform/resolvers/joi';
 import {NextPage} from 'next';
 import Link from 'next/link';
 import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 
+import {useNavigateToLogin} from '../../components/AsideBar/hooks/NavigateToLoginHook';
 import {BaseButton} from '../../components/Buttons';
-import {FieldLabel, FormControl, TextField} from '../../components/Forms';
+import {FormControl, TextField} from '../../components/Form';
+import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
+import {useTranslation} from '../../components/shared/hooks/useTranslate';
 import {useValidations} from '../../components/shared/hooks/useValidationsHook';
 import ROUTES from '../../config/Routes';
-import {joiResolver} from '../../util/joiResolver';
-import {useSignupMutation, Signup} from '../../graphql/queries';
-import useNotification from '../../components/Notification/Hooks/NotificationHook';
-import {useTranslation} from '../../components/shared/hooks/useTranslate';
-import {useNavigateToLogin} from '../../components/AsideBar/hooks/NavigateToLoginHook';
+import {Signup, useSignupMutation} from '../../graphql/queries';
 
 const SignUp: NextPage = () => {
   const {triggerNotification} = useNotification();
@@ -34,7 +34,8 @@ const SignUp: NextPage = () => {
     },
   });
 
-  const {Joi, requiredEmail, requiredString, requiredPassword} = useValidations();
+  const {Joi, requiredEmail, requiredString, requiredPassword} =
+    useValidations();
   const signupSchema = useMemo(
     () =>
       Joi.object({
@@ -45,10 +46,14 @@ const SignUp: NextPage = () => {
         email: requiredEmail,
         password: requiredPassword,
       }),
-    []
+    [Joi, requiredEmail, requiredString, requiredPassword]
   );
 
-  const {formState, errors, register, handleSubmit} = useForm<Signup>({
+  const {
+    formState: {errors, isValid},
+    register,
+    handleSubmit,
+  } = useForm<Signup>({
     resolver: joiResolver(signupSchema),
     mode: 'onChange',
     defaultValues: {
@@ -61,82 +66,96 @@ const SignUp: NextPage = () => {
     },
   });
 
-  const sugmit = useCallback((formData: Signup) => {
-    console.log(formData);
-    try {
-      signup({
-        variables: {
-          userData: formData,
-        },
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const submit = useCallback(
+    (formData: Signup) => {
+      try {
+        signup({
+          variables: {
+            userData: formData,
+          },
+        });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+    },
+    [signup]
+  );
 
   const {email, password, name} = errors;
 
   return (
-    <Onboarding title="Sign up" backgroundUrl="/images/girl-with-glasses.jpeg">
-      <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit(sugmit)}>
-        <FormControl className="flex flex-col pt-4" error={name?.first?.message}>
-          <FieldLabel className="text-lg" htmlFor="firstName">
-            First name
-          </FieldLabel>
+    <Onboarding backgroundUrl="/images/girl-with-glasses.jpeg" title="Sign up">
+      <form
+        className="flex flex-col pt-3 md:pt-8"
+        onSubmit={handleSubmit(submit)}
+      >
+        <FormControl
+          className="flex flex-col pt-4"
+          error={name?.first?.message}
+          htmlFor="firstName"
+          label="First name"
+        >
           <TextField
             error={!!name?.first?.message}
             name="name.first"
             placeholder="First name"
-            ref={register}
+            {...register('name.first')}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
-        <FormControl className="flex flex-col pt-4" error={name?.last?.message}>
-          <FieldLabel className="text-lg" htmlFor="lastName">
-            Last Name
-          </FieldLabel>
+        <FormControl
+          className="flex flex-col pt-4"
+          error={name?.last?.message}
+          htmlFor="lastName"
+          label="Last Name"
+        >
           <TextField
             error={!!name?.last?.message}
             name="name.last"
             placeholder="Last name"
-            ref={register}
+            {...register('name.last')}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
-        <FormControl className="flex flex-col pt-4" error={email?.message}>
-          <FieldLabel className="text-lg" htmlFor="email">
-            Email
-          </FieldLabel>
+        <FormControl
+          className="flex flex-col pt-4"
+          error={email?.message}
+          htmlFor="email"
+          label="Email"
+        >
           <TextField
             error={!!email?.message}
-            type="email"
             name="email"
             placeholder="your@email.com"
-            ref={register}
+            type="email"
+            {...register('email')}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
-        <FormControl className="flex flex-col pt-4" error={password?.message}>
-          <FieldLabel className="text-lg" htmlFor="password">
-            Password
-          </FieldLabel>
+        <FormControl
+          className="flex flex-col pt-4"
+          error={password?.message}
+          htmlFor="password"
+          label="Password"
+        >
           <TextField
             error={!!password?.message}
-            type="password"
             name="password"
             placeholder="Password"
-            ref={register}
+            type="password"
+            {...register('password')}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
         <BaseButton
-          type="submit"
-          disabled={!formState.isValid}
           className="bg-blue-500 justify-center duration-300 bg-black text-white font-bold text-lg hover:bg-blue-600 p-2 mt-8"
+          disabled={!isValid}
+          type="submit"
         >
           Register
         </BaseButton>

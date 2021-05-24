@@ -1,12 +1,10 @@
-import CrossCircleIcon from '../../statics/cross.svg';
 import {BaseButton} from '../Buttons/BaseButton';
+import {CrossSvg} from "../SVGs";
 
-const NotificationDismissButton: React.FC = () => {
-  return (
+const NotificationDismissButton: React.FC = () => (
     <BaseButton className="self-start">
-      <CrossCircleIcon className="h-4 w-4" />
+      <CrossSvg className="h-4 w-4" />
     </BaseButton>
   );
-};
 
 export default NotificationDismissButton;

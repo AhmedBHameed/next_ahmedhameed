@@ -1,12 +1,10 @@
-import {Theme} from '@emotion/react';
-
 // Light theme.
 const bgPrimary = '#fafafa';
 const bgHeading = '#bdbdbd';
 const bgAside = '#e0e0e0';
 
 // Dark theme.
-const darkBgPrimary = '#263238';
+const darkBgPrimary = '#101116';
 const darkBgHeading = '#37474f';
 const darkBgAside = '#455a64';
 
@@ -20,27 +18,25 @@ const textDirtyTurquoise = '#228896';
 const black = '#000';
 const white = '#fff';
 
-export enum THEME_TYPE {
-  DARK = 'dark',
-  LIGHT = 'light',
-}
-
-// const lightThemeColors = {
-//   bgPrimary: bgPrimary,
-//   bgHeading: bgHeading,
-//   bgAside: bgAside,
-// };
-
-const darkThemeColors = {
-  bgPrimary: darkBgPrimary,
-  bgHeading: darkBgHeading,
-  bgAside: darkBgAside,
+export const lightThemeColors = {
+  colors: {
+    bgPrimary,
+    bgHeading,
+    bgAside,
+    textPrimary,
+    textSecondary,
+    textTurquoise,
+    textDirtyTurquoise,
+    black,
+    white,
+  },
 };
 
-export const theme = {
-  darken: (_color: string, _percent: number) => '',
+export const darkThemeColors = {
   colors: {
-    ...darkThemeColors,
+    bgPrimary: darkBgPrimary,
+    bgHeading: darkBgHeading,
+    bgAside: darkBgAside,
     textPrimary,
     textSecondary,
     textTurquoise,

@@ -4,8 +4,6 @@ interface TableHeaderProps {
   className?: string;
 }
 
-const TableHeader: React.FC<TableHeaderProps> = ({className, children}) => {
-  return <thead className={className}>{children}</thead>;
-};
+const TableHeader: React.FC<TableHeaderProps> = ({className, children}) => <thead className={className}>{children}</thead>;
 
 export default TableHeader;

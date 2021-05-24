@@ -51,6 +51,9 @@ module.exports = {
       borderColor: {
         subject: 'var(--color-border-subject)',
       },
+      ringColor: {
+        subject: 'var(--color-border-subject)',
+      },
     },
   },
   variants: {

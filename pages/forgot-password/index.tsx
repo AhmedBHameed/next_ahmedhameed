@@ -1,3 +1,4 @@
+import {joiResolver} from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import {NextPage} from 'next';
 import Link from 'next/link';
@@ -5,10 +6,9 @@ import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 
 import {BaseButton} from '../../components/Buttons';
-import {FieldLabel, FormControl, TextField} from '../../components/Forms';
+import {FormControl, TextField} from '../../components/Form';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';
-import {joiResolver} from '../../util/joiResolver';
 
 interface ForgotPasswordFormData {
   email: string;
@@ -29,7 +29,11 @@ const ForgotPassword: NextPage = () => {
     []
   );
 
-  const {formState, errors, register, handleSubmit} = useForm<ForgotPasswordFormData>({
+  const {
+    formState: {errors, isValid},
+    register,
+    handleSubmit,
+  } = useForm<ForgotPasswordFormData>({
     resolver: joiResolver(forgotPasswordSchema),
     mode: 'onChange',
     defaultValues: {
@@ -38,32 +42,38 @@ const ForgotPassword: NextPage = () => {
   });
 
   const forgotPassword = useCallback((formData: ForgotPasswordFormData) => {
+    // eslint-disable-next-line no-console
     console.log(formData);
   }, []);
 
   const {email} = errors;
 
   return (
-    <Onboarding title="Forgot password?" backgroundUrl="/images/january.jpg">
-      <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit(forgotPassword)}>
-        <FormControl className="flex flex-col pt-4" error={email?.message}>
-          <FieldLabel className="text-lg" htmlFor="email">
-            Email
-          </FieldLabel>
+    <Onboarding backgroundUrl="/images/january.jpg" title="Forgot password?">
+      <form
+        className="flex flex-col pt-3 md:pt-8"
+        onSubmit={handleSubmit(forgotPassword)}
+      >
+        <FormControl
+          className="flex flex-col pt-4"
+          error={email?.message}
+          htmlFor="email"
+          label="Email"
+        >
           <TextField
             error={!!email?.message}
-            type="email"
             name="email"
             placeholder="your@email.com"
-            ref={register}
+            type="email"
+            {...register('email')}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
         <BaseButton
-          type="submit"
-          disabled={!formState.isValid}
           className="bg-blue-500 justify-center duration-300 bg-black text-white font-bold text-lg hover:bg-blue-600 p-2 mt-8"
+          disabled={!isValid}
+          type="submit"
         >
           Submit
         </BaseButton>

@@ -10,13 +10,11 @@ interface TableProps {
   className?: string;
 }
 
-const Table: React.FC<TableProps> = ({children, className}) => {
-  return (
+const Table: React.FC<TableProps> = ({children, className}) => (
     <div className="shadow overflow-hidden sm:rounded-lg border border-gray-50">
       <table className={clsx(['min-w-full divide-y divide-gray-200', className])}>{children}</table>
     </div>
   );
-};
 
 export {TableHeader, HeaderCells, Table, Cell, Row};
 

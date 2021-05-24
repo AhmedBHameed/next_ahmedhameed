@@ -1,30 +1,35 @@
 import '../styles/styles.css';
 
+import {ApolloProvider} from '@apollo/client';
 import {NextComponentType} from 'next';
 import {AppContext, AppInitialProps, AppProps} from 'next/app';
 import Head from 'next/head';
 
-import {ApolloProvider} from '@apollo/client';
-
 import Notification from '../components/Notification/Notification';
-import {ThemeContextProvider} from '../components/ThemeSwitcher/ThemeContext';
+import ThemeSwitcherContext from '../components/ThemeSwitcher/ThemeSwitcherContext';
 import {useApollo} from '../util/apolloClient';
 
-const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({Component, pageProps}) => {
+const App: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
+  Component,
+  pageProps,
+}) => {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
     <>
       <Head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
-      <ThemeContextProvider>
+      <ThemeSwitcherContext>
         <ApolloProvider client={apolloClient}>
           <Component {...pageProps} />
           <Notification />
         </ApolloProvider>
-      </ThemeContextProvider>
+      </ThemeSwitcherContext>
     </>
   );
 };

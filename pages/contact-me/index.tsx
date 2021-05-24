@@ -1,5 +1,6 @@
+import {joiResolver} from '@hookform/resolvers/joi';
 import {NextPage} from 'next';
-import {useCallback, useContext, useEffect, useMemo, useRef} from 'react';
+import {useCallback, useEffect, useMemo, useRef} from 'react';
 import {useForm} from 'react-hook-form';
 import MapGL, {Marker} from 'react-map-gl';
 import {ulid} from 'ulid';
@@ -7,19 +8,20 @@ import {ulid} from 'ulid';
 import AhmedhammedNavigation from '../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
 import AsideBar from '../../components/AsideBar/AsideBar';
 import {BaseButton} from '../../components/Buttons';
-import {FormControl, Textarea, TextField} from '../../components/Forms';
+import {FormControl, Textarea, TextField} from '../../components/Form';
 import InfoCard from '../../components/InfoCard/InfoCard';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import {useValidations} from '../../components/shared/hooks/useValidationsHook';
-import {ThemeContext} from '../../components/ThemeSwitcher/ThemeContext';
+import {
+  EmailSvg,
+  FlourishSvg,
+  LocationSvg,
+  PhoneSvg,
+} from '../../components/SVGs';
+import {useSwitcherTheme} from '../../components/ThemeSwitcher/ThemeSwitcherContext';
 import environment from '../../config/environment';
 import {ContactInput, useContactMeMutation} from '../../graphql/queries';
-import EmailSvg from '../../statics/email.svg';
-import FlourishSvg from '../../statics/flourish.svg';
-import LocationSvg from '../../statics/location.svg';
-import PhoneSvg from '../../statics/phone.svg';
 import {clsx} from '../../util/clsx';
-import {joiResolver} from '../../util/joiResolver';
 
 const viewport = {
   width: '100%',
@@ -32,7 +34,7 @@ const viewport = {
 const ContactMe: NextPage = () => {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {triggerNotification} = useNotification();
-  const theme = useContext(ThemeContext);
+  const {darkTheme} = useSwitcherTheme();
   const {Joi, requiredEmail, requiredString} = useValidations();
 
   const [addContact] = useContactMeMutation({
@@ -45,7 +47,8 @@ const ContactMe: NextPage = () => {
     onError: () => {
       triggerNotification({
         type: 'error',
-        message: 'Oops! something went wrong, you can send direct email instead',
+        message:
+          'Oops! something went wrong, you can send direct email instead',
       });
     },
   });
@@ -58,10 +61,14 @@ const ContactMe: NextPage = () => {
         subject: requiredString,
         message: requiredString,
       }),
-    []
+    [Joi, requiredEmail, requiredString]
   );
 
-  const {formState, errors, register, handleSubmit} = useForm<ContactInput>({
+  const {
+    formState: {errors, isValid},
+    register,
+    handleSubmit,
+  } = useForm<ContactInput>({
     resolver: joiResolver(contactSchema),
     mode: 'onChange',
     defaultValues: {
@@ -85,6 +92,7 @@ const ContactMe: NextPage = () => {
           },
         });
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     },
@@ -94,11 +102,12 @@ const ContactMe: NextPage = () => {
   useEffect(() => {
     if (emailInputRef.current) {
       emailInputRef.current.focus();
-      register(emailInputRef.current, {required: true});
+      register('email', {required: true});
     }
-  }, [emailInputRef.current, register]);
+  }, [register]);
 
-  const inputClassName = 'p-2 text-subject bg-aside border-2 border-gray-400 border-opacity-60 w-full';
+  const inputClassName =
+    'p-2 text-subject bg-aside border-2 border-gray-400 border-opacity-60 w-full';
 
   return (
     <AsideBar asideNavigationComponent={<AhmedhammedNavigation />}>
@@ -108,18 +117,18 @@ const ContactMe: NextPage = () => {
 
         <InfoCard
           className="w-64 md:w-96 lg:self-start"
+          IconComponent={<LocationSvg className="w-14 h-14 text-subject" />}
           info="Wiedner Hauptstraße, Austria, Vienna."
-          IconComponent={<LocationSvg className="w-3/5 text-subject" />}
         />
         <InfoCard
           className="w-64 md:w-96 lg:self-center"
+          IconComponent={<PhoneSvg className="w-14 h-14 text-subject" />}
           info="+43 677-6276-8620"
-          IconComponent={<PhoneSvg className="w-3/5 text-subject" />}
         />
         <InfoCard
           className="w-64 md:w-96 lg:self-end"
+          IconComponent={<EmailSvg className="w-14 h-14 text-subject" />}
           info="contact.kakiee@gmail.com"
-          IconComponent={<EmailSvg className="w-3/5 text-subject" />}
         />
       </div>
 
@@ -129,42 +138,54 @@ const ContactMe: NextPage = () => {
             <div className="sm:grid md:grid-cols-1 sm:gap-2 sm:items-start">
               <FormControl>
                 <TextField
+                  autocomplete="email"
                   className={inputClassName}
-                  placeholder="Email address"
                   error={!!errors.email}
                   name="email"
-                  type="email"
-                  autocomplete="email"
+                  placeholder="Email address"
                   ref={emailInputRef}
+                  type="email"
                 />
               </FormControl>
 
               <FormControl>
-                <TextField type="text" className={inputClassName} placeholder="Your name" name="name" ref={register} />
+                <TextField
+                  className={inputClassName}
+                  name="name"
+                  placeholder="Your name"
+                  type="text"
+                  {...register('name', {required: true})}
+                />
               </FormControl>
 
               <FormControl>
-                <TextField type="text" className={inputClassName} placeholder="Subject" name="subject" ref={register} />
+                <TextField
+                  className={inputClassName}
+                  name="subject"
+                  placeholder="Subject"
+                  type="text"
+                  {...register('subject', {required: true})}
+                />
               </FormControl>
             </div>
 
             <div className="h-full">
               <FormControl className="h-full">
                 <Textarea
-                  placeholder="Message"
-                  name="message"
                   className={clsx(['h-full', inputClassName])}
-                  ref={register}
+                  name="message"
+                  placeholder="Message"
+                  {...register('message', {required: true})}
                 />
               </FormControl>
             </div>
 
             <div className="col-span-2 mt-3">
               <BaseButton
-                type="submit"
-                disabled={!formState.isValid}
                 className="w-full justify-center uppercase bg-subject text-reverse"
+                disabled={!isValid}
                 Icon={EmailSvg}
+                type="submit"
               >
                 Contact Me
               </BaseButton>
@@ -179,27 +200,29 @@ const ContactMe: NextPage = () => {
           {...viewport}
           // onViewportChange={setViewport}
           // zoom={viewport.viewport.zoom}
-          width="100%"
           height="500px"
-          mapStyle={`mapbox://styles/mapbox/${theme.darkTheme ? 'dark-v9' : 'light-v8'}`}
+          mapStyle={`mapbox://styles/mapbox/${
+            darkTheme ? 'dark-v9' : 'light-v8'
+          }`}
+          width="100%"
         >
           <Marker
-            longitude={viewport.longitude}
-            latitude={viewport.latitude}
-            offsetTop={-20}
-            offsetLeft={-10}
             draggable
+            latitude={viewport.latitude}
+            longitude={viewport.longitude}
+            offsetLeft={-10}
+            offsetTop={-20}
             // onDragStart={this._onMarkerDragStart}
             // onDrag={this._onMarkerDrag}
             // onDragEnd={_onMarkerDragEnd}
           >
             <svg
               height={20}
-              viewBox="0 0 24 24"
               style={{
                 fill: '#d00',
                 stroke: 'none',
               }}
+              viewBox="0 0 24 24"
             >
               <path
                 d={`M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,4.5,2,10c0,2,0.6,3.9,1.6,5.4c0,0.1,0.1,0.2,0.2,0.3

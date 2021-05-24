@@ -2,31 +2,33 @@ type TickFunction = (_currentTime: number) => void;
 type OnFinishFunction = () => void;
 
 class CountDown {
-  private _count!: number;
-  private _intervalId: number;
-  private _onFinish: OnFinishFunction = () => {};
+  private count!: number;
+
+  private intervalId: number;
+
+  private onFinishFn: OnFinishFunction;
 
   /**
    * Start initial time in milliseconds
    */
   start(callback: TickFunction, startTimeFrom: number, timeout = 1000) {
-    this._count = startTimeFrom;
-    this._intervalId = window.setInterval(() => {
-      this._count -= timeout;
-      if (this._count <= 0) {
-        clearInterval(this._intervalId);
-        this._onFinish();
+    this.count = startTimeFrom;
+    this.intervalId = window.setInterval(() => {
+      this.count -= timeout;
+      if (this.count <= 0) {
+        clearInterval(this.intervalId);
+        this.onFinishFn();
       }
-      callback(this._count);
+      callback(this.count);
     }, timeout);
   }
 
   onFinish(callback: OnFinishFunction) {
-    this._onFinish = callback;
+    this.onFinishFn = callback;
   }
 
   end() {
-    clearInterval(this._intervalId);
+    clearInterval(this.intervalId);
   }
 }
 

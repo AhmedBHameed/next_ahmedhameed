@@ -10,8 +10,11 @@ interface OnboardingProps {
   backgroundUrl: string;
 }
 
-const Onboarding: React.FC<OnboardingProps> = ({title, children, backgroundUrl}) => {
-  return (
+const Onboarding: React.FC<OnboardingProps> = ({
+  backgroundUrl,
+  children,
+  title,
+}) => (
     <div className="bg-white font-family-karla h-screen">
       <div className="w-full flex flex-wrap h-full">
         <div className="w-full md:w-1/2 flex flex-col bg-primary text-primary">
@@ -26,11 +29,15 @@ const Onboarding: React.FC<OnboardingProps> = ({title, children, backgroundUrl})
           </div>
         </div>
         <div className="relative w-1/2 shadow-2xl hidden md:block">
-          <Image src={backgroundUrl} alt="Keyboard image" layout="fill" objectFit="cover" />
+          <Image
+            alt="Keyboard image"
+            layout="fill"
+            objectFit="cover"
+            src={backgroundUrl}
+          />
         </div>
       </div>
     </div>
   );
-};
 
 export default Onboarding;

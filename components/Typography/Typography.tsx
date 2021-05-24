@@ -6,10 +6,8 @@ interface TypographyProps {
   className?: string;
 }
 
-const Typography: React.FC<TypographyProps> = ({children, className}) => {
-  return (
+const Typography: React.FC<TypographyProps> = ({children, className}) => (
     <article className={clsx(['prose prose-sm lg:prose-lg xl:prose-xl max-w-none', className])}>{children}</article>
   );
-};
 
 export default Typography;

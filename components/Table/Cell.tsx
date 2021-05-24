@@ -4,8 +4,6 @@ interface CellProps {
   className?: string;
 }
 
-const Cell: React.FC<CellProps> = ({children, className}) => {
-  return <td className={className}>{children}</td>;
-};
+const Cell: React.FC<CellProps> = ({children, className}) => <td className={className}>{children}</td>;
 
 export default Cell;

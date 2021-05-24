@@ -3,12 +3,14 @@ import {useCallback} from 'react';
 
 import ROUTES from '../../../config/Routes';
 
-export const useNavigateToBlog = () => {
+const useNavigateToAboutMe = () => {
   const router = useRouter();
 
-  const goToBlog = useCallback(() => {
-    router.push(ROUTES.blog.path);
+  const goToAboutMe = useCallback(() => {
+    router.push(ROUTES.aboutMe.path);
   }, [router]);
 
-  return {goToBlog};
+  return {goToAboutMe};
 };
+
+export default useNavigateToAboutMe;

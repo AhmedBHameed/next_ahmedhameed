@@ -12,7 +12,7 @@ const useMousePosition = ({isRtl}: {isRtl: boolean}) => {
         x: isMenuOpen ? `${sign}0.875rem` : `${sign}1.65rem`,
       }).delay(0.7);
     }
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isRtl]);
 
   useEffect(() => {
     toggleMenu(false);
@@ -26,7 +26,8 @@ const useMousePosition = ({isRtl}: {isRtl: boolean}) => {
 
     window.addEventListener('mousemove', updateMousePosition, false);
 
-    return () => window.removeEventListener('mousemove', updateMousePosition, false);
+    return () =>
+      window.removeEventListener('mousemove', updateMousePosition, false);
   }, []);
 
   return {burgerButtonRef, isMenuOpen, toggleMenu};

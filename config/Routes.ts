@@ -1,8 +1,5 @@
 const ROUTES = {
   // Blog
-  blog: {
-    path: '/blog',
-  },
   article: {
     path: '/article',
   },
@@ -22,19 +19,6 @@ const ROUTES = {
   resetPassword: {
     path: 'reset-password',
   },
-  // Dashboard
-  dashboard: {
-    path: '/dashboard',
-  },
-  dashboardCategories: {
-    path: '/dashboard/categories',
-  },
-  dashboardArticles: {
-    path: '/dashboard/articles',
-  },
-  dashboardMedia: {
-    path: '/dashboard/media',
-  },
   // Ahmed Hameed
   aboutMe: {
     path: '/',
@@ -44,6 +28,9 @@ const ROUTES = {
   },
   hireMe: {
     path: '/hire-me',
+  },
+  portfolio: {
+    path: '/portfolio',
   },
 };
 

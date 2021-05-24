@@ -1,6 +1,5 @@
 import {ApolloError} from '@apollo/client';
-import {useRouter} from 'next/router';
-import {useCallback, useEffect} from 'react';
+import {useCallback} from 'react';
 import {useNavigateToLogin} from '../../AsideBar/hooks/NavigateToLoginHook';
 
 export const useUnauthenticated = () => {
@@ -8,7 +7,11 @@ export const useUnauthenticated = () => {
 
   const isAuthenticated = useCallback(
     ({graphQLErrors}: ApolloError) => {
-      if (graphQLErrors.length && graphQLErrors[0].extensions.code === 'UNAUTHENTICATED') goToLogin();
+      if (
+        graphQLErrors.length &&
+        graphQLErrors[0].extensions.code === 'UNAUTHENTICATED'
+      )
+        goToLogin();
     },
     [goToLogin]
   );

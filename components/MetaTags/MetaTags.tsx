@@ -18,8 +18,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
   articleId,
   articleBy,
   children,
-}) => {
-  return (
+}) => (
     <Head>
       <title>{title}</title>
 
@@ -31,19 +30,19 @@ const MetaTags: React.FC<MetaTagsProps> = ({
       <meta property="og:description" content={description} />
       <meta name="twitter:card" content="summary_large_image" /> */}
 
-      <meta property="og:type" content="article" />
-      <meta property="og:url" content={articleUrl} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta property="og:site_name" content={title} />
-      <meta property="og:title" content={title} />
-      <meta name="twitter:title" content={title} />
-      <meta name="image" property="og:image" content={imageUrl} />
-      <meta name="twitter:image:src" content={imageUrl} />
-      <meta property="og:description" content={description} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:creator" content={articleBy} />
-      <meta name="twitter:site" content="www.ahmedhameed.dev" />
-      <meta name="author" content="Ahmed HAMEED"></meta>
+      <meta content="article" property="og:type" />
+      <meta content={articleUrl} property="og:url" />
+      <meta content="summary_large_image" name="twitter:card" />
+      <meta content={title} property="og:site_name" />
+      <meta content={title} property="og:title" />
+      <meta content={title} name="twitter:title" />
+      <meta content={imageUrl} name="image" property="og:image" />
+      <meta content={imageUrl} name="twitter:image:src" />
+      <meta content={description} property="og:description" />
+      <meta content={description} name="twitter:description" />
+      <meta content={articleBy} name="twitter:creator" />
+      <meta content="www.ahmedhameed.dev" name="twitter:site" />
+      <meta content="Ahmed HAMEED" name="author" />
       {/* Non-Essential, But Recommended */}
 
       {/* <meta property="og:site_name" content="www.ahmedhameed.dev" />
@@ -51,11 +50,10 @@ const MetaTags: React.FC<MetaTagsProps> = ({
 
       {/* Non-Essential, But Required for Analytics */}
 
-      <meta property="fb:app_id" content={articleId} />
+      <meta content={articleId} property="fb:app_id" />
       {/* <meta name="twitter:site" content={articleBy} /> */}
       {children}
     </Head>
   );
-};
 
 export default MetaTags;

@@ -5,18 +5,14 @@ interface HeaderCellProps {
   cells: (string | JSX.Element)[];
 }
 
-const HeaderCells: React.FC<HeaderCellProps> = ({cells, className}) => {
-  return (
+const HeaderCells: React.FC<HeaderCellProps> = ({cells, className}) => (
     <tr>
-      {cells.map((cellText, i) => {
-        return (
-          <th scope="col" key={i.toString()} className={className}>
+      {cells.map((cellText, i) => (
+          <th className={className} key={i.toString()} scope="col">
             {cellText}
           </th>
-        );
-      })}
+        ))}
     </tr>
   );
-};
 
 export default HeaderCells;

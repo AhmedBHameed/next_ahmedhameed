@@ -1,3 +1,4 @@
+import {joiResolver} from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import {NextPage} from 'next';
 import Link from 'next/link';
@@ -5,10 +6,9 @@ import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 
 import {BaseButton} from '../../components/Buttons';
-import {FieldLabel, FormControl, TextField} from '../../components/Forms';
+import {FormControl, TextField} from '../../components/Form';
 import Onboarding from '../../components/Onboarding/Onboarding';
 import ROUTES from '../../config/Routes';
-import {joiResolver} from '../../util/joiResolver';
 import {PASSWORD_REGULAR_EXPRESSION} from '../../util/passwordRegularExpression';
 
 interface ResetPasswordFormData {
@@ -19,19 +19,29 @@ const ResetPassword: NextPage = () => {
   const loginSchema = useMemo(
     () =>
       Joi.object({
-        newPassword: Joi.string().pattern(PASSWORD_REGULAR_EXPRESSION).required().messages({
-          'string.empty': 'Field is required.',
-          'string.pattern.base': `Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space`,
-        }),
-        confirmPassword: Joi.string().pattern(PASSWORD_REGULAR_EXPRESSION).required().messages({
-          'string.empty': 'Field is required.',
-          'string.pattern.base': `Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space`,
-        }),
+        newPassword: Joi.string()
+          .pattern(PASSWORD_REGULAR_EXPRESSION)
+          .required()
+          .messages({
+            'string.empty': 'Field is required.',
+            'string.pattern.base': `Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space`,
+          }),
+        confirmPassword: Joi.string()
+          .pattern(PASSWORD_REGULAR_EXPRESSION)
+          .required()
+          .messages({
+            'string.empty': 'Field is required.',
+            'string.pattern.base': `Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space`,
+          }),
       }),
     []
   );
 
-  const {formState, errors, register, handleSubmit} = useForm<ResetPasswordFormData>({
+  const {
+    formState: {errors, isValid},
+    register,
+    handleSubmit,
+  } = useForm<ResetPasswordFormData>({
     resolver: joiResolver(loginSchema),
     mode: 'onChange',
     defaultValues: {
@@ -41,46 +51,54 @@ const ResetPassword: NextPage = () => {
   });
 
   const login = useCallback((formData: ResetPasswordFormData) => {
+    // eslint-disable-next-line no-console
     console.log(formData);
   }, []);
 
   const {newPassword, confirmPassword} = errors;
 
   return (
-    <Onboarding title="Reset password" backgroundUrl="/images/hijab.jpg">
-      <form className="flex flex-col pt-3 md:pt-8" onSubmit={handleSubmit(login)}>
-        <FormControl className="flex flex-col pt-4" error={newPassword?.message}>
-          <FieldLabel className="text-lg" htmlFor="newPassword">
-            New password
-          </FieldLabel>
+    <Onboarding backgroundUrl="/images/hijab.jpg" title="Reset password">
+      <form
+        className="flex flex-col pt-3 md:pt-8"
+        onSubmit={handleSubmit(login)}
+      >
+        <FormControl
+          className="flex flex-col pt-4"
+          error={newPassword?.message}
+          htmlFor="newPassword"
+          label="New password"
+        >
           <TextField
             error={!!newPassword?.message}
-            type="password"
             name="newPassword"
             placeholder="New password"
-            ref={register}
+            type="password"
+            {...register('newPassword')}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
-        <FormControl className="flex flex-col pt-4" error={confirmPassword?.message}>
-          <FieldLabel className="text-lg" htmlFor="confirmPassword">
-            Confirm password
-          </FieldLabel>
+        <FormControl
+          className="flex flex-col pt-4"
+          error={confirmPassword?.message}
+          htmlFor="confirmPassword"
+          label="Confirm password"
+        >
           <TextField
             error={!!confirmPassword?.message}
-            type="password"
             name="confirmPassword"
             placeholder="Confirm password"
-            ref={register}
+            type="password"
+            {...register('confirmPassword')}
             className="text-primary bg-secondary"
           />
         </FormControl>
 
         <BaseButton
-          type="submit"
-          disabled={!formState.isValid}
           className="bg-blue-500 justify-center duration-300 bg-black text-white font-bold text-lg hover:bg-blue-600 p-2 mt-8"
+          disabled={!isValid}
+          type="submit"
         >
           Reset password
         </BaseButton>

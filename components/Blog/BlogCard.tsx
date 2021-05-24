@@ -1,9 +1,8 @@
+import {format} from 'date-fns';
+import {useRouter} from 'next/router';
 import React from 'react';
 import {Post} from '../../graphql/queries';
-import {format} from 'date-fns';
-import {ar, enUS} from 'date-fns/locale';
 import Image from '../Image/Image';
-import {useRouter} from 'next/router';
 
 interface BlogCardProps {
   post?: Post;
@@ -14,18 +13,20 @@ const BlogCard: React.FC<BlogCardProps> = ({post, dir}) => {
   const isArabicPage = dir === 'rtl';
   const {locale, pathname} = useRouter();
 
-  const postUrl = `/${locale}${pathname}/${encodeURIComponent(isArabicPage ? post.arTitle : post.enTitle)}`;
-  const postDate = format(new Date(post.createdAt), 'MMMM dd, yyyy', {locale: isArabicPage ? ar : enUS});
+  const postUrl = `/${locale}${pathname}/${encodeURIComponent(
+    isArabicPage ? post.arTitle : post.enTitle
+  )}`;
+  const postDate = format(new Date(post.createdAt), 'MMMM dd, yyyy');
 
   return (
     <div className="flex flex-col rounded-lg shadow-lg overflow-hidden border border-gray-300">
       <div className="flex-shrink-0 overflow-hidden">
         <a href={postUrl}>
           <Image
-            src={post.banner}
+            alt="article banner"
             className="h-48 w-full object-cover transform duration-300 transition-transform hover:scale-110 hover:rotate-3"
             fit
-            alt="article banner"
+            src={post.banner}
           />
         </a>
       </div>
@@ -35,28 +36,33 @@ const BlogCard: React.FC<BlogCardProps> = ({post, dir}) => {
             <i>
               <time dateTime={postDate}>{postDate}</time>
               {' -- '}
-              <span>{isArabicPage ? post.arReadingTime : post.enReadingTime}</span>
+              <span>
+                {isArabicPage ? post.arReadingTime : post.enReadingTime}
+              </span>
             </i>
             <span aria-hidden="true">&middot;</span>
           </div>
 
-          <a href={postUrl} className="block mt-2">
-            <h6 className="text-xl font-semibold text-primary">{isArabicPage ? post.arTitle : post.enTitle}</h6>
+          <a className="block mt-2" href={postUrl}>
+            <h6 className="text-xl font-semibold text-primary">
+              {isArabicPage ? post.arTitle : post.enTitle}
+            </h6>
 
             <p className="mt-3 text-base text-gray-500">
-              {`${(isArabicPage ? post.arBody : post.enBody).substr(0, 50)} ...`}
+              {`${(isArabicPage ? post.arBody : post.enBody).substr(
+                0,
+                50
+              )} ...`}
             </p>
           </a>
         </div>
         <div className="mt-6 flex items-center">
           <p className="text-sm font-medium text-subject">
-            {post.postCategoryTags.map(category => {
-              return (
+            {post.postCategoryTags.map((category) => (
                 <span className="inline-flex items-center px-3 mr-1 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-pink-800">
                   {category.name}
                 </span>
-              );
-            })}
+              ))}
             {/* <a
               href="#"
               className="hover:underline inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-pink-800"

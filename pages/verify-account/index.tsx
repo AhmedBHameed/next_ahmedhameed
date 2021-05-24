@@ -1,6 +1,6 @@
 import {NextPage} from 'next';
 import {useRouter} from 'next/router';
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 import Onboarding from '../../components/Onboarding/Onboarding';
 import Typography from '../../components/Typography/Typography';
@@ -12,26 +12,29 @@ const VerifyAccount: NextPage = () => {
   const [time, setTime] = useState(0);
 
   const verifyAccount = useCallback(() => {
-    // console.log(router.query);
-    countDown.start(time => {
+    countDown.start(() => {
       setTime(time / 1000);
     }, 30000);
 
     countDown.onFinish(() => {
       router.push(ROUTES.login.path);
     });
-  }, [router.query, time, setTime]);
+  }, [router, time, setTime]);
 
   useEffect(() => {
     if (router.query?.userId) verifyAccount();
     return () => countDown.end();
-  }, [router.query?.userId]);
+  }, [router.query?.userId, verifyAccount]);
 
   return (
-    <Onboarding title="Thank you!" backgroundUrl="/images/keyboard.jpg">
+    <Onboarding backgroundUrl="/images/keyboard.jpg" title="Thank you!">
       <Typography className="mb-16 text-center mt-2">
         <p className="md:text-lg text-secondary">Account has been activated.</p>
-        {time ? <p className="md:text-lg text-secondary">Return to login in {time}</p> : <p>Verifying...</p>}
+        {time ? (
+          <p className="md:text-lg text-secondary">Return to login in {time}</p>
+        ) : (
+          <p>Verifying...</p>
+        )}
       </Typography>
     </Onboarding>
   );

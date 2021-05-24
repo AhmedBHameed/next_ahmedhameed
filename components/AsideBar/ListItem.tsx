@@ -1,8 +1,7 @@
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {useMemo} from 'react';
-
-import styled from '@emotion/styled';
 
 import {clsx} from '../../util/clsx';
 
@@ -35,26 +34,36 @@ interface ListItemProps {
   onClick?: () => void;
 }
 
-const ListItem: React.FC<ListItemProps> = ({children, className, href, onClick}) => {
+const ListItem: React.FC<ListItemProps> = ({
+  children,
+  className,
+  href,
+  onClick,
+}) => {
   const router = useRouter();
   const activeClass = router.pathname === href ? 'active' : '';
 
-  const linkComponent = useMemo(() => {
-    return (
+  const linkComponent = useMemo(
+    () => (
       <Span
-        onClick={onClick}
         className={clsx([
           'text-primary py-0.5 text-md tracking-widest uppercase relative cursor-pointer font-medium',
           activeClass,
           className,
         ])}
+        onClick={onClick}
       >
         {children}
       </Span>
-    );
-  }, []);
+    ),
+    [children, onClick, activeClass, className]
+  );
 
-  return <li className="my-2">{href ? <Link href={href}>{linkComponent}</Link> : linkComponent}</li>;
+  return (
+    <li className="my-2">
+      {href ? <Link href={href}>{linkComponent}</Link> : linkComponent}
+    </li>
+  );
 };
 
 export default ListItem;

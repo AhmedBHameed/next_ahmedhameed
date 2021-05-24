@@ -6,8 +6,8 @@ interface ListProps {
   className?: string;
 }
 
-const List: React.FC<ListProps> = ({children, className}) => {
-  return <ul className={clsx(['p-0 mt-5 justify-center', className])}>{children}</ul>;
-};
+const List: React.FC<ListProps> = ({children, className}) => (
+  <ul className={clsx(['p-0 mt-5 justify-center', className])}>{children}</ul>
+);
 
 export default List;

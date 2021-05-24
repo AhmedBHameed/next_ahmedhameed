@@ -16,18 +16,24 @@ interface AsideBarProps {
   dir?: 'rtl' | 'ltr';
 }
 
-const AsideBar: React.FC<AsideBarProps> = ({children, dir, asideNavigationComponent}) => {
+const AsideBar: React.FC<AsideBarProps> = ({
+  children,
+  dir,
+  asideNavigationComponent,
+}) => {
   const isRtl = dir === 'rtl';
+  const asideBarAnimationClass = isRtl ? 'translate-x-72' : '-translate-x-72';
+  const contentAnimationClass = isRtl ? '-translate-x-72' : 'translate-x-72';
   const {burgerButtonRef, isMenuOpen, toggleMenu} = useMousePosition({isRtl});
 
   return (
-    <div dir={dir} className="min-h-full">
+    <div className="min-h-full" dir={dir}>
       <DetectOutsideClick onOutsideClick={() => toggleMenu(() => false)}>
         <div
           className={clsx([
             'fixed top-0 z-50 flex bg-primary transition-transform transform duration-700',
             isRtl ? 'right-0' : 'left-0',
-            isMenuOpen ? 'translate-x-0' : isRtl ? 'translate-x-72' : '-translate-x-72',
+            isMenuOpen ? 'translate-x-0' : asideBarAnimationClass,
           ])}
         >
           <div className="w-72 bg-aside flex flex-col flex-shrink-0 pr-3 h-screen">
@@ -39,13 +45,17 @@ const AsideBar: React.FC<AsideBarProps> = ({children, dir, asideNavigationCompon
             <Footer />
           </div>
 
-          <Burger ref={burgerButtonRef} onClick={() => toggleMenu(!isMenuOpen)} isRtl={isRtl} />
+          <Burger
+            isRtl={isRtl}
+            onClick={() => toggleMenu(!isMenuOpen)}
+            ref={burgerButtonRef}
+          />
         </div>
       </DetectOutsideClick>
 
       <div
         className={`transition-transform transform duration-700 bg-primary min-h-screen ${
-          isMenuOpen ? (isRtl ? '-translate-x-72' : 'translate-x-72') : 'translate-x-0'
+          isMenuOpen ? contentAnimationClass : 'translate-x-0'
         }`}
       >
         {children}

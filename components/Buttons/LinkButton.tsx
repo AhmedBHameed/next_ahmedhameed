@@ -9,8 +9,7 @@ interface LinkButtonProps {
   Icon?: React.FC<React.SVGProps<SVGSVGElement>>;
 }
 
-const LinkButton: React.FC<LinkButtonProps> = ({Icon, children, href, className, targetBlank}) => {
-  return (
+const LinkButton: React.FC<LinkButtonProps> = ({Icon, children, href, className, targetBlank}) => (
     <Link href={href}>
       <a
         className={`${clsx([
@@ -24,6 +23,5 @@ const LinkButton: React.FC<LinkButtonProps> = ({Icon, children, href, className,
       </a>
     </Link>
   );
-};
 
 export {LinkButton};

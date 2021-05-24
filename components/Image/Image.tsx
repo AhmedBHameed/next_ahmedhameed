@@ -14,7 +14,14 @@ interface ImageProps {
   className?: string;
 }
 
-const Image: React.FC<ImageProps> = ({src, className, alt, height, width, fit}) => {
+const Image: React.FC<ImageProps> = ({
+  src,
+  className,
+  alt,
+  height,
+  width,
+  fit,
+}) => {
   const wSize = useWindowSize();
   const [imgUrl, setImgUrl] = useState('');
 
@@ -43,7 +50,7 @@ const Image: React.FC<ImageProps> = ({src, className, alt, height, width, fit}) 
       default:
         setImgUrl(`&width=${BREAK_POINTS[3]}`);
     }
-  }, [wSize, width]);
+  }, [wSize, fit, width]);
 
   const baseUrl = `${environment.domain}/nodeys/image?url=${src}`;
 

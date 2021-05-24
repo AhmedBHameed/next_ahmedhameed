@@ -1,6 +1,6 @@
 import {gql} from '@apollo/client';
-import USER_FRAGMENT from './userFragment.graphql';
 import CATEGORY_FRAGMENT from './categoryFragment.graphql';
+import USER_FRAGMENT from './userFragment.graphql';
 
 const POST_FRAGMENT = gql`
   ${USER_FRAGMENT}

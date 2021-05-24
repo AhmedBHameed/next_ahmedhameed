@@ -1,8 +1,7 @@
-import React from 'react';
-import {Popup} from 'reactjs-popup';
-
 import {keyframes} from '@emotion/react';
 import styled from '@emotion/styled';
+import React from 'react';
+import {Popup} from 'reactjs-popup';
 
 import {clsx} from '../../util/clsx';
 
@@ -39,29 +38,27 @@ interface ModalProps {
   open: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({open, className, children}) => {
-  return (
+const Modal: React.FC<ModalProps> = ({open, className, children}) => (
     <Popup
-      trigger={<div />}
-      open={open}
-      position="center center"
-      modal
+      arrow={false}
       contentStyle={{
         padding: '0px',
         border: 'none',
         flexGrow: 1,
         height: '100%',
       }}
+      modal
+      nested
+      open={open}
       overlayStyle={{
         backdropFilter: 'blur(2px)',
         backgroundColor: 'rgba(0,0,0,0.7)',
       }}
-      arrow={false}
-      nested
+      position="center center"
+      trigger={<div />}
     >
       <ModalContainer className={clsx([className])}>{children}</ModalContainer>
     </Popup>
   );
-};
 
 export default Modal;
