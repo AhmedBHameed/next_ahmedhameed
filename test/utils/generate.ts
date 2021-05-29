@@ -1,5 +1,5 @@
-import {HistoryTimelineModel} from 'components/Timeline/Timeline';
 import faker from 'faker';
+import {HistoryTimelineModel} from '../../components/Timeline/Timeline';
 import {
   ANGULAR_TAG,
   EXPRESS_TAG,
@@ -21,13 +21,13 @@ import {
 const genAmount = (): number => Math.trunc(Number(faker.finance.amount) * 100);
 const genDate = faker.date.recent;
 const genEmail = faker.internet.email;
-const genPassword = faker.internet.password;
+// const genPassword = faker.internet.password;
 const genName = faker.name.findName;
 const genId = faker.datatype.uuid;
 const genNumber = faker.datatype.number;
 const genBoolean = faker.datatype.boolean;
 const genCountryName = faker.address.country;
-const genPhoneNumber = faker.phone.phoneNumber;
+// const genPhoneNumber = faker.phone.phoneNumber;
 const genNotes = faker.lorem.paragraph;
 const genTitle = faker.lorem.sentence;
 

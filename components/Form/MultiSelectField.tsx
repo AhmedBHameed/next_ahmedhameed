@@ -1,7 +1,6 @@
 import {useCombobox, useMultipleSelection} from 'downshift';
 import {useRef, useState} from 'react';
 
-// import {SelectArrowsSvg, CheckSvg} from '../../components/SVGs';
 import {Popup} from 'reactjs-popup';
 import {clsx} from '../../util/clsx';
 import {FIELD_BORDER_CLASSES} from './shared';

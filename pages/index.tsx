@@ -143,9 +143,9 @@ const AboutMe: NextPage = () => {
 
           <BaseButton
             className="uppercase w-full bg-subject text-reverse justify-center"
-            Icon={EmailSvg}
-            iconClasses="text-reverse"
+            Icon={<EmailSvg className="text-reverse" />}
             onClick={goToContactMe}
+            testId="contact-me-action-button"
           >
             Contact Me
           </BaseButton>

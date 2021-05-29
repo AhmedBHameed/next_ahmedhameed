@@ -20,9 +20,12 @@ const MOCK_LOGIN_DATA = mockLoginData();
 const mockConsoleError = mockConsoleErrorFun();
 
 const mockNavigateToAboutMe = jest.fn();
-jest.mock('../../../components/Blog/hooks/NavigateToAboutMeHook', () => () => ({
-  goToAboutMe: mockNavigateToAboutMe,
-}));
+jest.mock(
+  '../../../components/AboutMe/hooks/navigateToAboutMeHook',
+  () => () => ({
+    goToAboutMe: mockNavigateToAboutMe,
+  })
+);
 
 const mockTriggerNotification = jest.fn();
 jest.mock(

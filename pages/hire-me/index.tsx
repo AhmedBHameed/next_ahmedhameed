@@ -27,7 +27,7 @@ const MainTitle = styled.h4({
 const ProjectStructure = styled(ProjectStructureSvg)({
   width: '25rem',
   transform: 'translate(20%, 0)',
-  "path[class='cloud']": {
+  'path[class="prefix__cloud"]': {
     fill: 'var(--color-bg-aside)',
   },
   [mq.md]: {
@@ -129,6 +129,7 @@ const HireMe: NextPage = () => {
           <BaseButton
             className="uppercase bg-subject text-reverse w-full justify-center"
             onClick={goToContactMe}
+            testId="hire-me-action-button"
           >
             Hire me
           </BaseButton>

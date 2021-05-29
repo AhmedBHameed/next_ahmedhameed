@@ -11,7 +11,6 @@ import {BaseButton} from '../../components/Buttons';
 import {FormControl, Textarea, TextField} from '../../components/Form';
 import InfoCard from '../../components/InfoCard/InfoCard';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
-import {useValidations} from '../../components/shared/hooks/useValidationsHook';
 import {
   EmailSvg,
   FlourishSvg,
@@ -22,6 +21,7 @@ import {useSwitcherTheme} from '../../components/ThemeSwitcher/ThemeSwitcherCont
 import environment from '../../config/environment';
 import {ContactInput, useContactMeMutation} from '../../graphql/queries';
 import {clsx} from '../../util/clsx';
+import {Joi, requiredEmail, requiredString} from '../../util/validations';
 
 const viewport = {
   width: '100%',
@@ -35,7 +35,6 @@ const ContactMe: NextPage = () => {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {triggerNotification} = useNotification();
   const {darkTheme} = useSwitcherTheme();
-  const {Joi, requiredEmail, requiredString} = useValidations();
 
   const [addContact] = useContactMeMutation({
     onCompleted: ({contactMe}) => {
@@ -56,12 +55,12 @@ const ContactMe: NextPage = () => {
   const contactSchema = useMemo(
     () =>
       Joi.object({
-        email: requiredEmail,
-        name: requiredString,
-        subject: requiredString,
-        message: requiredString,
+        email: requiredEmail(),
+        name: requiredString(),
+        subject: requiredString(),
+        message: requiredString(),
       }),
-    [Joi, requiredEmail, requiredString]
+    []
   );
 
   const {
@@ -144,6 +143,7 @@ const ContactMe: NextPage = () => {
                   name="email"
                   placeholder="Email address"
                   ref={emailInputRef}
+                  testId="email-input"
                   type="email"
                 />
               </FormControl>
@@ -153,6 +153,7 @@ const ContactMe: NextPage = () => {
                   className={inputClassName}
                   name="name"
                   placeholder="Your name"
+                  testId="name-input"
                   type="text"
                   {...register('name', {required: true})}
                 />
@@ -163,6 +164,7 @@ const ContactMe: NextPage = () => {
                   className={inputClassName}
                   name="subject"
                   placeholder="Subject"
+                  testId="subject-input"
                   type="text"
                   {...register('subject', {required: true})}
                 />
@@ -185,6 +187,7 @@ const ContactMe: NextPage = () => {
                 className="w-full justify-center uppercase bg-subject text-reverse"
                 disabled={!isValid}
                 Icon={EmailSvg}
+                testId="submit-action-button"
                 type="submit"
               >
                 Contact Me

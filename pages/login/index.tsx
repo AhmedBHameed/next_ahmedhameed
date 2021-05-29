@@ -4,8 +4,8 @@ import {NextPage} from 'next';
 import Link from 'next/link';
 import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
+import useNavigateToAboutMe from '../../components/AboutMe/hooks/navigateToAboutMeHook';
 
-import useNavigateToAboutMe from '../../components/Blog/hooks/NavigateToAboutMeHook';
 import {BaseButton} from '../../components/Buttons';
 import {FormControl, TextField} from '../../components/Form';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
@@ -92,7 +92,6 @@ const Login: NextPage = () => {
           className="flex flex-col pt-4"
           error={email?.message}
           htmlFor="email"
-          label="Email"
           label={t('common.emailLabel')}
         >
           <TextField
