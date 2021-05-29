@@ -6,16 +6,14 @@ import {toHaveNoViolations} from 'jest-axe';
 
 expect.extend(toHaveNoViolations);
 
-/**
- * This will solve next/image issue while testing @see https://github.com/vercel/next.js/discussions/18373#discussioncomment-114212
- */
-process.env = {
-  ...process.env,
-  __NEXT_IMAGE_OPTS: JSON.parse(
-    // eslint-disable-next-line no-useless-escape
-    `{\"deviceSizes\":[320,420,768,1024,1200],\"imageSizes\":[],\"domains\":[\"images.example.com\"],\"path\":\"/_next/image\",\"loader\":\"default\"}`
-  ),
-};
+jest.mock('next/image', () => ({
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  __esModule: true,
+  default: (props: any) => {
+    // eslint-disable-next-line jsx-a11y/alt-text
+    return <img {...props} />;
+  },
+}));
 
 jest.mock('next/config', () => () => ({
   publicRuntimeConfig: {
