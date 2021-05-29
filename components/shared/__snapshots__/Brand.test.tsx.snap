@@ -1402,7 +1402,7 @@ exports[`Brand matches snapshot 1`] = `
     <h1
       class="text-2xl lg:text-3xl text-primary font-bold"
     >
-      Ahmed HAMEED
+      brand.name
     </h1>
   </div>
 </div>

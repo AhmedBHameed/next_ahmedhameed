@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useTranslation} from '../shared/hooks/useTranslate';
+import {useTranslation} from '../shared/hooks/translationHook';
 import {EmailSvg, GithubSvg, HeartSvg, LinkedinSvg} from '../SVGs';
 
 const Footer = () => {

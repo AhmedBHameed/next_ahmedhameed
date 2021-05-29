@@ -1,10 +1,37 @@
 // Extend jest prototype object with more useful functions from @testing-library.
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
+import {toHaveNoViolations} from 'jest-axe';
 
-// interface ElementProps {
-//   children: React.ReactNode;
-// }
+expect.extend(toHaveNoViolations);
+
+/**
+ * This will solve next/image issue while testing @see https://github.com/vercel/next.js/discussions/18373#discussioncomment-114212
+ */
+process.env = {
+  ...process.env,
+  __NEXT_IMAGE_OPTS: {
+    deviceSizes: [320, 420, 768, 1024, 1200],
+    imageSizes: [],
+    domains: ['images.example.com'],
+    path: '/_next/image',
+    loader: 'default',
+  },
+};
+
+jest.mock('next/config', () => () => ({
+  publicRuntimeConfig: {
+    mapboxApiAccessToken:
+      'pk.eyJ1IjoiYWhtZWRiaGFtZWVkIiwiYSI6ImNrNmNpd3M3ZzExZXMza21neGoxNHJoeDcifQ.07EbC691qPVJ86uLhJyfWA',
+    domain: 'http://localhost:5000',
+    graphqlApi: '/nodeys/v1/graphql',
+    uploadApi: '/nodeys/api/upload',
+    localeSubpaths:
+      typeof process.env.LOCALE_SUBPATHS === 'string'
+        ? process.env.LOCALE_SUBPATHS
+        : 'none',
+  },
+}));
 
 const mockHistoryPush = jest.fn();
 jest.mock('next/router', () => ({
@@ -14,53 +41,22 @@ jest.mock('next/router', () => ({
       pathname: '',
       query: '',
       asPath: '',
-      locale: 'en',
+      locale: 'N/A', // We need to test locale keys and not the value of them
       push: mockHistoryPush,
     };
   },
 }));
-// const mockLocationPathname = jest.fn();
 
-// jest.mock('react-router-dom', () => ({
-//   ...jest.requireActual('react-router-dom'),
-//   useHistory: () => ({
-//     push: mockHistoryPush,
-//   }),
-//   useLocation: mockLocationPathname,
-// }));
+function mockConsoleErrorFun() {
+  const mockConsoleError = jest
+    .spyOn(console, 'error')
+    .mockImplementation(() => {});
 
-// jest.mock('react-i18next', () => ({
-//   useTranslation: () => ({
-//     t: (key: string) => key,
-//     i18n: {language: 'en', languages: ['en']},
-//   }),
-//   Trans: (props: ElementProps) => props.children,
-// }));
+  afterAll(() => {
+    mockConsoleError.mockRestore();
+  });
 
-// /**
-//  * Matching media query of (min-width: 768px) so:
-//  * matches = true mockMediaQuery(md, md);
-//  * matches = false mockMediaQuery(md, sm);
-//  *
-//  * @param windowWidth
-//  * @param screenSize
-//  */
-// function mockMediaQuery(windowWidth: number, screenSize: number) {
-//   Object.defineProperty(window, 'innerWidth', {
-//     writable: true,
-//     configurable: true,
-//     value: windowWidth,
-//   });
+  return mockConsoleError;
+}
 
-//   window.matchMedia = jest.fn().mockImplementation((query) => ({
-//     matches: windowWidth <= screenSize,
-//     media: query,
-//     onchange: null,
-//     addEventListener: jest.fn(),
-//     removeEventListener: jest.fn(),
-//     addListener: jest.fn(),
-//     removeListener: jest.fn(),
-//   }));
-// }
-
-export {mockHistoryPush};
+export {mockHistoryPush, mockConsoleErrorFun};

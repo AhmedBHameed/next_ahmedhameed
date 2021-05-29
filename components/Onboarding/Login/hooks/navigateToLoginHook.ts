@@ -1,9 +1,9 @@
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 
-import ROUTES from '../../../config/Routes';
+import ROUTES from '../../../../config/Routes';
 
-export const useNavigateToLogin = () => {
+const useNavigateToLogin = () => {
   const router = useRouter();
 
   const goToLogin = useCallback(() => {
@@ -12,3 +12,5 @@ export const useNavigateToLogin = () => {
 
   return {goToLogin};
 };
+
+export default useNavigateToLogin;

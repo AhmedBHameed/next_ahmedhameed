@@ -22,7 +22,9 @@ import {toast, ToastContainer} from 'react-toastify';
 //   // }
 // `;
 
-const Notification = () => <ToastContainer position="bottom-right" rtl />;
+const Notification = () => (
+  <ToastContainer position="bottom-right" rtl={false} />
+);
 
 export {toast};
 export default Notification;

@@ -4,21 +4,26 @@ import Link from 'next/link';
 import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 
-import {useNavigateToLogin} from '../../components/AsideBar/hooks/NavigateToLoginHook';
 import {BaseButton} from '../../components/Buttons';
 import {FormControl, TextField} from '../../components/Form';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
+import useNavigateToLogin from '../../components/Onboarding/Login/hooks/navigateToLoginHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
-import {useTranslation} from '../../components/shared/hooks/useTranslate';
-import {useValidations} from '../../components/shared/hooks/useValidationsHook';
+import {useTranslation} from '../../components/shared/hooks/translationHook';
 import ROUTES from '../../config/Routes';
 import {Signup, useSignupMutation} from '../../graphql/queries';
+import {
+  Joi,
+  requiredEmail,
+  requiredPassword,
+  requiredString,
+} from '../../util/validations';
 
 const SignUp: NextPage = () => {
   const {triggerNotification} = useNotification();
   const {goToLogin} = useNavigateToLogin();
   const {t} = useTranslation();
-  const [signup] = useSignupMutation({
+  const [signup, {loading}] = useSignupMutation({
     onCompleted: () => {
       triggerNotification({
         type: 'success',
@@ -26,7 +31,9 @@ const SignUp: NextPage = () => {
       });
       goToLogin();
     },
-    onError: () => {
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.error('<Signup />', error);
       triggerNotification({
         type: 'error',
         message: t('signup.error.userNotRegistered'),
@@ -34,28 +41,25 @@ const SignUp: NextPage = () => {
     },
   });
 
-  const {Joi, requiredEmail, requiredString, requiredPassword} =
-    useValidations();
   const signupSchema = useMemo(
     () =>
       Joi.object({
         name: Joi.object({
-          first: requiredString,
-          last: requiredString,
+          first: requiredString(),
+          last: requiredString(),
         }),
-        email: requiredEmail,
-        password: requiredPassword,
+        email: requiredEmail(),
+        password: requiredPassword(),
       }),
-    [Joi, requiredEmail, requiredString, requiredPassword]
+    []
   );
 
   const {
-    formState: {errors, isValid},
+    formState: {errors},
     register,
     handleSubmit,
   } = useForm<Signup>({
     resolver: joiResolver(signupSchema),
-    mode: 'onChange',
     defaultValues: {
       name: {
         first: '',
@@ -94,12 +98,13 @@ const SignUp: NextPage = () => {
           className="flex flex-col pt-4"
           error={name?.first?.message}
           htmlFor="firstName"
-          label="First name"
+          label={t('signup.firstNameLabel')}
         >
           <TextField
             error={!!name?.first?.message}
             name="name.first"
-            placeholder="First name"
+            placeholder={t('signup.firstNamePlaceholder')}
+            testId="last-name-input"
             {...register('name.first')}
             className="text-primary bg-secondary"
           />
@@ -109,12 +114,13 @@ const SignUp: NextPage = () => {
           className="flex flex-col pt-4"
           error={name?.last?.message}
           htmlFor="lastName"
-          label="Last Name"
+          label={t('signup.lastNameLabel')}
         >
           <TextField
             error={!!name?.last?.message}
             name="name.last"
-            placeholder="Last name"
+            placeholder={t('signup.lastNamePlaceholder')}
+            testId="first-name-input"
             {...register('name.last')}
             className="text-primary bg-secondary"
           />
@@ -124,12 +130,13 @@ const SignUp: NextPage = () => {
           className="flex flex-col pt-4"
           error={email?.message}
           htmlFor="email"
-          label="Email"
+          label={t('common.emailLabel')}
         >
           <TextField
             error={!!email?.message}
             name="email"
-            placeholder="your@email.com"
+            placeholder={t('common.emailPlaceholder')}
+            testId="email-input"
             type="email"
             {...register('email')}
             className="text-primary bg-secondary"
@@ -140,12 +147,13 @@ const SignUp: NextPage = () => {
           className="flex flex-col pt-4"
           error={password?.message}
           htmlFor="password"
-          label="Password"
+          label={t('common.passwordLabel')}
         >
           <TextField
             error={!!password?.message}
             name="password"
-            placeholder="Password"
+            placeholder={t('common.passwordPlaceholder')}
+            testId="password-input"
             type="password"
             {...register('password')}
             className="text-primary bg-secondary"
@@ -154,17 +162,21 @@ const SignUp: NextPage = () => {
 
         <BaseButton
           className="bg-blue-500 justify-center duration-300 bg-black text-white font-bold text-lg hover:bg-blue-600 p-2 mt-8"
-          disabled={!isValid}
+          disabled={loading}
+          loading={loading}
+          testId="signup-action-button"
           type="submit"
         >
-          Register
+          {t('signup.registerActionButton')}
         </BaseButton>
       </form>
       <div className="text-center pt-12 pb-12">
         <p>
-          have an account?{' '}
+          {t('signup.haveAnAccount')}
           <Link href={ROUTES.login.path}>
-            <a className="underline font-semibold">Login here.</a>
+            <a className="underline font-semibold">
+              {t('signup.loginHereLinkLabel')}
+            </a>
           </Link>
         </p>
       </div>

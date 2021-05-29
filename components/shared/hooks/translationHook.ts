@@ -3,6 +3,8 @@ import {useRouter} from 'next/router';
 import ar from '../../../i18n/ar.json';
 import en from '../../../i18n/en.json';
 
+const isInTest = process.env.NODE_ENV === 'test';
+
 function translate(localeObject, path: string) {
   const originalPath = path;
   path = path.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
@@ -31,8 +33,10 @@ const useTranslation = () => {
       // If no no locale found, return locale key chain as origin i18n library.
       return {
         t: (path: string) => {
-          // eslint-disable-next-line no-console
-          console.log(`Missing locale key value of ${path}`);
+          if (!isInTest) {
+            // eslint-disable-next-line no-console
+            console.log(`Missing locale key value of ${path}`);
+          }
           return path;
         },
       };

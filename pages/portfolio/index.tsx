@@ -1,56 +1,57 @@
-import AhmedhammedNavigation from 'components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
-import AsideBar from 'components/AsideBar/AsideBar';
-import Divider from 'components/Divider/Divider';
-
-import Timeline, {HistoryTimelineModel} from 'components/Timeline/Timeline';
-import Typography from 'components/Typography/Typography';
-
 import {NextPage} from 'next';
-import {groupBy} from 'util/groupBy';
+
+import AhmedhammedNavigation from '../../components/AsideBar/AhmedhammedNavigation/AhmedhammedNavigation';
+import AsideBar from '../../components/AsideBar/AsideBar';
+import Divider from '../../components/Divider/Divider';
+import Timeline, {
+  HistoryTimelineModel,
+} from '../../components/Timeline/Timeline';
+import Typography from '../../components/Typography/Typography';
+import {groupBy} from '../../util/groupBy';
 
 const now = 'Now';
 
-const REACT_TAG = {
+export const REACT_TAG = {
   name: 'ReactJS',
   href: 'https://reactjs.org/',
   color: '#61DAFB',
 };
-const NODE_TAG = {
+export const NODE_TAG = {
   name: 'NodeJS',
   href: 'https://nodejs.org/en/',
   color: '#43853D',
 };
-const MONGODB_TAG = {
+export const MONGODB_TAG = {
   name: 'MongoDB',
   href: 'https://www.mongodb.com/',
   color: '#50AB53',
 };
-const EXPRESS_TAG = {
+export const EXPRESS_TAG = {
   name: 'ExpressJS',
   href: 'https://expressjs.com/',
   color: '#EA8F2A',
 };
-const GRAPHQL_TAG = {
+export const GRAPHQL_TAG = {
   name: 'GraphQL',
   href: 'https://graphql.org/',
   color: '#E35698',
 };
-const REACT_TESTING_LIBRARY_TAG = {
+export const REACT_TESTING_LIBRARY_TAG = {
   name: 'React testing library',
   href: 'https://testing-library.com/',
   color: '#F24743',
 };
-const ANGULAR_TAG = {
+export const ANGULAR_TAG = {
   name: 'Angular',
   href: 'https://angular.io/',
   color: '#DF3F32',
 };
-const LARAVEL_TAG = {
+export const LARAVEL_TAG = {
   name: 'Laravel',
   href: 'https://laravel.com/',
   color: '#F35D56',
 };
-const VUE_TAG = {
+export const VUE_TAG = {
   name: 'VueJS',
   href: 'https://vuejs.org/',
   color: '#50B883',

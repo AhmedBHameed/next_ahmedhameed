@@ -2,7 +2,7 @@ import Joi from 'joi';
 import {useMemo} from 'react';
 import {PASSWORD_REGULAR_EXPRESSION} from '../../../util/passwordRegularExpression';
 
-import {useTranslation} from './useTranslate';
+import {useTranslation} from './translationHook';
 
 export const useValidations = () => {
   const {t} = useTranslation();

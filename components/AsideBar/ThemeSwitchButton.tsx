@@ -1,5 +1,5 @@
-import useSwitcherTheme from 'components/ThemeSwitcher/hooks/themeSwitcherHook';
 import {MoonSvg, SunSvg} from '../SVGs';
+import useSwitcherTheme from '../ThemeSwitcher/hooks/themeSwitcherHook';
 
 interface ThemeSwitchButtonProps {
   className?: string;

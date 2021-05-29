@@ -1,12 +1,12 @@
 import {gql} from '@apollo/client';
 import * as Apollo from '@apollo/client';
-
 export type Maybe<T> = T | null;
 export type Exact<T extends {[key: string]: unknown}> = {[K in keyof T]: T[K]};
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
   {[SubKey in K]?: Maybe<T[SubKey]>};
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
   {[SubKey in K]: Maybe<T[SubKey]>};
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,116 +15,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: Date;
-};
-
-export type Message = {
-  __typename?: 'Message';
-  message?: Maybe<Scalars['String']>;
-};
-
-export type Login = {
-  __typename?: 'Login';
-  accessToken: Scalars['String'];
-  refreshToken: Scalars['String'];
-  userRole: Scalars['String'];
-};
-
-export enum UserRoles {
-  User = 'USER',
-  Admin = 'ADMIN',
-}
-
-export enum UserStatus {
-  Active = 'ACTIVE',
-  Inactive = 'INACTIVE',
-}
-
-export type Username = {
-  __typename?: 'Username';
-  first?: Maybe<Scalars['String']>;
-  last?: Maybe<Scalars['String']>;
-};
-
-export type LoginDataInput = {
-  email?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-};
-
-export type UsernameInput = {
-  first?: Maybe<Scalars['String']>;
-  last?: Maybe<Scalars['String']>;
-};
-
-export type Signup = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-  avatar?: Maybe<Scalars['String']>;
-  name?: Maybe<UsernameInput>;
-};
-
-export type VerificationUserInput = {
-  userId: Scalars['ID'];
-  verificationId: Scalars['String'];
-};
-
-export type UpdateUserInput = {
-  id: Scalars['ID'];
-  name?: Maybe<UsernameInput>;
-  gender?: Maybe<Scalars['String']>;
-  avatar?: Maybe<Scalars['String']>;
-  status: UserStatus;
-  role: UserRoles;
-  address?: Maybe<AddressInput>;
-};
-
-export type ResetPasswordInput = {
-  userId: Scalars['String'];
-  verificationId: Scalars['String'];
-  password: Scalars['String'];
-};
-
-export type User = {
-  __typename?: 'User';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Username>;
-  email: Scalars['String'];
-  status?: Maybe<UserStatus>;
-  verificationId?: Maybe<Scalars['String']>;
-  gender?: Maybe<Scalars['String']>;
-  avatar?: Maybe<Scalars['String']>;
-  role?: Maybe<UserRoles>;
-  address?: Maybe<Address>;
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-};
-
-export type File = {
-  __typename?: 'File';
-  filename?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Int']>;
-  mimtype?: Maybe<Scalars['String']>;
-};
-
-export type Document = {
-  __typename?: 'Document';
-  id?: Maybe<Scalars['ID']>;
-  file?: Maybe<File>;
-  name?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['ID']>;
-  createdAt?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
-};
-
-export type Countries = {
-  __typename?: 'Countries';
-  country: Scalars['String'];
-  abbreviation: Scalars['String'];
-};
-
-export type Cities = {
-  __typename?: 'Cities';
-  name: Scalars['String'];
 };
 
 export type Address = {
@@ -138,14 +28,6 @@ export type Address = {
   zip?: Maybe<Scalars['String']>;
 };
 
-export type ContactInput = {
-  id: Scalars['ID'];
-  email?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  subject?: Maybe<Scalars['String']>;
-};
-
 export type AddressInput = {
   state: Scalars['String'];
   city: Scalars['String'];
@@ -154,20 +36,6 @@ export type AddressInput = {
   lane?: Maybe<Scalars['String']>;
   house?: Maybe<Scalars['String']>;
   zip?: Maybe<Scalars['String']>;
-};
-
-export enum CategoryStatus {
-  Active = 'ACTIVE',
-  Inactive = 'INACTIVE',
-}
-
-export type CategoryInput = {
-  id: Scalars['ID'];
-  imgSrc: Scalars['String'];
-  name: Scalars['String'];
-  enDescription: Scalars['String'];
-  arDescription: Scalars['String'];
-  status: CategoryStatus;
 };
 
 export type Category = {
@@ -182,70 +50,72 @@ export type Category = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
-export enum PostStatus {
-  Published = 'PUBLISHED',
-  Draft = 'DRAFT',
-  Course = 'COURSE',
+export type CategoryInput = {
+  id: Scalars['ID'];
+  imgSrc: Scalars['String'];
+  name: Scalars['String'];
+  enDescription: Scalars['String'];
+  arDescription: Scalars['String'];
+  status: CategoryStatus;
+};
+
+export enum CategoryStatus {
+  Active = 'ACTIVE',
+  Inactive = 'INACTIVE',
 }
 
-export type PostInput = {
-  id: Scalars['ID'];
-  banner?: Maybe<Scalars['String']>;
-  postCategoryIds?: Maybe<Array<Maybe<Scalars['String']>>>;
-  arTitle: Scalars['String'];
-  arBody?: Maybe<Scalars['String']>;
-  enTitle: Scalars['String'];
-  enBody?: Maybe<Scalars['String']>;
-  status: PostStatus;
+export type Cities = {
+  __typename?: 'Cities';
+  name: Scalars['String'];
 };
 
-export type Post = {
-  __typename?: 'Post';
+export type ContactInput = {
+  id: Scalars['ID'];
+  email?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+};
+
+export type Countries = {
+  __typename?: 'Countries';
+  country: Scalars['String'];
+  abbreviation: Scalars['String'];
+};
+
+export type Document = {
+  __typename?: 'Document';
   id?: Maybe<Scalars['ID']>;
-  banner?: Maybe<Scalars['String']>;
-  status?: Maybe<PostStatus>;
-  postCategoryIds?: Maybe<Array<Maybe<Scalars['String']>>>;
-  postCategoryTags?: Maybe<Array<Maybe<Category>>>;
-  arTitle?: Maybe<Scalars['String']>;
-  arBody?: Maybe<Scalars['String']>;
-  arReadingTime?: Maybe<Scalars['String']>;
-  enTitle?: Maybe<Scalars['String']>;
-  enBody?: Maybe<Scalars['String']>;
-  enReadingTime?: Maybe<Scalars['String']>;
-  authorId?: Maybe<Scalars['String']>;
-  author?: Maybe<User>;
-  createdAt?: Maybe<Scalars['Date']>;
-  updatedAt?: Maybe<Scalars['Date']>;
+  file?: Maybe<File>;
+  name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  profile?: Maybe<User>;
-  user?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
-  searchUsers?: Maybe<Array<Maybe<User>>>;
-  login?: Maybe<Login>;
-  logout?: Maybe<Message>;
-  documents?: Maybe<Array<Maybe<Document>>>;
-  categories?: Maybe<Array<Maybe<Category>>>;
-  posts?: Maybe<Array<Maybe<Post>>>;
-  findPostByTitle?: Maybe<Post>;
+export type File = {
+  __typename?: 'File';
+  filename?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['Int']>;
+  mimtype?: Maybe<Scalars['String']>;
 };
 
-export type QueryUserArgs = {
-  id: Scalars['ID'];
+export type Login = {
+  __typename?: 'Login';
+  accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
+  userRole: Scalars['String'];
 };
 
-export type QuerySearchUsersArgs = {
-  search: Scalars['String'];
+export type LoginDataInput = {
+  email?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
 };
 
-export type QueryLoginArgs = {
-  userData: LoginDataInput;
-};
-
-export type QueryFindPostByTitleArgs = {
-  title: Scalars['String'];
+export type Message = {
+  __typename?: 'Message';
+  message?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -317,6 +187,136 @@ export type MutationUpdatePostArgs = {
   post: PostInput;
 };
 
+export type Post = {
+  __typename?: 'Post';
+  id?: Maybe<Scalars['ID']>;
+  banner?: Maybe<Scalars['String']>;
+  status?: Maybe<PostStatus>;
+  postCategoryIds?: Maybe<Array<Maybe<Scalars['String']>>>;
+  postCategoryTags?: Maybe<Array<Maybe<Category>>>;
+  arTitle?: Maybe<Scalars['String']>;
+  arBody?: Maybe<Scalars['String']>;
+  arReadingTime?: Maybe<Scalars['String']>;
+  enTitle?: Maybe<Scalars['String']>;
+  enBody?: Maybe<Scalars['String']>;
+  enReadingTime?: Maybe<Scalars['String']>;
+  authorId?: Maybe<Scalars['String']>;
+  author?: Maybe<User>;
+  createdAt?: Maybe<Scalars['Date']>;
+  updatedAt?: Maybe<Scalars['Date']>;
+};
+
+export type PostInput = {
+  id: Scalars['ID'];
+  banner?: Maybe<Scalars['String']>;
+  postCategoryIds?: Maybe<Array<Maybe<Scalars['String']>>>;
+  arTitle: Scalars['String'];
+  arBody?: Maybe<Scalars['String']>;
+  enTitle: Scalars['String'];
+  enBody?: Maybe<Scalars['String']>;
+  status: PostStatus;
+};
+
+export enum PostStatus {
+  Published = 'PUBLISHED',
+  Draft = 'DRAFT',
+  Course = 'COURSE',
+}
+
+export type Query = {
+  __typename?: 'Query';
+  profile?: Maybe<User>;
+  user?: Maybe<User>;
+  users?: Maybe<Array<Maybe<User>>>;
+  searchUsers?: Maybe<Array<Maybe<User>>>;
+  login?: Maybe<Login>;
+  logout?: Maybe<Message>;
+  documents?: Maybe<Array<Maybe<Document>>>;
+  categories?: Maybe<Array<Maybe<Category>>>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+  findPostByTitle?: Maybe<Post>;
+};
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
+export type QuerySearchUsersArgs = {
+  search: Scalars['String'];
+};
+
+export type QueryLoginArgs = {
+  userData: LoginDataInput;
+};
+
+export type QueryFindPostByTitleArgs = {
+  title: Scalars['String'];
+};
+
+export type ResetPasswordInput = {
+  userId: Scalars['String'];
+  verificationId: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type Signup = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
+  name?: Maybe<UsernameInput>;
+};
+
+export type UpdateUserInput = {
+  id: Scalars['ID'];
+  name?: Maybe<UsernameInput>;
+  gender?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  status: UserStatus;
+  role: UserRoles;
+  address?: Maybe<AddressInput>;
+};
+
+export type User = {
+  __typename?: 'User';
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Username>;
+  email: Scalars['String'];
+  status?: Maybe<UserStatus>;
+  verificationId?: Maybe<Scalars['String']>;
+  gender?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  role?: Maybe<UserRoles>;
+  address?: Maybe<Address>;
+  createdAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export enum UserRoles {
+  User = 'USER',
+  Admin = 'ADMIN',
+}
+
+export enum UserStatus {
+  Active = 'ACTIVE',
+  Inactive = 'INACTIVE',
+}
+
+export type Username = {
+  __typename?: 'Username';
+  first?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['String']>;
+};
+
+export type UsernameInput = {
+  first?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['String']>;
+};
+
+export type VerificationUserInput = {
+  userId: Scalars['ID'];
+  verificationId: Scalars['String'];
+};
+
 export type LogoutQueryVariables = Exact<{[key: string]: never}>;
 
 export type LogoutQuery = {__typename?: 'Query'} & {
@@ -339,42 +339,12 @@ export type ContactMeMutation = {__typename?: 'Mutation'} & {
   contactMe?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
-export type CreateCategoryMutationVariables = Exact<{
-  categoryData: CategoryInput;
+export type ForgotPasswordMutationVariables = Exact<{
+  email: Scalars['String'];
 }>;
 
-export type CreateCategoryMutation = {__typename?: 'Mutation'} & {
-  createCategory?: Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>;
-};
-
-export type CategoriesQueryVariables = Exact<{[key: string]: never}>;
-
-export type CategoriesQuery = {__typename?: 'Query'} & {
-  categories?: Maybe<
-    Array<
-      Maybe<
-        {__typename?: 'Category'} & Pick<
-          Category,
-          | 'id'
-          | 'imgSrc'
-          | 'name'
-          | 'enDescription'
-          | 'arDescription'
-          | 'status'
-          | 'createdAt'
-          | 'updatedAt'
-        >
-      >
-    >
-  >;
-};
-
-export type UpdateCategoryMutationVariables = Exact<{
-  categoryData: CategoryInput;
-}>;
-
-export type UpdateCategoryMutation = {__typename?: 'Mutation'} & {
-  updateCategory?: Maybe<{__typename?: 'Category'} & CategoryFragmentFragment>;
+export type ForgotPasswordMutation = {__typename?: 'Mutation'} & {
+  forgotPassword?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
 export type LoginQueryVariables = Exact<{
@@ -388,6 +358,14 @@ export type LoginQuery = {__typename?: 'Query'} & {
       'accessToken' | 'refreshToken' | 'userRole'
     >
   >;
+};
+
+export type ResetPasswordMutationVariables = Exact<{
+  userData: ResetPasswordInput;
+}>;
+
+export type ResetPasswordMutation = {__typename?: 'Mutation'} & {
+  resetPassword?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
 export type SignupMutationVariables = Exact<{
@@ -560,17 +538,19 @@ export const LogoutDocument = gql`
 export function useLogoutQuery(
   baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(
     LogoutDocument,
-    baseOptions
+    options
   );
 }
 export function useLogoutLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(
     LogoutDocument,
-    baseOptions
+    options
   );
 }
 export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
@@ -610,9 +590,10 @@ export function useFindPostByTitleQuery(
     FindPostByTitleQueryVariables
   >
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useQuery<FindPostByTitleQuery, FindPostByTitleQueryVariables>(
     FindPostByTitleDocument,
-    baseOptions
+    options
   );
 }
 export function useFindPostByTitleLazyQuery(
@@ -621,10 +602,11 @@ export function useFindPostByTitleLazyQuery(
     FindPostByTitleQueryVariables
   >
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useLazyQuery<
     FindPostByTitleQuery,
     FindPostByTitleQueryVariables
-  >(FindPostByTitleDocument, baseOptions);
+  >(FindPostByTitleDocument, options);
 }
 export type FindPostByTitleQueryHookResult = ReturnType<
   typeof useFindPostByTitleQuery
@@ -671,9 +653,10 @@ export function useContactMeMutation(
     ContactMeMutationVariables
   >
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useMutation<ContactMeMutation, ContactMeMutationVariables>(
     ContactMeDocument,
-    baseOptions
+    options
   );
 }
 export type ContactMeMutationHookResult = ReturnType<
@@ -684,165 +667,55 @@ export type ContactMeMutationOptions = Apollo.BaseMutationOptions<
   ContactMeMutation,
   ContactMeMutationVariables
 >;
-export const CreateCategoryDocument = gql`
-  mutation CreateCategory($categoryData: CategoryInput!) {
-    createCategory(categoryData: $categoryData) {
-      ...CategoryFragment
+export const ForgotPasswordDocument = gql`
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+      message
     }
   }
-  ${CategoryFragmentFragmentDoc}
 `;
-export type CreateCategoryMutationFn = Apollo.MutationFunction<
-  CreateCategoryMutation,
-  CreateCategoryMutationVariables
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<
+  ForgotPasswordMutation,
+  ForgotPasswordMutationVariables
 >;
 
 /**
- * __useCreateCategoryMutation__
+ * __useForgotPasswordMutation__
  *
- * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useForgotPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useForgotPasswordMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
+ * const [forgotPasswordMutation, { data, loading, error }] = useForgotPasswordMutation({
  *   variables: {
- *      categoryData: // value for 'categoryData'
+ *      email: // value for 'email'
  *   },
  * });
  */
-export function useCreateCategoryMutation(
+export function useForgotPasswordMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreateCategoryMutation,
-    CreateCategoryMutationVariables
+    ForgotPasswordMutation,
+    ForgotPasswordMutationVariables
   >
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useMutation<
-    CreateCategoryMutation,
-    CreateCategoryMutationVariables
-  >(CreateCategoryDocument, baseOptions);
+    ForgotPasswordMutation,
+    ForgotPasswordMutationVariables
+  >(ForgotPasswordDocument, options);
 }
-export type CreateCategoryMutationHookResult = ReturnType<
-  typeof useCreateCategoryMutation
+export type ForgotPasswordMutationHookResult = ReturnType<
+  typeof useForgotPasswordMutation
 >;
-export type CreateCategoryMutationResult =
-  Apollo.MutationResult<CreateCategoryMutation>;
-export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<
-  CreateCategoryMutation,
-  CreateCategoryMutationVariables
->;
-export const CategoriesDocument = gql`
-  query Categories {
-    categories {
-      id
-      imgSrc
-      name
-      enDescription
-      arDescription
-      status
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-/**
- * __useCategoriesQuery__
- *
- * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
- * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCategoriesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCategoriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CategoriesQuery,
-    CategoriesQueryVariables
-  >
-) {
-  return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(
-    CategoriesDocument,
-    baseOptions
-  );
-}
-export function useCategoriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CategoriesQuery,
-    CategoriesQueryVariables
-  >
-) {
-  return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(
-    CategoriesDocument,
-    baseOptions
-  );
-}
-export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
-export type CategoriesLazyQueryHookResult = ReturnType<
-  typeof useCategoriesLazyQuery
->;
-export type CategoriesQueryResult = Apollo.QueryResult<
-  CategoriesQuery,
-  CategoriesQueryVariables
->;
-export const UpdateCategoryDocument = gql`
-  mutation UpdateCategory($categoryData: CategoryInput!) {
-    updateCategory(categoryData: $categoryData) {
-      ...CategoryFragment
-    }
-  }
-  ${CategoryFragmentFragmentDoc}
-`;
-export type UpdateCategoryMutationFn = Apollo.MutationFunction<
-  UpdateCategoryMutation,
-  UpdateCategoryMutationVariables
->;
-
-/**
- * __useUpdateCategoryMutation__
- *
- * To run a mutation, you first call `useUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateCategoryMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
- *   variables: {
- *      categoryData: // value for 'categoryData'
- *   },
- * });
- */
-export function useUpdateCategoryMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateCategoryMutation,
-    UpdateCategoryMutationVariables
-  >
-) {
-  return Apollo.useMutation<
-    UpdateCategoryMutation,
-    UpdateCategoryMutationVariables
-  >(UpdateCategoryDocument, baseOptions);
-}
-export type UpdateCategoryMutationHookResult = ReturnType<
-  typeof useUpdateCategoryMutation
->;
-export type UpdateCategoryMutationResult =
-  Apollo.MutationResult<UpdateCategoryMutation>;
-export type UpdateCategoryMutationOptions = Apollo.BaseMutationOptions<
-  UpdateCategoryMutation,
-  UpdateCategoryMutationVariables
+export type ForgotPasswordMutationResult =
+  Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<
+  ForgotPasswordMutation,
+  ForgotPasswordMutationVariables
 >;
 export const LoginDocument = gql`
   query Login($userData: LoginDataInput!) {
@@ -873,17 +746,19 @@ export const LoginDocument = gql`
 export function useLoginQuery(
   baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useQuery<LoginQuery, LoginQueryVariables>(
     LoginDocument,
-    baseOptions
+    options
   );
 }
 export function useLoginLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(
     LoginDocument,
-    baseOptions
+    options
   );
 }
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
@@ -891,6 +766,56 @@ export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
 export type LoginQueryResult = Apollo.QueryResult<
   LoginQuery,
   LoginQueryVariables
+>;
+export const ResetPasswordDocument = gql`
+  mutation ResetPassword($userData: ResetPasswordInput!) {
+    resetPassword(userData: $userData) {
+      message
+    }
+  }
+`;
+export type ResetPasswordMutationFn = Apollo.MutationFunction<
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables
+>;
+
+/**
+ * __useResetPasswordMutation__
+ *
+ * To run a mutation, you first call `useResetPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResetPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resetPasswordMutation, { data, loading, error }] = useResetPasswordMutation({
+ *   variables: {
+ *      userData: // value for 'userData'
+ *   },
+ * });
+ */
+export function useResetPasswordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ResetPasswordMutation,
+    ResetPasswordMutationVariables
+  >
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<
+    ResetPasswordMutation,
+    ResetPasswordMutationVariables
+  >(ResetPasswordDocument, options);
+}
+export type ResetPasswordMutationHookResult = ReturnType<
+  typeof useResetPasswordMutation
+>;
+export type ResetPasswordMutationResult =
+  Apollo.MutationResult<ResetPasswordMutation>;
+export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables
 >;
 export const SignupDocument = gql`
   mutation Signup($userData: Signup!) {
@@ -927,9 +852,10 @@ export function useSignupMutation(
     SignupMutationVariables
   >
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useMutation<SignupMutation, SignupMutationVariables>(
     SignupDocument,
-    baseOptions
+    options
   );
 }
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
@@ -974,9 +900,10 @@ export function useCreatePostMutation(
     CreatePostMutationVariables
   >
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(
     CreatePostDocument,
-    baseOptions
+    options
   );
 }
 export type CreatePostMutationHookResult = ReturnType<
@@ -1015,17 +942,19 @@ export const PostsDocument = gql`
 export function usePostsQuery(
   baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useQuery<PostsQuery, PostsQueryVariables>(
     PostsDocument,
-    baseOptions
+    options
   );
 }
 export function usePostsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(
     PostsDocument,
-    baseOptions
+    options
   );
 }
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
@@ -1070,17 +999,19 @@ export const ProfileDocument = gql`
 export function useProfileQuery(
   baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(
     ProfileDocument,
-    baseOptions
+    options
   );
 }
 export function useProfileLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(
     ProfileDocument,
-    baseOptions
+    options
   );
 }
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
@@ -1125,9 +1056,10 @@ export function useUpdatePostMutation(
     UpdatePostMutationVariables
   >
 ) {
+  const options = {...defaultOptions, ...baseOptions};
   return Apollo.useMutation<UpdatePostMutation, UpdatePostMutationVariables>(
     UpdatePostDocument,
-    baseOptions
+    options
   );
 }
 export type UpdatePostMutationHookResult = ReturnType<

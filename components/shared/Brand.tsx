@@ -1,4 +1,4 @@
-import {useTranslation} from './hooks/useTranslate';
+import {useTranslation} from './hooks/translationHook';
 import KakieeLogo from './KakieLogo';
 
 interface BrandProps {
@@ -12,7 +12,11 @@ const Brand: React.FC<BrandProps> = ({logoClasses, textClasses}) => {
   return (
     <div className="flex flex-col items-center">
       <KakieeLogo className={logoClasses || 'h-28 lg:h-32'} />
-      <h1 className={textClasses || 'text-2xl lg:text-3xl text-primary font-bold'}>{t('brand.name')}</h1>
+      <h1
+        className={textClasses || 'text-2xl lg:text-3xl text-primary font-bold'}
+      >
+        {t('brand.name')}
+      </h1>
     </div>
   );
 };

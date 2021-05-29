@@ -1,15 +1,16 @@
 import React from 'react';
 import ROUTES from '../../config/Routes';
-import {useProfileQuery} from '../../graphql/queries';
-import {useLogout} from './hooks/LogoutHook';
+import useLogout from './hooks/LogoutHook';
 import ListItem from './ListItem';
 
-const OnboardingListItem: React.FC = () => {
+interface OnboardingListItemProps {
+  isLoggedIn?: boolean;
+}
+
+const OnboardingListItem: React.FC<OnboardingListItemProps> = ({
+  isLoggedIn,
+}) => {
   const {logout} = useLogout();
-
-  const {data} = useProfileQuery();
-
-  const isLoggedIn = !!data?.profile;
 
   return (
     <>

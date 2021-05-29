@@ -1,7 +1,7 @@
 import {useLogoutLazyQuery} from '../../../graphql/queries';
-import {useNavigateToLogin} from './NavigateToLoginHook';
+import useNavigateToLogin from '../../Onboarding/Login/hooks/navigateToLoginHook';
 
-export const useLogout = () => {
+const useLogout = () => {
   const {goToLogin} = useNavigateToLogin();
   const [logout] = useLogoutLazyQuery({
     onCompleted: () => {
@@ -11,3 +11,5 @@ export const useLogout = () => {
 
   return {logout};
 };
+
+export default useLogout;

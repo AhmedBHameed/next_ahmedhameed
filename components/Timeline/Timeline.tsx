@@ -1,6 +1,6 @@
 import {ChatAltIcon, TagIcon, UserCircleIcon} from '@heroicons/react/solid';
 import {Fragment, useCallback} from 'react';
-import {clsx} from 'util/clsx';
+import {clsx} from '../../util/clsx';
 
 export interface HistoryTimelineModel {
   id: string;

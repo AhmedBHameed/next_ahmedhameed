@@ -1,6 +1,5 @@
-import React from 'react';
-
 import {clsx} from '../../util/clsx';
+import {useTranslation} from '../shared/hooks/translationHook';
 
 interface FormControlProps {
   className?: string;
@@ -17,7 +16,10 @@ const FormControl: React.FC<FormControlProps> = ({
   dir,
   htmlFor,
   label,
-}) => (
+}) => {
+  const {t} = useTranslation();
+
+  return (
     <div className={clsx(['mt-1 sm:mt-0', className])} dir={dir}>
       {label && (
         <label
@@ -27,16 +29,19 @@ const FormControl: React.FC<FormControlProps> = ({
           ])}
           htmlFor={htmlFor}
         >
-          {children}
+          {label}
         </label>
       )}
       {children}
-      {error && (
-        <span className="mt-0.5 text-xs text-red-400" role="alert">
-          {error || ' '}
-        </span>
-      )}
+      <span
+        className="mt-0.5 text-xs text-red-400"
+        data-testid={error ? 'input-error' : ''}
+        role="alert"
+      >
+        {error ? t(error) : <>&nbsp;</>}
+      </span>
     </div>
   );
+};
 
 export {FormControl};

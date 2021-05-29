@@ -5,15 +5,16 @@ import Link from 'next/link';
 import React, {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 
-import useNavigateToAboutMe from '../../components/Blog/hooks/NavigateToBlogHook';
+import useNavigateToAboutMe from '../../components/Blog/hooks/NavigateToAboutMeHook';
 import {BaseButton} from '../../components/Buttons';
 import {FormControl, TextField} from '../../components/Form';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
 import Onboarding from '../../components/Onboarding/Onboarding';
+import {useTranslation} from '../../components/shared/hooks/translationHook';
 import ROUTES from '../../config/Routes';
 import {useLoginLazyQuery} from '../../graphql/queries';
-import {isInvalidPassword} from '../../util/errorHandlers';
-import {PASSWORD_REGULAR_EXPRESSION} from '../../util/passwordRegularExpression';
+import {isInvalidPassword, notFoundOrInactive} from '../../util/errorHandlers';
+import {requiredEmail, requiredPassword} from '../../util/validations';
 
 interface LoginFormData {
   email: string;
@@ -23,17 +24,22 @@ interface LoginFormData {
 const Login: NextPage = () => {
   const {triggerNotification} = useNotification();
   const {goToAboutMe} = useNavigateToAboutMe();
+  const {t} = useTranslation();
 
   const [login, {loading}] = useLoginLazyQuery({
-    fetchPolicy: 'network-only',
-    onCompleted: () => {
-      goToAboutMe();
-    },
+    fetchPolicy: 'no-cache',
+    onCompleted: () => goToAboutMe(),
     onError: (error) => {
+      console.error(error);
       if (isInvalidPassword(error)) {
         triggerNotification({
           type: 'error',
-          message: 'Oops! Invalid password',
+          message: t('login.error.invalidPassword'),
+        });
+      } else if (notFoundOrInactive(error)) {
+        triggerNotification({
+          type: 'error',
+          message: t('login.error.userNotFoundOrInactive'),
         });
       }
     },
@@ -42,31 +48,18 @@ const Login: NextPage = () => {
   const loginSchema = useMemo(
     () =>
       Joi.object({
-        email: Joi.string()
-          .email({tlds: {allow: false}})
-          .required()
-          .messages({
-            'string.email': 'Invalid email',
-            'string.empty': 'Field is required.',
-          }),
-        password: Joi.string()
-          .pattern(PASSWORD_REGULAR_EXPRESSION)
-          .required()
-          .messages({
-            'string.empty': 'Field is required.',
-            'string.pattern.base': `Your password must have at least: • 8 characters long Password • 1 uppercase and 1 lowercase character • 1 number • 1 non-alpha-numeric character • with no space`,
-          }),
+        email: requiredEmail(),
+        password: requiredPassword(),
       }),
     []
   );
 
   const {
-    formState: {errors, isValid},
+    formState: {errors},
     register,
     handleSubmit,
   } = useForm<LoginFormData>({
     resolver: joiResolver(loginSchema),
-    mode: 'onChange',
     defaultValues: {
       email: '',
       password: '',
@@ -100,11 +93,13 @@ const Login: NextPage = () => {
           error={email?.message}
           htmlFor="email"
           label="Email"
+          label={t('common.emailLabel')}
         >
           <TextField
             error={!!email?.message}
             name="email"
-            placeholder="your@email.com"
+            placeholder={t('common.emailPlaceholder')}
+            testId="email-input"
             type="email"
             {...register('email')}
             className="text-primary bg-secondary"
@@ -115,12 +110,13 @@ const Login: NextPage = () => {
           className="flex flex-col pt-4"
           error={password?.message}
           htmlFor="password"
-          label="Password"
+          label={t('common.passwordLabel')}
         >
           <TextField
             error={!!password?.message}
             name="password"
-            placeholder="Password"
+            placeholder={t('common.passwordPlaceholder')}
+            testId="password-input"
             type="password"
             {...register('password')}
             className="text-primary bg-secondary"
@@ -128,25 +124,31 @@ const Login: NextPage = () => {
         </FormControl>
 
         <div className="text-right pt-12 pb-12">
-          Forgot password?{' '}
+          {t('login.forgotPasswordLabel')}
           <Link href={ROUTES.forgotPassword.path}>
-            <a className="underline font-semibold">click here.</a>
+            <a className="underline font-semibold">
+              {t('common.clickHereLink')}
+            </a>
           </Link>
         </div>
 
         <BaseButton
           className="bg-blue-500 justify-center duration-300 bg-black text-white font-bold text-lg hover:bg-blue-600 p-2 mt-8"
-          disabled={!isValid || loading}
+          disabled={loading}
+          loading={loading}
+          testId="login-action-button"
           type="submit"
         >
-          Log In
+          {t('login.loginActionButton')}
         </BaseButton>
       </form>
       <div className="text-center pt-12 pb-12">
         <p>
           {"Don't have an account? "}
           <Link href={ROUTES.signup.path}>
-            <a className="underline font-semibold">Register here.</a>
+            <a className="underline font-semibold">
+              {t('login.registerLinkLabel')}
+            </a>
           </Link>
         </p>
       </div>

@@ -1,15 +1,12 @@
 import {ThemeProvider} from '@emotion/react';
 import {render} from '@testing-library/react';
-import {theme} from '../../styles/Theme';
-
-// import styled from 'styled-components'
-// import renderer from 'react-test-renderer'
+import {lightThemeColors} from '../../styles/Theme';
 
 import Brand from './Brand';
 
 function renderComponent() {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={lightThemeColors}>
       <Brand />
     </ThemeProvider>
   );

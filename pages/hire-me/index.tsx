@@ -9,7 +9,7 @@ import AhmedhammedNavigation from '../../components/AsideBar/AhmedhammedNavigati
 import AsideBar from '../../components/AsideBar/AsideBar';
 import {BaseButton} from '../../components/Buttons';
 import ServiceCard from '../../components/ServiceCard/ServiceCard';
-import {useTranslation} from '../../components/shared/hooks/useTranslate';
+import {useTranslation} from '../../components/shared/hooks/translationHook';
 import {
   ApiSvg,
   DockerSvg,

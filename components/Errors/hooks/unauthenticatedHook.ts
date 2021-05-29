@@ -1,6 +1,6 @@
 import {ApolloError} from '@apollo/client';
 import {useCallback} from 'react';
-import {useNavigateToLogin} from '../../AsideBar/hooks/NavigateToLoginHook';
+import useNavigateToLogin from '../../Onboarding/Login/hooks/navigateToLoginHook';
 
 export const useUnauthenticated = () => {
   const {goToLogin} = useNavigateToLogin();
