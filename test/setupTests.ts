@@ -1,6 +1,7 @@
 // Extend jest prototype object with more useful functions from @testing-library.
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/jest-dom';
+import 'setimmediate';
 import {toHaveNoViolations} from 'jest-axe';
 
 expect.extend(toHaveNoViolations);

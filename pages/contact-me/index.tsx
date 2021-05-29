@@ -36,7 +36,7 @@ const ContactMe: NextPage = () => {
   const {triggerNotification} = useNotification();
   const {darkTheme} = useSwitcherTheme();
 
-  const [addContact] = useContactMeMutation({
+  const [addContact, {loading}] = useContactMeMutation({
     onCompleted: ({contactMe}) => {
       triggerNotification({
         type: 'success',
@@ -69,7 +69,6 @@ const ContactMe: NextPage = () => {
     handleSubmit,
   } = useForm<ContactInput>({
     resolver: joiResolver(contactSchema),
-    mode: 'onChange',
     defaultValues: {
       id: '',
       email: '',
@@ -185,8 +184,9 @@ const ContactMe: NextPage = () => {
             <div className="col-span-2 mt-3">
               <BaseButton
                 className="w-full justify-center uppercase bg-subject text-reverse"
-                disabled={!isValid}
-                Icon={EmailSvg}
+                disabled={loading}
+                Icon={<EmailSvg className="mr-2" />}
+                loading={loading}
                 testId="submit-action-button"
                 type="submit"
               >

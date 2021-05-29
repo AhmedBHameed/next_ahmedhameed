@@ -1,7 +1,7 @@
 import {renderHook} from '@testing-library/react-hooks';
 
 import ROUTES from '../../../../config/Routes';
-import {mockHistoryPush} from '../../../../setupTests';
+import {mockHistoryPush} from '../../../../test/setupTests';
 import useNavigateToContactMe from '../navigateToContactMe';
 
 it(`redirects to "${ROUTES.contactMe.path}"`, () => {

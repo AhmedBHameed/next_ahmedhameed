@@ -28,8 +28,11 @@ const Login: NextPage = () => {
 
   const [login, {loading}] = useLoginLazyQuery({
     fetchPolicy: 'no-cache',
-    onCompleted: () => goToAboutMe(),
+    onCompleted: () => {
+      goToAboutMe();
+    },
     onError: (error) => {
+      // eslint-disable-next-line no-console
       console.error(error);
       if (isInvalidPassword(error)) {
         triggerNotification({

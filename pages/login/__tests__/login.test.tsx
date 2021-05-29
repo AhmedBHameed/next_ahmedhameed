@@ -8,8 +8,9 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import {axe} from 'jest-axe';
-import {mockConsoleErrorFun} from '../../../setupTests';
+
 import {lightThemeColors} from '../../../styles/Theme';
+import {mockConsoleErrorFun} from '../../../test/setupTests';
 import {graphql, server} from '../../../test/testServer';
 import {mockLoginData} from '../../../test/utils/generate';
 import {client} from '../../../util/apolloClient';

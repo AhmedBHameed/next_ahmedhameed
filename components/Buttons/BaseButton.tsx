@@ -4,7 +4,7 @@ import {LoadingSvg} from '../SVGs/LoadingSvg';
 interface BaseButtonProps {
   className?: string;
   type?: 'button' | 'submit';
-  Icon?: React.ReactNode;
+  Icon?: JSX.Element;
   disabled?: boolean;
   testId: string;
   loading?: boolean;
@@ -32,10 +32,10 @@ const BaseButton: React.FC<BaseButtonProps> = ({
     // eslint-disable-next-line react/button-has-type
     type={type || 'button'}
   >
-    {Icon && Icon}
+    {!loading && Icon && Icon}
     {loading && (
       <LoadingSvg
-        className="animate-spin text-blue-100 h-5 w-5 mr-3"
+        className="animate-spin h-5 w-5 mr-3"
         data-testid="loading-icon"
       />
     )}
