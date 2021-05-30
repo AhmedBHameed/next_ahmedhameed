@@ -33,7 +33,11 @@ module.exports = {
   webpack: (config, {webpack}) => {
     config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
     config.plugins.push(new webpack.IgnorePlugin(/\/test\//));
-
+    // Solve compiling problem via vagrant
+    config.watchOptions = {
+      poll: 1000, // Check for changes every second
+      aggregateTimeout: 300, // delay before rebuilding
+    };
     config.node = {
       fs: 'empty',
     };
