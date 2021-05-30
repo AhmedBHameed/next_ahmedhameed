@@ -3,7 +3,6 @@ import {memo} from 'react';
 const Moon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     height="1em"
-    id="Capa_1"
     viewBox="0 0 512 512"
     width="1em"
     xmlns="http://www.w3.org/2000/svg"

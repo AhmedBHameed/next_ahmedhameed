@@ -50,6 +50,13 @@ const mockResetPassword = () => ({
   confirmPassword: 'Test@123123',
 });
 
+const mockContactMe = () => ({
+  email: genEmail(),
+  name: genName(),
+  subject: genTitle(),
+  message: genNotes(),
+});
+
 const mockTimelineData = (): HistoryTimelineModel[] => [
   {
     id: genId(),
@@ -100,6 +107,7 @@ export {
   genNotes,
   genNumber,
   genTitle,
+  mockContactMe,
   mockLoginData,
   mockResetPassword,
   mockSignupData,

@@ -10,6 +10,7 @@ interface BurgerProps {
 const Burger = forwardRef<HTMLButtonElement, BurgerProps>(
   ({onClick, isRtl}, ref) => (
     <button
+      aria-label="menu button"
       className={clsx([
         'text-primary h-9 w-7 absolute top-0 transform p-1 bg-aside focus:border-none focus:outline-none',
         isRtl ? 'left-0 rounded-l-full' : 'right-0 rounded-r-full',

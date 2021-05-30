@@ -8,6 +8,10 @@ interface BaseButtonProps {
   disabled?: boolean;
   testId: string;
   loading?: boolean;
+  ariaLabel?: string;
+  id?: string;
+  buttonTitle?: string;
+
   onClick?: () => void;
 }
 
@@ -19,9 +23,13 @@ const BaseButton: React.FC<BaseButtonProps> = ({
   type,
   testId,
   loading,
+  ariaLabel,
+  buttonTitle,
   onClick,
 }) => (
   <button
+    aria-label={ariaLabel}
+    aria-labelledby={ariaLabel}
     className={`${clsx([
       'flex items-center px-4 py-2 shadow-sm text-sm font-medium rounded-md transition-colors duration-300 disabled:bg-gray-400 disabled:text-gray-600',
       className,
@@ -29,6 +37,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
     data-testid={testId}
     disabled={!!disabled}
     onClick={onClick}
+    title={buttonTitle}
     // eslint-disable-next-line react/button-has-type
     type={type || 'button'}
   >

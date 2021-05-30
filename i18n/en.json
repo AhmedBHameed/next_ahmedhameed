@@ -61,6 +61,10 @@
       "address": "Wiedner Hauptstraße 141-143, Austria, Vienna.",
       "email": "contact.kakiee@gmail.com",
       "mobile": "+43 677-6276-8620"
+    },
+    "contactMeActionButton": "Contact me",
+    "success": {
+      "messageSent": "Thank you for your contact. I will reply you as soon as possible"
     }
   },
   "dashbaord": {
@@ -111,7 +115,7 @@
       "invalidPassword": "Invalid password",
       "userNotFoundOrInactive": "User not found or inactive"
     },
-    "forgotPasswordLabel": "Forgot password",
+    "forgotPasswordLabel": "Forgot password ",
     "loginActionButton": "Log in",
     "registerLinkLabel": "Register here."
   },
@@ -141,7 +145,7 @@
     },
     "firstNameLabel": "First name",
     "firstNamePlaceholder": "First name",
-    "haveAnAccount": "Have an account?",
+    "haveAnAccount": "Have an account? ",
     "lastNameLabel": "Last name",
     "lastNamePlaceholder": "Last name",
     "loginHereLinkLabel": "Login here.",

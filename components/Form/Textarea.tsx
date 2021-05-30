@@ -17,12 +17,22 @@ interface TextareaProps {
   rows?: number;
   regRef?: LegacyRef<any>;
   indentOnTabKey?: boolean;
+  testId?: string;
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
-    {value, name, indentOnTabKey, rows, className, placeholder, onChange},
+    {
+      value,
+      name,
+      indentOnTabKey,
+      testId,
+      rows,
+      className,
+      placeholder,
+      onChange,
+    },
     ref
   ) => {
     const onKeyDown = useCallback(
@@ -43,6 +53,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           'w-full shadow-sm block sm:text-sm rounded-md',
           className,
         ])}
+        data-testid={testId}
         id={name}
         name={name}
         onChange={onChange}

@@ -11,6 +11,7 @@ import {BaseButton} from '../../components/Buttons';
 import {FormControl, Textarea, TextField} from '../../components/Form';
 import InfoCard from '../../components/InfoCard/InfoCard';
 import useNotification from '../../components/Notification/Hooks/NotificationHook';
+import {useTranslation} from '../../components/shared/hooks/translationHook';
 import {
   EmailSvg,
   FlourishSvg,
@@ -21,7 +22,12 @@ import {useSwitcherTheme} from '../../components/ThemeSwitcher/ThemeSwitcherCont
 import environment from '../../config/environment';
 import {ContactInput, useContactMeMutation} from '../../graphql/queries';
 import {clsx} from '../../util/clsx';
-import {Joi, requiredEmail, requiredString} from '../../util/validations';
+import {
+  Joi,
+  optionalString,
+  requiredEmail,
+  requiredString,
+} from '../../util/validations';
 
 const viewport = {
   width: '100%',
@@ -34,20 +40,21 @@ const viewport = {
 const ContactMe: NextPage = () => {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {triggerNotification} = useNotification();
+  const {t} = useTranslation();
   const {darkTheme} = useSwitcherTheme();
 
   const [addContact, {loading}] = useContactMeMutation({
-    onCompleted: ({contactMe}) => {
+    onCompleted: () => {
       triggerNotification({
         type: 'success',
-        message: contactMe.message,
+        message: t('contactMe.success.messageSent'),
       });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('<ContactMe />', error);
       triggerNotification({
         type: 'error',
-        message:
-          'Oops! something went wrong, you can send direct email instead',
+        message: t('common.error.somethingWentWrong'),
       });
     },
   });
@@ -55,6 +62,7 @@ const ContactMe: NextPage = () => {
   const contactSchema = useMemo(
     () =>
       Joi.object({
+        id: optionalString(),
         email: requiredEmail(),
         name: requiredString(),
         subject: requiredString(),
@@ -64,7 +72,7 @@ const ContactMe: NextPage = () => {
   );
 
   const {
-    formState: {errors, isValid},
+    formState: {errors},
     register,
     handleSubmit,
   } = useForm<ContactInput>({
@@ -79,9 +87,9 @@ const ContactMe: NextPage = () => {
   });
 
   const submit = useCallback(
-    (formData: ContactInput) => {
+    async (formData: ContactInput) => {
       try {
-        addContact({
+        await addContact({
           variables: {
             contact: {
               ...formData,
@@ -134,7 +142,7 @@ const ContactMe: NextPage = () => {
         <form onSubmit={handleSubmit(submit)}>
           <div className="sm:grid md:grid-cols-2 sm:gap-4 sm:items-start">
             <div className="sm:grid md:grid-cols-1 sm:gap-2 sm:items-start">
-              <FormControl>
+              <FormControl error={errors.email?.message}>
                 <TextField
                   autocomplete="email"
                   className={inputClassName}
@@ -142,12 +150,13 @@ const ContactMe: NextPage = () => {
                   name="email"
                   placeholder="Email address"
                   ref={emailInputRef}
+                  {...register('email', {required: true})}
                   testId="email-input"
                   type="email"
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl error={errors.name?.message}>
                 <TextField
                   className={inputClassName}
                   name="name"
@@ -158,7 +167,7 @@ const ContactMe: NextPage = () => {
                 />
               </FormControl>
 
-              <FormControl>
+              <FormControl error={errors.subject?.message}>
                 <TextField
                   className={inputClassName}
                   name="subject"
@@ -170,27 +179,29 @@ const ContactMe: NextPage = () => {
               </FormControl>
             </div>
 
-            <div className="h-full">
-              <FormControl className="h-full">
-                <Textarea
-                  className={clsx(['h-full', inputClassName])}
-                  name="message"
-                  placeholder="Message"
-                  {...register('message', {required: true})}
-                />
-              </FormControl>
-            </div>
+            <FormControl className="h-full" error={errors.message?.message}>
+              <Textarea
+                className={clsx(['h-full', inputClassName])}
+                name="message"
+                placeholder="Message"
+                testId="message-textarea"
+                {...register('message', {required: true})}
+              />
+            </FormControl>
 
             <div className="col-span-2 mt-3">
               <BaseButton
+                ariaLabel="contact me action button"
+                buttonTitle="action button"
                 className="w-full justify-center uppercase bg-subject text-reverse"
                 disabled={loading}
                 Icon={<EmailSvg className="mr-2" />}
+                id="contact-me-action-button"
                 loading={loading}
                 testId="submit-action-button"
                 type="submit"
               >
-                Contact Me
+                {t('contactMe.contactMeActionButton')}
               </BaseButton>
             </div>
           </div>

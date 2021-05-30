@@ -22,27 +22,33 @@ const Footer = () => {
         </p>
         <div className="flex justify-center text-secondary">
           <a
+            aria-label="linkedin link"
             className="cursor-pointer p-1"
             href="https://www.linkedin.com/in/ahmed-hameed-185b3612b/"
             rel="noreferrer"
+            tabIndex={0}
             target="_blank"
           >
             <LinkedinSvg className="h-5 w-5" />
           </a>
 
           <a
+            aria-label="github link"
             className="cursor-pointer p-1"
             href="https://github.com/AhmedBHameed"
             rel="noreferrer"
+            tabIndex={0}
             target="_blank"
           >
             <GithubSvg className="h-5 w-5" />
           </a>
 
           <a
+            aria-label="email link"
             className="cursor-pointer p-1"
             href="mailto:contact.kakiee@gmail.com"
             rel="noreferrer"
+            tabIndex={0}
             target="_blank"
           >
             <EmailSvg className="h-5 w-5" />

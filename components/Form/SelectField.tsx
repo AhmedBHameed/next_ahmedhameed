@@ -12,6 +12,7 @@ interface SelectFieldProps {
   items: SelectOption[];
   value: SelectOption;
   placeholder?: string;
+  tabIndex?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (selectedOption: SelectOption) => void;
 }
@@ -21,6 +22,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
   value,
   rootClasses,
   buttonClasses,
+  tabIndex,
   placeholder,
   onChange,
 }) => {
@@ -44,6 +46,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
     <>
       <div className={rootClasses} ref={selectButtonRef}>
         <button
+          tabIndex={tabIndex}
           type="button"
           {...getToggleButtonProps()}
           className={clsx([

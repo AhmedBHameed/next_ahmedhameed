@@ -4,7 +4,6 @@ const Delete: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     fill="currentColor"
     height="1em"
-    id="Capa_1"
     viewBox="0 0 348.333 348.334"
     width="1em"
     x="0px"

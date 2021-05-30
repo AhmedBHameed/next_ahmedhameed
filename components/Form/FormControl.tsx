@@ -38,7 +38,7 @@ const FormControl: React.FC<FormControlProps> = ({
         data-testid={error ? 'input-error' : ''}
         role="alert"
       >
-        {error ? t(error) : <>&nbsp;</>}
+        {error ? t(error) : ''}
       </span>
     </div>
   );
