@@ -4,16 +4,12 @@ const PROFILE_QUERY = gql`
   query Profile {
     profile {
       id
+      email
+      gender
       name {
         first
         last
       }
-      email
-      status
-      verificationId
-      gender
-      avatar
-      role
     }
   }
 `;

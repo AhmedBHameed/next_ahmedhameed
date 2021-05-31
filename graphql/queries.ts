@@ -323,14 +323,6 @@ export type LogoutQuery = {__typename?: 'Query'} & {
   logout?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
 };
 
-export type FindPostByTitleQueryVariables = Exact<{
-  title: Scalars['String'];
-}>;
-
-export type FindPostByTitleQuery = {__typename?: 'Query'} & {
-  findPostByTitle?: Maybe<{__typename?: 'Post'} & PostFragmentFragment>;
-};
-
 export type ContactMeMutationVariables = Exact<{
   contact: ContactInput;
 }>;
@@ -374,6 +366,18 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = {__typename?: 'Mutation'} & {
   signup?: Maybe<{__typename?: 'Message'} & Pick<Message, 'message'>>;
+};
+
+export type ProfileQueryVariables = Exact<{[key: string]: never}>;
+
+export type ProfileQuery = {__typename?: 'Query'} & {
+  profile?: Maybe<
+    {__typename?: 'User'} & Pick<User, 'id' | 'email' | 'gender'> & {
+        name?: Maybe<
+          {__typename?: 'Username'} & Pick<Username, 'first' | 'last'>
+        >;
+      }
+  >;
 };
 
 export type CategoryFragmentFragment = {__typename?: 'Category'} & Pick<
@@ -422,27 +426,6 @@ export type PostsQueryVariables = Exact<{[key: string]: never}>;
 
 export type PostsQuery = {__typename?: 'Query'} & {
   posts?: Maybe<Array<Maybe<{__typename?: 'Post'} & PostFragmentFragment>>>;
-};
-
-export type ProfileQueryVariables = Exact<{[key: string]: never}>;
-
-export type ProfileQuery = {__typename?: 'Query'} & {
-  profile?: Maybe<
-    {__typename?: 'User'} & Pick<
-      User,
-      | 'id'
-      | 'email'
-      | 'status'
-      | 'verificationId'
-      | 'gender'
-      | 'avatar'
-      | 'role'
-    > & {
-        name?: Maybe<
-          {__typename?: 'Username'} & Pick<Username, 'first' | 'last'>
-        >;
-      }
-  >;
 };
 
 export type UpdatePostMutationVariables = Exact<{
@@ -558,65 +541,6 @@ export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
 export type LogoutQueryResult = Apollo.QueryResult<
   LogoutQuery,
   LogoutQueryVariables
->;
-export const FindPostByTitleDocument = gql`
-  query FindPostByTitle($title: String!) {
-    findPostByTitle(title: $title) {
-      ...PostFragment
-    }
-  }
-  ${PostFragmentFragmentDoc}
-`;
-
-/**
- * __useFindPostByTitleQuery__
- *
- * To run a query within a React component, call `useFindPostByTitleQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindPostByTitleQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFindPostByTitleQuery({
- *   variables: {
- *      title: // value for 'title'
- *   },
- * });
- */
-export function useFindPostByTitleQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindPostByTitleQuery,
-    FindPostByTitleQueryVariables
-  >
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useQuery<FindPostByTitleQuery, FindPostByTitleQueryVariables>(
-    FindPostByTitleDocument,
-    options
-  );
-}
-export function useFindPostByTitleLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindPostByTitleQuery,
-    FindPostByTitleQueryVariables
-  >
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useLazyQuery<
-    FindPostByTitleQuery,
-    FindPostByTitleQueryVariables
-  >(FindPostByTitleDocument, options);
-}
-export type FindPostByTitleQueryHookResult = ReturnType<
-  typeof useFindPostByTitleQuery
->;
-export type FindPostByTitleLazyQueryHookResult = ReturnType<
-  typeof useFindPostByTitleLazyQuery
->;
-export type FindPostByTitleQueryResult = Apollo.QueryResult<
-  FindPostByTitleQuery,
-  FindPostByTitleQueryVariables
 >;
 export const ContactMeDocument = gql`
   mutation ContactMe($contact: ContactInput!) {
@@ -864,6 +788,59 @@ export type SignupMutationOptions = Apollo.BaseMutationOptions<
   SignupMutation,
   SignupMutationVariables
 >;
+export const ProfileDocument = gql`
+  query Profile {
+    profile {
+      id
+      email
+      gender
+      name {
+        first
+        last
+      }
+    }
+  }
+`;
+
+/**
+ * __useProfileQuery__
+ *
+ * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProfileQuery(
+  baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(
+    ProfileDocument,
+    options
+  );
+}
+export function useProfileLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(
+    ProfileDocument,
+    options
+  );
+}
+export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
+export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
+export type ProfileQueryResult = Apollo.QueryResult<
+  ProfileQuery,
+  ProfileQueryVariables
+>;
 export const CreatePostDocument = gql`
   mutation CreatePost($post: PostInput!) {
     createPost(post: $post) {
@@ -962,63 +939,6 @@ export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<
   PostsQuery,
   PostsQueryVariables
->;
-export const ProfileDocument = gql`
-  query Profile {
-    profile {
-      id
-      name {
-        first
-        last
-      }
-      email
-      status
-      verificationId
-      gender
-      avatar
-      role
-    }
-  }
-`;
-
-/**
- * __useProfileQuery__
- *
- * To run a query within a React component, call `useProfileQuery` and pass it any options that fit your needs.
- * When your component renders, `useProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProfileQuery({
- *   variables: {
- *   },
- * });
- */
-export function useProfileQuery(
-  baseOptions?: Apollo.QueryHookOptions<ProfileQuery, ProfileQueryVariables>
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useQuery<ProfileQuery, ProfileQueryVariables>(
-    ProfileDocument,
-    options
-  );
-}
-export function useProfileLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<ProfileQuery, ProfileQueryVariables>
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useLazyQuery<ProfileQuery, ProfileQueryVariables>(
-    ProfileDocument,
-    options
-  );
-}
-export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
-export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
-export type ProfileQueryResult = Apollo.QueryResult<
-  ProfileQuery,
-  ProfileQueryVariables
 >;
 export const UpdatePostDocument = gql`
   mutation UpdatePost($post: PostInput!) {

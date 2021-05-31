@@ -71,4 +71,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// const getApolloClient = () =>
+//   new ApolloClient({
+//     cache: new InMemoryCache(),
+//     link: new HttpLink({
+//       uri: domain + graphqlApi,
+//       credentials: 'include',
+//       fetch,
+//     }),
+//   });
+
 export {client};

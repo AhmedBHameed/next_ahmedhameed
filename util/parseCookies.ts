@@ -1,4 +1,4 @@
-export function parseCookies(cookies: string) {
+export function parseCookies(cookies: string): any {
   const str = cookies.split('; ');
   const result = {};
   for (let i = 0; i < str.length; i += 1) {
