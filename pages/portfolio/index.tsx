@@ -138,7 +138,7 @@ const activity: HistoryTimelineModel[] = [
   {
     id: '9',
     type: 'comment',
-    person: {name: 'myBioma (Clickable)', href: 'https://www.mybioma.com/en'},
+    person: {name: 'hi.health (Clickable)', href: 'https://hi.health/'},
     imageUrl: `/images/hihealth.jpg`,
     comment:
       'Migrating hi.health web app platform with developing/testing new features. Hi health app take care of the reimbursements with your private health insurance. (Click on company name to see the source)',

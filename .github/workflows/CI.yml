@@ -45,6 +45,7 @@ jobs:
             git pull
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
+            echo "🛫 Building application"
             cd ..
             echo "🔄 Shutdown docker container ..."
             sudo docker-compose -f docker-compose.yml stop
