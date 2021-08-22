@@ -17,6 +17,7 @@
   },
   "plugins": ["eslint-plugin-import-helpers"],
   "rules": {
+    "camelcase": "off",
     "no-param-reassign": "off",
     "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",

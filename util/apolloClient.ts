@@ -4,7 +4,7 @@ import {ApolloClient, HttpLink, InMemoryCache} from '@apollo/client';
 import fetch from 'cross-fetch';
 import environment from '../config/environment';
 
-const {domain, graphqlApi} = environment;
+const {domain, graphqlApi, ghostGraphqlDomain} = environment;
 
 // let apolloClientInstance: ApolloClientClass<NormalizedCacheObject>;
 
@@ -47,14 +47,14 @@ const {domain, graphqlApi} = environment;
 // }
 
 // export async function getStandaloneApolloClient() {
-//   // eslint-disable-next-line no-shadow
+//   // eslint-disable-next-line @typescript-eslint/no-shadow
 //   const {ApolloClient, InMemoryCache, HttpLink} = await import(
 //     '@apollo/client'
 //   );
 //   return new ApolloClient({
 //     ssrMode: typeof window === 'undefined', // set to true for SSR
 //     link: new HttpLink({
-//       uri: domain + graphqlApi,
+//       uri: `${ghostGraphqlDomain}/?key=6ca7e55b684c10622191ed7e1a&fields=title,slug,custom_excerpt,feature_image`,
 //       credentials: 'include',
 //     }),
 //     cache: new InMemoryCache(),

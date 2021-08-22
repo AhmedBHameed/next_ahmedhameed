@@ -1560,7 +1560,7 @@ exports[`ContactMe matches snapshot  1`] = `
                 <a
                   aria-label="email link"
                   class="cursor-pointer p-1"
-                  href="mailto:contact.kakiee@gmail.com"
+                  href="mailto:contact@ahmedhameed.dev"
                   rel="noreferrer"
                   tabindex="0"
                   target="_blank"
@@ -1959,7 +1959,7 @@ exports[`ContactMe matches snapshot  1`] = `
             <p
               class="md:text-sm text-secondary font-bold tracking-wider"
             >
-              contact.kakiee@gmail.com
+              contact@ahmedhameed.dev
             </p>
           </article>
         </div>

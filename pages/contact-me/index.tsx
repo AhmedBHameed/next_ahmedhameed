@@ -134,7 +134,7 @@ const ContactMe: NextPage = () => {
         <InfoCard
           className="w-64 md:w-96 lg:self-end"
           IconComponent={<EmailSvg className="w-14 h-14 text-subject" />}
-          info="contact.kakiee@gmail.com"
+          info="contact@ahmedhameed.dev"
         />
       </div>
 

@@ -17,6 +17,7 @@ const AhmedhammedNavigation: NextPage = () => {
       className="flex flex-col items-center text-center mt-5 flex-1 px-2"
     >
       <List>
+        {/* <ListItem href={ROUTES.blog.path}>Blog</ListItem> */}
         <ListItem href={ROUTES.aboutMe.path}>About me</ListItem>
         <ListItem href={ROUTES.portfolio.path}>Portfolio</ListItem>
         <ListItem href={ROUTES.hireMe.path}>Hire me</ListItem>

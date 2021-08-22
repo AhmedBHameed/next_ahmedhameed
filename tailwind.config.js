@@ -1,5 +1,17 @@
 const colors = require('tailwindcss/colors');
 
+const disabledCss = {
+  'code::before': false,
+  'code::after': false,
+  'blockquote p:first-of-type::before': false,
+  'blockquote p:last-of-type::after': false,
+  pre: false,
+  code: false,
+  'pre code': false,
+  'code::before': false,
+  'code::after': false,
+};
+
 module.exports = {
   purge: [],
   darkMode: 'class',
@@ -27,8 +39,10 @@ module.exports = {
             'h1,h2,h3,h4,h5,h6': {
               color: 'var(--color-text-primary)',
             },
+            ...disabledCss,
           },
         },
+        lg: {css: disabledCss},
       },
       fontFamily: {
         kufiBold: ['Noto Kufi Arabic Bold', 'sans-serif'],

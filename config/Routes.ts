@@ -1,5 +1,8 @@
 const ROUTES = {
   // Blog
+  blog: {
+    path: '/blog/posts',
+  },
   article: {
     path: '/article',
   },

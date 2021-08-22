@@ -46,7 +46,7 @@ const Footer = () => {
           <a
             aria-label="email link"
             className="cursor-pointer p-1"
-            href="mailto:contact.kakiee@gmail.com"
+            href="mailto:contact@ahmedhameed.dev"
             rel="noreferrer"
             tabIndex={0}
             target="_blank"
