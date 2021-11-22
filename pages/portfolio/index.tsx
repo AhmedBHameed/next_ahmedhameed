@@ -69,7 +69,7 @@ const activity: HistoryTimelineModel[] = [
   {
     id: '2',
     type: 'tags',
-    person: {name: 'Ahmed HAMEED', href: 'https://ahmedhameed.dev/hire-me'},
+    person: {name: 'Ahmed HAMEED', href: 'https://www.ahmedhameed.dev/hire-me'},
     tags: [
       MONGODB_TAG,
       EXPRESS_TAG,
@@ -84,7 +84,7 @@ const activity: HistoryTimelineModel[] = [
   {
     id: '3',
     type: 'comment',
-    person: {name: 'Ahmed HAMEED', href: 'https://ahmedhameed.dev'},
+    person: {name: 'Ahmed HAMEED', href: 'https://www.ahmedhameed.dev'},
     imageUrl: 'https://avatars.githubusercontent.com/u/25675361?v=4',
     comment:
       "Freelancer/Contractor digital entrepreneur. By hiring me, I can provide you with the most modern technologies to build/improve your projects. I've worked with many digital companies which makes me experienced in the field. Please consider merging your project to my history timeline 🚀",
@@ -103,7 +103,7 @@ const activity: HistoryTimelineModel[] = [
   {
     id: '5',
     type: 'tags',
-    person: {name: 'Ahmed HAMEED', href: 'https://ahmedhameed.dev/hire-me'},
+    person: {name: 'Ahmed HAMEED', href: 'https://www.ahmedhameed.dev/hire-me'},
     tags: [REACT_TAG, REACT_TESTING_LIBRARY_TAG],
     date: 'on May 2021',
     year: '2021',
@@ -130,7 +130,7 @@ const activity: HistoryTimelineModel[] = [
   {
     id: '8',
     type: 'tags',
-    person: {name: 'Ahmed HAMEED', href: 'https://ahmedhameed.dev/hire-me'},
+    person: {name: 'Ahmed HAMEED', href: 'https://www.ahmedhameed.dev/hire-me'},
     tags: [REACT_TAG, REACT_TESTING_LIBRARY_TAG],
     date: 'on April 2020',
     year: '2020',
@@ -160,7 +160,7 @@ const activity: HistoryTimelineModel[] = [
   {
     id: '11',
     type: 'tags',
-    person: {name: 'Ahmed HAMEED', href: 'https://ahmedhameed.dev/hire-me'},
+    person: {name: 'Ahmed HAMEED', href: 'https://www.ahmedhameed.dev/hire-me'},
     tags: [ANGULAR_TAG],
     date: 'on May 2019',
     year: '2019',
@@ -188,15 +188,15 @@ const activity: HistoryTimelineModel[] = [
       href: 'https://www.moonshiner.at/',
     },
     assigned: {name: 'Ahmed HAMEED', href: 'https://github.com/AhmedBHameed'},
-    date: 'on May 2018',
+    date: 'on August 2018',
     year: '2018',
   },
   {
     id: '14',
     type: 'tags',
-    person: {name: 'Ahmed HAMEED', href: 'https://ahmedhameed.dev/hire-me'},
+    person: {name: 'Ahmed HAMEED', href: 'https://www.ahmedhameed.dev/hire-me'},
     tags: [REACT_TAG, LARAVEL_TAG, VUE_TAG],
-    date: 'on May 2018',
+    date: 'on August 2018',
     year: '2018',
   },
   {
@@ -209,7 +209,7 @@ const activity: HistoryTimelineModel[] = [
     imageUrl: `/images/moonshiner.jpeg`,
     comment:
       'Web developer responsible for project infrastructure and feature development. (Click on company name to see the source)',
-    date: 'on May 2018',
+    date: 'on August 2018',
     year: '2018',
   },
   // Wiser
@@ -221,15 +221,15 @@ const activity: HistoryTimelineModel[] = [
       href: 'https://www.growwisr.com/',
     },
     assigned: {name: 'Ahmed HAMEED', href: 'https://github.com/AhmedBHameed'},
-    date: 'on August 2017',
+    date: 'on November 2017',
     year: '2017',
   },
   {
     id: '17',
     type: 'tags',
-    person: {name: 'Ahmed HAMEED', href: 'https://ahmedhameed.dev/hire-me'},
+    person: {name: 'Ahmed HAMEED', href: 'https://www.ahmedhameed.dev/hire-me'},
     tags: [ANGULAR_TAG],
-    date: 'on August 2017',
+    date: 'on November 2017',
     year: '2017',
   },
   {
@@ -242,7 +242,7 @@ const activity: HistoryTimelineModel[] = [
     imageUrl: `/images/wiser.png`,
     comment:
       'Web developer implementing UI/UX of WisR job platform. WisR is a digital marketplace to connect retired experts with companies. (Click on company name to see the source)',
-    date: 'on August 2017',
+    date: 'on November 2017',
     year: '2017',
   },
 ];
