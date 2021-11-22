@@ -114,7 +114,7 @@ const activity: HistoryTimelineModel[] = [
     person: {name: 'myBioma (Clickable)', href: 'https://www.mybioma.com/en'},
     imageUrl: `/images/myBioma.jpg`,
     comment:
-      'Implementing UI/UX of BiomaDx platform that helps doctors ordering patients diagnosis due to some complex quetionnaire data.',
+      'Contractor with BiomeDx. It is a web application that helps doctors order patient diagnosis reports due to a complex algorithm of questionnaires. My responsibility was to design and develop UI/UX for the platform using React technology.',
     date: 'on May 2021',
     year: '2021',
   },
@@ -141,7 +141,7 @@ const activity: HistoryTimelineModel[] = [
     person: {name: 'hi.health (Clickable)', href: 'https://hi.health/'},
     imageUrl: `/images/hihealth.jpg`,
     comment:
-      'Migrating hi.health web app platform with developing/testing new features. Hi health app take care of the reimbursements with your private health insurance. (Click on company name to see the source)',
+      'Health insurance has never been easy to handle. My responsibility was to migrating the front-end platform and build a back-office interface using React.js technology. (Click on company name to see the source)',
     date: 'on April 2020',
     year: '2020',
   },
@@ -174,7 +174,7 @@ const activity: HistoryTimelineModel[] = [
     },
     imageUrl: `/images/yelsterdigital.png`,
     comment:
-      'Developing with the reset of the team web app platform to develops innovative online services for small and medium-sized businesses as well as for large enterprises to help them to accelerate their growth. (Click on company name to see the source)',
+      'As a contractor,Developing with the reset of the team web app platform to develop innovative online services for small and medium-sized businesses as well as for large enterprises to help them to accelerate their growth. The stack was Angular technology with NgRx. (Click on company name to see the source)',
     date: 'on May 2019',
     year: '2019',
   },
@@ -208,7 +208,7 @@ const activity: HistoryTimelineModel[] = [
     },
     imageUrl: `/images/moonshiner.jpeg`,
     comment:
-      'Web developer responsible for project infrastructure and feature development. (Click on company name to see the source)',
+      'Project developer responsible for implementing new features for projects as a full-stack. Working with, PHP Laravel framework as back-end, React.js or Vue.js as front-end and MySQL as Database. (Click on company name to see the source)',
     date: 'on August 2018',
     year: '2018',
   },
@@ -241,7 +241,7 @@ const activity: HistoryTimelineModel[] = [
     },
     imageUrl: `/images/wiser.png`,
     comment:
-      'Web developer implementing UI/UX of WisR job platform. WisR is a digital marketplace to connect retired experts with companies. (Click on company name to see the source)',
+      'Front-End (Angular) contractor at WisR company to build a platform for silver agent jobs matching. (Click on company name to see the source)',
     date: 'on November 2017',
     year: '2017',
   },
